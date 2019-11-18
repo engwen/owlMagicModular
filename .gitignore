@@ -1,0 +1,11 @@
+target/
+out/
+#test/
+.idea/
+*.iml
+*.log
+node_modules/
+dist/
+.gradle/
+gradle/
+build/
