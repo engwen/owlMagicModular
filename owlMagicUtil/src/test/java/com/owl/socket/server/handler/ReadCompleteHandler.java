@@ -1,14 +1,13 @@
-package com.owl.socket;
+package com.owl.socket.server.handler;
 
-import com.owl.util.ClassChangeUtil;
 import com.owl.util.LogPrintUtil;
-import jdk.nashorn.internal.parser.JSONParser;
+import com.owl.util.ObjectUtil;
+import com.owl.util.RegexUtil;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,15 +24,20 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
 
     /**
      * Invoked when an operation has completed.
-     *
      * @param result     The result of the I/O operation.
      * @param attachment
      */
     @Override
     public void completed(Integer result, ByteBuffer attachment) {
         attachment.flip();
-        LogPrintUtil.info("read success. msg is " + new String(attachment.array()));
-        Map resultMsg = ClassChangeUtil.StringAsMap(new String(attachment.array()));
+        String msg = new String(attachment.array());
+        LogPrintUtil.info("read success. msg is " + msg);
+        Map resultMsg = null;
+        if (!RegexUtil.isEmpty(msg)) {
+            resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
+        }
+        if (resultMsg != null) {
+        }
         attachment.clear();
         attachment.put("read success".getBytes());
         attachment.flip();
@@ -44,7 +48,6 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
 
     /**
      * Invoked when an operation fails.
-     *
      * @param exc        The exception to indicate why the I/O operation failed
      * @param attachment
      */

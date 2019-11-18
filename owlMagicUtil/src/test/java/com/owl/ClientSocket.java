@@ -1,5 +1,6 @@
 package com.owl;
 
+import com.owl.socket.client.SocketClientService;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.io.IOException;
 public class ClientSocket {
     @Test
     public void oepns() throws IOException, InterruptedException {
-        SocketClient client = new SocketClient("localhost",8092);
+        SocketClientService client = new SocketClientService("localhost",8092);
 //        SocketClient client2 = new SocketClient("localhost",8092);
         client.emit("testEvent","aaaaaaaaaaa");
 

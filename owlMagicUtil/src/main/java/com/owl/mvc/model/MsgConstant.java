@@ -17,6 +17,9 @@ public class MsgConstant {
     public static MsgConstant REQUEST_IS_EXITS = new MsgConstant("0009", "This data already exists");
     public static MsgConstant REQUEST_METHOD_NOT_EXITS = new MsgConstant("0011", "This method (interface) does not exist. Please check the code.");
     public static MsgConstant REQUEST_BACK_ARE_LIST = new MsgConstant("0013", "Qualified data are not unique");
+
+    public static MsgConstant STR_NOT_ARE_JSON = new MsgConstant("0030","The string can`t match JSON type");
+
     public static MsgConstant CONTROLLER_THROWABLE_ERROR = new MsgConstant("1005", "operation failed");
     public static MsgConstant TRY_CATCH_THROWABLE_ERROR = new MsgConstant("1006", "There seems to be something wrong with the website.");
 

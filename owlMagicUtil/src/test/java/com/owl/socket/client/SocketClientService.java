@@ -1,6 +1,6 @@
-package com.owl;
+package com.owl.socket.client;
 
-import com.owl.io.SocketModel;
+import com.owl.socket.model.SocketEvent;
 import com.owl.util.LogPrintUtil;
 
 import java.net.InetSocketAddress;
@@ -14,12 +14,12 @@ import java.util.concurrent.Executors;
  * email xiachanzou@outlook.com
  * 2019/11/13.
  */
-public class SocketClient {
+public class SocketClientService {
     private String host;
     private int port;
     private AsynchronousSocketChannel clientChannel;
 
-    public SocketClient(String host, int port) {
+    public SocketClientService(String host, int port) {
         this.host = host;
         this.port = port;
         this.connect();
@@ -53,7 +53,7 @@ public class SocketClient {
     }
 
     public void emit(String event, String msg) {
-        SocketModel model = new SocketModel(event, msg);
+        SocketEvent model = new SocketEvent(event, msg);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 //        ByteBuffer.wrap();
         buffer.put(model.toString().getBytes());
