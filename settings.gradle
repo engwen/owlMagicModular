@@ -1,6 +1,6 @@
 rootProject.name = 'owlMagicModular'
 
-include 'owlMagicUtil'
+
 include 'owlMagicComment'
 include 'owlMagicShiro'
 
