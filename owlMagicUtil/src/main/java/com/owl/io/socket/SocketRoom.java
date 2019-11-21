@@ -1,10 +1,11 @@
-package com.owl.socket.model;
+package com.owl.io.socket;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 /**
+ * 房间信息
  * @author engwen
  * email xiachanzou@outlook.com
  * 2019/11/16.

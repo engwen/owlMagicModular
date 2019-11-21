@@ -1,6 +1,6 @@
 package com.owl;
 
-import com.owl.socket.server.SocketServerService;
+import com.owl.io.socket.server.SocketServerService;
 import org.junit.Test;
 
 /**

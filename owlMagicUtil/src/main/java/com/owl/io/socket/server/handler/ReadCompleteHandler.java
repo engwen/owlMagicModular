@@ -1,5 +1,7 @@
-package com.owl.socket.server.handler;
+package com.owl.io.socket.server.handler;
 
+import com.owl.io.socket.SocketDispatchUtil;
+import com.owl.io.socket.model.SocketEventComment;
 import com.owl.util.LogPrintUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
@@ -31,15 +33,15 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
     public void completed(Integer result, ByteBuffer attachment) {
         attachment.flip();
         String msg = new String(attachment.array());
-        LogPrintUtil.info("read success. msg is " + msg);
-        Map resultMsg = null;
         if (!RegexUtil.isEmpty(msg)) {
-            resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
+            Map resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
+            SocketDispatchUtil.dispatchEvent(socketChannel,resultMsg);
+        } else {
+            return;
         }
-        if (resultMsg != null) {
-        }
+        LogPrintUtil.info("read success. msg is " + msg);
         attachment.clear();
-        attachment.put("read success".getBytes());
+        attachment.put(ObjectUtil.toJSON(SocketEventComment.REQUEST_SUCCESS_EVENT).getBytes());
         attachment.flip();
         socketChannel.write(attachment);
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
@@ -54,7 +56,6 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
     @Override
     public void failed(Throwable exc, ByteBuffer attachment) {
         LogPrintUtil.error("read error. Information is " + exc);
-
         try {
             LogPrintUtil.info("close socket success. " + socketChannel.getRemoteAddress());
             socketChannel.close();

@@ -1,4 +1,4 @@
-package com.owl.socket.model;
+package com.owl.io.socket;
 
 import com.owl.model.ModelPrototype;
 
@@ -11,14 +11,14 @@ import java.nio.channels.AsynchronousSocketChannel;
  * 2019/11/18.
  */
 public class SocketClient extends ModelPrototype {
-    private Integer uuid;
+    private String uuid;
     private AsynchronousSocketChannel socketChannel;
 
-    public Integer getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(Integer uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

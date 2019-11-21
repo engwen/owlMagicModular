@@ -1,6 +1,6 @@
 package com.owl;
 
-import com.owl.socket.client.SocketClientService;
+import com.owl.io.socket.client.SocketClientService;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class ClientSocket {
 //        client2.emit("testEvent","bbbbbbbbbbbbb");
         client.emit("testEvent","dddddddd");
         client.disconnect();
-//        Thread.sleep(10000);
+        Thread.sleep(10000);
 //        client2.disconnect();
 
 

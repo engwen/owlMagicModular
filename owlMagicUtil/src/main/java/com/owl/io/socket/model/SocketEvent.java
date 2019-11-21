@@ -1,6 +1,5 @@
-package com.owl.socket.model;
+package com.owl.io.socket.model;
 
-import com.owl.io.SocketServer;
 import com.owl.model.ModelPrototype;
 
 /**
@@ -17,9 +16,10 @@ public class SocketEvent extends ModelPrototype {
         this.msg = msg;
     }
 
-    public static SocketEvent CONNECT_SERVER = new SocketEvent("server_connect_server", "connect success");
-    public static SocketEvent SERVER_IN_ROOM = new SocketEvent("server_join_room", "join success");
-    public static SocketEvent OUT_ROOM = new SocketEvent("server_leave_room", "leave success");
+    public SocketEvent(String event) {
+        this.event = event;
+    }
+
 
     public String getEvent() {
         return event;

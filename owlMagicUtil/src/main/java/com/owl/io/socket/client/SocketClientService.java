@@ -1,6 +1,6 @@
-package com.owl.socket.client;
+package com.owl.io.socket.client;
 
-import com.owl.socket.model.SocketEvent;
+import com.owl.io.socket.model.SocketEvent;
 import com.owl.util.LogPrintUtil;
 
 import java.net.InetSocketAddress;
@@ -26,14 +26,11 @@ public class SocketClientService {
     }
 
     private void connect() {
-
         try {
-            final ByteBuffer buff = ByteBuffer.allocate(1024);
             // 创建一个线程池
             ExecutorService executor = Executors.newFixedThreadPool(80);
             // 以指定线程池来创建一个AsynchronousChannelGroup
-            AsynchronousChannelGroup channelGroup =
-                    AsynchronousChannelGroup.withThreadPool(executor);
+            AsynchronousChannelGroup channelGroup = AsynchronousChannelGroup.withThreadPool(executor);
             // 以channelGroup作为组管理器来创建AsynchronousSocketChannel
             clientChannel = AsynchronousSocketChannel.open(channelGroup);
             // 让AsynchronousSocketChannel连接到指定IP、指定端口
@@ -55,15 +52,14 @@ public class SocketClientService {
     public void emit(String event, String msg) {
         SocketEvent model = new SocketEvent(event, msg);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-//        ByteBuffer.wrap();
         buffer.put(model.toString().getBytes());
         buffer.flip();
         try {
             this.clientChannel.write(buffer).get();
             buffer.flip();
+            buffer.clear();
             this.clientChannel.read(buffer).get();
             buffer.flip();
-            buffer.clear();
             LogPrintUtil.info("get server back  " + new String(buffer.array()).trim());
         } catch (Exception e) {
             LogPrintUtil.error("emit msg is Error :" + e);
