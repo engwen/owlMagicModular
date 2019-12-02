@@ -1,6 +1,6 @@
 package com.owl.io.socket.server;
 
-import com.owl.io.socket.SocketDispatchUtil;
+import com.owl.io.socket.SocketDispatchEvent;
 import com.owl.io.socket.server.handler.AcceptCompleteHandler;
 import com.owl.util.LogPrintUtil;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
  * email xiachanzou@outlook.com
  * 2019/11/13.
  */
-public class SocketServerService {
+public class OwlSocketServer {
     //記錄服務器channel
     private AsynchronousServerSocketChannel serverSocketChannel;
     //group
@@ -25,7 +25,11 @@ public class SocketServerService {
     private int port;
 
 
-    public SocketServerService(int port) {
+    public static OwlSocketServer getInstance(int port) {
+        return new OwlSocketServer(port);
+    }
+
+    private OwlSocketServer(int port) {
         this.port = port;
         try {
             init();
@@ -33,6 +37,7 @@ public class SocketServerService {
             LogPrintUtil.error("start socket error, information is " + e);
         }
     }
+
 
     private void init() throws IOException {
         ExecutorService executorService = Executors.newFixedThreadPool(4);
@@ -46,7 +51,7 @@ public class SocketServerService {
         try {
             channelGroup.shutdown();
             serverSocketChannel.close();
-            SocketDispatchUtil.clear();
+            SocketDispatchEvent.clear();
         } catch (IOException e) {
             LogPrintUtil.error("stop socket error, information is " + e);
             return false;

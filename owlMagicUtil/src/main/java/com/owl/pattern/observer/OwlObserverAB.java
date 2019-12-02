@@ -2,6 +2,7 @@ package com.owl.pattern.observer;
 
 
 import com.owl.factory.OwlThreadPool;
+import com.owl.model.OwlEvent;
 import com.owl.pattern.function.base.OwlListenCodeBase;
 
 import java.util.*;
@@ -23,56 +24,56 @@ public abstract class OwlObserverAB {
 
     /**
      * 添加对象监听
-     * @param owlObserverEvent 事件
+     * @param owlEvent 事件
      * @param model            对象
      * @param listenCode       将要执行的代码
      */
-    static void addEventListen(OwlObserverEvent owlObserverEvent, OwlObserved model, OwlListenCodeBase listenCode) {
+    static void addEventListen(OwlEvent owlEvent, OwlObserved model, OwlListenCodeBase listenCode) {
         //添加事件处理方法记录
-        model.getConsumerMap().put(owlObserverEvent.getEventName(), listenCode);
+        model.getConsumerMap().put(owlEvent.getEventName(), listenCode);
         //監聽對象注冊
-        mapList.putIfAbsent(owlObserverEvent.getEventName(), new HashSet<>());
-        mapList.get(owlObserverEvent.getEventName()).add(model);
+        mapList.putIfAbsent(owlEvent.getEventName(), new HashSet<>());
+        mapList.get(owlEvent.getEventName()).add(model);
     }
 
     /**
      * 移除指定对象的指定監聽事件
-     * @param owlObserverEvent 事件类型
+     * @param owlEvent 事件类型
      * @param model            对象
      */
-    static void removeEventListen(OwlObserverEvent owlObserverEvent, OwlObserved model) {
-        removeEventList(owlObserverEvent, obj -> model == obj);
+    static void removeEventListen(OwlEvent owlEvent, OwlObserved model) {
+        removeEventList(owlEvent, obj -> model == obj);
     }
 
     /**
      * 移除指定类的指定監聽事件
-     * @param owlObserverEvent 事件类型
+     * @param owlEvent 事件类型
      * @param classModel       类
      */
-    public static void removeEventListen(OwlObserverEvent owlObserverEvent, Class classModel) {
-        removeEventList(owlObserverEvent, obj -> classModel.equals(obj.getClass()));
+    public static void removeEventListen(OwlEvent owlEvent, Class classModel) {
+        removeEventList(owlEvent, obj -> classModel.equals(obj.getClass()));
     }
 
-    private static void removeEventList(OwlObserverEvent owlObserverEvent, Predicate<OwlObserved> predicate) {
-        if (!mapList.containsKey(owlObserverEvent.getEventName())) {
+    private static void removeEventList(OwlEvent owlEvent, Predicate<OwlObserved> predicate) {
+        if (!mapList.containsKey(owlEvent.getEventName())) {
             return;
         }
-        mapList.get(owlObserverEvent.getEventName()).parallelStream().filter(predicate).collect(Collectors.toList()).forEach(it -> {
-            it.removeListenByEvent(owlObserverEvent);
-            mapList.get(owlObserverEvent.getEventName()).remove(it);
+        mapList.get(owlEvent.getEventName()).parallelStream().filter(predicate).collect(Collectors.toList()).forEach(it -> {
+            it.removeListenByEvent(owlEvent);
+            mapList.get(owlEvent.getEventName()).remove(it);
         });
     }
 
     /**
      * 移除指定的監聽
-     * @param owlObserverEvent 事件类型
+     * @param owlEvent 事件类型
      */
-    public static void removeEventListen(OwlObserverEvent owlObserverEvent) {
-        if (mapList.containsKey(owlObserverEvent.getEventName())) {
+    public static void removeEventListen(OwlEvent owlEvent) {
+        if (mapList.containsKey(owlEvent.getEventName())) {
             //移除相關類中的監聽數據
-            mapList.get(owlObserverEvent.getEventName()).forEach(it -> it.removeListenByEvent(owlObserverEvent));
+            mapList.get(owlEvent.getEventName()).forEach(it -> it.removeListenByEvent(owlEvent));
             //移除本類中的監聽數據
-            mapList.remove(owlObserverEvent.getEventName());
+            mapList.remove(owlEvent.getEventName());
         }
     }
 
@@ -103,30 +104,30 @@ public abstract class OwlObserverAB {
 
     /**
      * 抛出事件
-     * @param owlObserverEvent 事件
+     * @param owlEvent 事件
      */
-    public static void dispatchEvent(OwlObserverEvent owlObserverEvent, Object... params) {
-        dispatchEvent(owlObserverEvent, obj -> true, params);
+    public static void dispatchEvent(OwlEvent owlEvent, Object... params) {
+        dispatchEvent(owlEvent, obj -> true, params);
     }
 
     /**
      * /**
      * 抛出事件
-     * @param owlObserverEvent 事件
+     * @param owlEvent 事件
      * @param classModel       类
      */
-    public static void dispatchEvent(OwlObserverEvent owlObserverEvent, Class classModel, Object... params) {
-        dispatchEvent(owlObserverEvent, obj -> obj.getClass().equals(classModel), params);
+    public static void dispatchEvent(OwlEvent owlEvent, Class classModel, Object... params) {
+        dispatchEvent(owlEvent, obj -> obj.getClass().equals(classModel), params);
     }
 
-    private static void dispatchEvent(OwlObserverEvent owlObserverEvent, Predicate<OwlObserved> predicate, Object... params) {
-        if (null == mapList.get(owlObserverEvent.getEventName())) {
+    private static void dispatchEvent(OwlEvent owlEvent, Predicate<OwlObserved> predicate, Object... params) {
+        if (null == mapList.get(owlEvent.getEventName())) {
             return;
         }
-        Set<OwlObserved> observedSet = new HashSet<>(mapList.get(owlObserverEvent.getEventName()));
+        Set<OwlObserved> observedSet = new HashSet<>(mapList.get(owlEvent.getEventName()));
         observedSet.stream().filter(predicate).collect(Collectors.toList()).forEach(it ->
 //                            it.startDoing(owlObserverEvent, params)
-                        OwlThreadPool.getThreadPool().execute(() -> it.startDoing(owlObserverEvent, params))
+                        OwlThreadPool.getThreadPool().execute(() -> it.startDoing(owlEvent, params))
         );
 
     }

@@ -1,6 +1,7 @@
 package com.owl.pattern.observer;
 
 
+import com.owl.model.OwlEvent;
 import com.owl.pattern.function.ListenCodeMethod;
 import com.owl.pattern.function.ListenCodeNoParams;
 import com.owl.pattern.function.ListenCodeParams;
@@ -102,7 +103,7 @@ public abstract class OwlObserved {
      * 移除指定事件
      * @param event 事件类型
      */
-    void removeListenByEvent(OwlObserverEvent event) {
+    void removeListenByEvent(OwlEvent event) {
         if (null != consumerMap.get(event.getEventName())) {
             consumerMap.remove(event.getEventName());
         }
@@ -120,7 +121,7 @@ public abstract class OwlObserved {
      * 被觀察者需要执行的代碼
      * @param event 事件
      */
-    void startDoing(OwlObserverEvent event, Object... params) {
+    void startDoing(OwlEvent event, Object... params) {
         OwlListenCodeBase listenCode = consumerMap.get(event.getEventName());
         if (null != listenCode) {
             //執行

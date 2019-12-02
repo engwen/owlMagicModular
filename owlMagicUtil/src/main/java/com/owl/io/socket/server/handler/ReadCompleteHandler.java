@@ -1,7 +1,7 @@
 package com.owl.io.socket.server.handler;
 
-import com.owl.io.socket.SocketDispatchUtil;
-import com.owl.io.socket.model.SocketEventComment;
+import com.owl.io.socket.SocketDispatchEvent;
+import com.owl.io.socket.model.SocketEvent;
 import com.owl.util.LogPrintUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
@@ -35,13 +35,13 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
         String msg = new String(attachment.array());
         if (!RegexUtil.isEmpty(msg)) {
             Map resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
-            SocketDispatchUtil.dispatchEvent(socketChannel,resultMsg);
+            SocketDispatchEvent.dispatchEvent(socketChannel,resultMsg);
         } else {
             return;
         }
         LogPrintUtil.info("read success. msg is " + msg);
         attachment.clear();
-        attachment.put(ObjectUtil.toJSON(SocketEventComment.REQUEST_SUCCESS_EVENT).getBytes());
+        attachment.put(ObjectUtil.toJSON(SocketEvent.SERVER_REQUEST_SUCCESS).getBytes());
         attachment.flip();
         socketChannel.write(attachment);
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);

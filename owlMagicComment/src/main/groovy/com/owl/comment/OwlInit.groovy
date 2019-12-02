@@ -25,7 +25,7 @@ class OwlInit {
             String implVersion = mainAttributes.getValue("Implementation-Version");
 
             System.out.println(implVersion);
-        } catch (IOException E) {
+        } catch (IOException e) {
             // handle
         }
         print("""

@@ -4,6 +4,7 @@ import com.owl.util.model.OwlStringPg;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -131,6 +132,7 @@ public class ObjectUtil {
         return stringBuilder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     private static void getObjectProperties(Object obj, StringBuilder stringBuilder) {
         if (obj instanceof Map) {
             stringBuilder.append("{");
@@ -150,9 +152,14 @@ public class ObjectUtil {
         } else {
             Field[] fields = obj.getClass().getDeclaredFields();
             Field errorFiled = null;
-            try {
-                stringBuilder.append("{");
-                for (Field field : fields) {
+
+            stringBuilder.append("{");
+            for (Field field : fields) {
+                //跳过final修饰的属性
+                if (Modifier.isFinal(field.getModifiers())) {
+                    continue;
+                }
+                try {
                     errorFiled = field;
                     String getMethodStr = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                     Method getMethod = obj.getClass().getMethod(getMethodStr);
@@ -163,15 +170,17 @@ public class ObjectUtil {
                     stringBuilder.append(":");
                     objectJSONValue(value, stringBuilder);
                     stringBuilder.append(",");
+                } catch (Exception e) {
+                    LogPrintUtil.error("属性转化出错。name:" + (errorFiled == null ? "" : errorFiled.getName()));
+                    LogPrintUtil.error("跳过该属性");
+                    e.printStackTrace();
                 }
-                if (fields.length > 0) {
-                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                }
-                stringBuilder.append("}");
-            } catch (Exception e) {
-                System.out.println("转化出错。name:" + (errorFiled == null ? "" : errorFiled.getName()));
-                e.printStackTrace();
             }
+            if (fields.length > 0) {
+                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            }
+            stringBuilder.append("}");
+
         }
     }
 

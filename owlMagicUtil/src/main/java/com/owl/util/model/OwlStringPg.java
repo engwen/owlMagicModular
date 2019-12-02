@@ -7,7 +7,7 @@ package com.owl.util.model;
  * 2019/11/18.
  */
 public class OwlStringPg {
-    String msg;
+    private String msg;
 
     public OwlStringPg(String msg) {
         this.msg = msg;

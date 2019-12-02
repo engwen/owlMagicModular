@@ -1,6 +1,6 @@
 package com.owl;
 
-import com.owl.io.socket.server.SocketServerService;
+import com.owl.io.socket.server.OwlSocketServer;
 import org.junit.Test;
 
 /**
@@ -12,7 +12,7 @@ public class ServerSocketTest {
 
     @Test
     public void start() throws InterruptedException {
-        SocketServerService socketServerService = new SocketServerService(8092);
+        OwlSocketServer owlSocketServer = OwlSocketServer.getInstance(8092);
         Thread.sleep(1000000);
     }
 }

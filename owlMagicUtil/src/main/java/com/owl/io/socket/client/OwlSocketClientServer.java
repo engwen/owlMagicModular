@@ -14,15 +14,19 @@ import java.util.concurrent.Executors;
  * email xiachanzou@outlook.com
  * 2019/11/13.
  */
-public class SocketClientService {
+public class OwlSocketClientServer {
     private String host;
     private int port;
     private AsynchronousSocketChannel clientChannel;
 
-    public SocketClientService(String host, int port) {
+    private OwlSocketClientServer(String host, int port) {
         this.host = host;
         this.port = port;
         this.connect();
+    }
+
+    public static OwlSocketClientServer getInstance(String host, int port) {
+        return new OwlSocketClientServer(host, port);
     }
 
     private void connect() {

@@ -9,11 +9,9 @@ import com.owl.model.ModelPrototype;
  */
 public class SocketMsg extends ModelPrototype {
     private SocketEvent event;
-
     private String senderId;
     private String accepterId;
     private String roomId;
-
 
     public static SocketMsg getInstance() {
         return new SocketMsg();

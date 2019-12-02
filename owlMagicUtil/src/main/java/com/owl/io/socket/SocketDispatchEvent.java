@@ -14,7 +14,7 @@ import java.util.*;
  * email xiachanzou@outlook.com
  * 2019/11/19.
  */
-public class SocketDispatchUtil {
+public class SocketDispatchEvent {
 
     //this channel have room list
     private static List<SocketRoom> socketRoomList = new ArrayList<>();
@@ -61,6 +61,13 @@ public class SocketDispatchUtil {
 //            e.printStackTrace();
 //        }
     }
+
+    public static void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketEvent event) {
+        SocketMsg model = addToSocketClientSet(socketChannel);
+        model.setEvent(event);
+        LogPrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
+    }
+
 
 
     public static void addRoom(String roomId) {
