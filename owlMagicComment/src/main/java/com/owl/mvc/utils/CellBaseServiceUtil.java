@@ -193,7 +193,7 @@ public abstract class CellBaseServiceUtil {
     public static <T> PageVO<T> list(CellBaseDao<T> cellBaseDao, Boolean getAll, Integer requestPage, Integer rows, T model) {
         PageVO<T> pageVO = new PageVO<>();
         pageVO.initPageVO(cellBaseDao.countSumByCondition(SelectLikeSO.getInstance(model)), requestPage, rows, getAll);
-        pageVO.setObjectList(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getRows())));
+        pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getRows())));
         return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
     }
 

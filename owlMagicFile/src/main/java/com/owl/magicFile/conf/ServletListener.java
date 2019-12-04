@@ -1,10 +1,11 @@
 package com.owl.magicFile.conf;
 
-import com.owl.magicFile.utils.PropertiesUtil;
 import com.owl.util.LogPrintUtil;
+import com.owl.util.PropertiesUtil;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.File;
+import java.nio.ByteBuffer;
 
 
 /**
@@ -16,9 +17,11 @@ import java.io.File;
 public class ServletListener implements InitializingBean {//implements InitializingBean
 
     public void afterPropertiesSet() throws Exception {
-        LogPrintUtil.info("init now");
-        File fileDir = new File(PropertiesUtil.readConfigProperties("upload.path.dir"));
+        LogPrintUtil.info("owlMagicFile init now");
+        File fileDir = new File(PropertiesUtil.readProperties("file_setting","upload.path.dir"));
         if (!fileDir.exists()) {
+            LogPrintUtil.info("create dir for upload files");
+            LogPrintUtil.info("the dir path is " + fileDir.getAbsolutePath());
             fileDir.mkdir();
         }
     }

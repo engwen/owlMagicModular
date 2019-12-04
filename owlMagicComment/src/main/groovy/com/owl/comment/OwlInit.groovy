@@ -1,6 +1,7 @@
 package com.owl.comment
 
 import com.owl.comment.annotations.OwlLogInfo
+import com.owl.util.LogPrintUtil
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.taskdefs.Java
 
@@ -16,25 +17,16 @@ import java.util.jar.Manifest
 @CompileStatic
 class OwlInit {
     static print() {
-
         URLClassLoader cl = (URLClassLoader) OwlLogInfo.class.getClassLoader();
         try {
             URL url = cl.findResource("META-INF/MANIFEST.MF");
             Manifest manifest = new Manifest(url.openStream());
             Attributes mainAttributes = manifest.getMainAttributes();
             String implVersion = mainAttributes.getValue("Implementation-Version");
-
             System.out.println(implVersion);
         } catch (IOException e) {
             // handle
         }
-        print("""
-  ____         ____  ___          _    
- / __ \\_    __/ /  |/  ___ ____ _(_____
-/ /_/ | |/|/ / / /|_/ / _ `/ _ `/ / __/
-\\____/|__,__/_/_/  /_/\\_,_/\\_, /_/\\__/ 
-                          /___/              
-       (v1.2.1)
-""")
+        LogPrintUtil.info("owlMagicComment start...")
     }
 }

@@ -1,6 +1,7 @@
 package com.owl.model;
 
 /**
+ * 事件類型的父類
  * author engwen
  * email xiachanzou@outlook.com
  * 2019/11/26.

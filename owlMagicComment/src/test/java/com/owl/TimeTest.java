@@ -22,7 +22,7 @@ public class TimeTest {
         List<String> t = new ArrayList<>();
         t.add("ddd");
         PageVO<String> pageVO = new PageVO<>();
-        pageVO.setObjectList(t);
+        pageVO.setResultData(t);
         Integer a = null;
         Integer b = 1;
         LogPrintUtil.info(Integer.valueOf(1).equals( a));

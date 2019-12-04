@@ -4,13 +4,13 @@ package com.owl.magicFile.service.impl;
 import com.owl.magicFile.dao.OMFileDao;
 import com.owl.magicFile.model.OMFile;
 import com.owl.magicFile.service.OMFileService;
-import com.owl.magicFile.utils.PropertiesUtil;
 import com.owl.magicFile.vo.OMFileVO;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import com.owl.util.LogPrintUtil;
 import com.owl.util.MD5Util;
+import com.owl.util.PropertiesUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,8 +30,8 @@ import java.util.UUID;
  */
 @Service("fileService")
 public class FileServiceImpl implements OMFileService {
-    private static final String uploadPath = PropertiesUtil.readConfigProperties("upload.path.dir");
-    private static final String cachePath = PropertiesUtil.readConfigProperties("cache.path.dir");
+    private static final String uploadPath = PropertiesUtil.readProperties("file_setting","upload.path.dir");
+    private static final String cachePath = PropertiesUtil.readProperties("file_setting","cache.path.dir");
 
     @Resource
     OMFileDao fileDao;
@@ -97,7 +97,7 @@ public class FileServiceImpl implements OMFileService {
         PageVO<OMFileVO> filePageVO = new PageVO<OMFileVO>();
         for (MultipartFile mf : files) {
             if (!mf.isEmpty()) {
-                filePageVO.getObjectList().add(uploadFileByFrom(mf).getResultData());
+                filePageVO.getResultData().add(uploadFileByFrom(mf).getResultData());
             }
         }
         result.successResult(filePageVO);
