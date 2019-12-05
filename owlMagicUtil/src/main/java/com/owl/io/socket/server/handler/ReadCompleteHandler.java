@@ -1,7 +1,7 @@
 package com.owl.io.socket.server.handler;
 
-import com.owl.io.socket.SocketDispatchEvent;
 import com.owl.io.socket.model.SocketEvent;
+import com.owl.io.socket.server.SocketDispatch;
 import com.owl.util.LogPrintUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
@@ -19,9 +19,11 @@ import java.util.Map;
  */
 public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffer> {
     private AsynchronousSocketChannel socketChannel;
+    private SocketDispatch dispatch;
 
-    public ReadCompleteHandler(AsynchronousSocketChannel socketChannel) {
+    public ReadCompleteHandler(AsynchronousSocketChannel socketChannel, SocketDispatch dispatch) {
         this.socketChannel = socketChannel;
+        this.dispatch = dispatch;
     }
 
     /**
@@ -34,8 +36,8 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
         attachment.flip();
         String msg = new String(attachment.array());
         if (!RegexUtil.isEmpty(msg)) {
-            Map resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
-            SocketDispatchEvent.dispatchEvent(socketChannel,resultMsg);
+            Map<String, Object> resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
+            dispatch.dispatchEvent(socketChannel, resultMsg);
         } else {
             return;
         }

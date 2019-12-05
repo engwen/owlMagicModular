@@ -35,7 +35,7 @@ public abstract class OwlObserved {
      * @param event      事件
      * @param listenCode 待执行代码
      */
-    public void addEventListen(OwlObserverEvent event, ListenCodeNoParams listenCode) {
+    public void addEventListen(OwlEvent event, ListenCodeNoParams listenCode) {
         //注冊驅動
         OwlObserverAB.addEventListen(event, this, listenCode);
     }
@@ -45,7 +45,7 @@ public abstract class OwlObserved {
      * @param event      事件
      * @param listenCode 待执行代码
      */
-    public void addEventListen(OwlObserverEvent event, ListenCodeParams listenCode) {
+    public void addEventListen(OwlEvent event, ListenCodeParams listenCode) {
         //注冊驅動
         OwlObserverAB.addEventListen(event, this, listenCode);
     }
@@ -55,7 +55,7 @@ public abstract class OwlObserved {
      * @param event      事件
      * @param methodName 待执行代码
      */
-    public void addEventListen(OwlObserverEvent event, String methodName) {
+    public void addEventListen(OwlEvent event, String methodName) {
         //注冊驅動
         ListenCodeMethod listenCodeMethod = new ListenCodeMethod();
         listenCodeMethod.setOwlObserved(this);
@@ -63,7 +63,7 @@ public abstract class OwlObserved {
         OwlObserverAB.addEventListen(event, this, listenCodeMethod);
     }
 
-    public void removeEventListen(OwlObserverEvent event) {
+    public void removeEventListen(OwlEvent event) {
         OwlObserverAB.removeEventListen(event, this);
     }
 
@@ -76,7 +76,7 @@ public abstract class OwlObserved {
      * @param owlObserverEvent 将要抛出的事件
      * @param params           参数
      */
-    public void dispatchEvent(OwlObserverEvent owlObserverEvent, Object... params) {
+    public void dispatchEvent(OwlEvent owlObserverEvent, Object... params) {
         OwlObserverAB.dispatchEvent(owlObserverEvent, params);
     }
 
@@ -84,7 +84,7 @@ public abstract class OwlObserved {
      * 抛出
      * @param owlObserverEvent 将要抛出的事件
      */
-    public void dispatchEvent(OwlObserverEvent owlObserverEvent) {
+    public void dispatchEvent(OwlEvent owlObserverEvent) {
         OwlObserverAB.dispatchEvent(owlObserverEvent);
     }
 
@@ -93,7 +93,7 @@ public abstract class OwlObserved {
      * @param owlObserverEvent 将要抛出的事件
      * @param classModel       响应的类
      */
-    public void dispatchEvent(OwlObserverEvent owlObserverEvent, Class classModel) {
+    public void dispatchEvent(OwlEvent owlObserverEvent, Class classModel) {
         OwlObserverAB.dispatchEvent(owlObserverEvent, classModel);
     }
 

@@ -51,15 +51,9 @@ public class SocketDispatchEvent {
     public static void dispatchEvent(AsynchronousSocketChannel socketChannel, Map msg) {
         SocketMsg model = addToSocketClientSet(socketChannel);
         if (null != msg && null != msg.get("event")) {
-            model.setEvent(new SocketEvent(String.valueOf(msg.get("event")), null != msg.get("msg") ? String.valueOf(msg.get("msg")) : ""));
+            model.setEvent(new SocketEvent(msg));
         }
         LogPrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
-//        try {
-//
-//        } catch (IOException e) {
-//            LogPrintUtil.error("dispatch event error. msg is " + e);
-//            e.printStackTrace();
-//        }
     }
 
     public static void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketEvent event) {
@@ -67,7 +61,6 @@ public class SocketDispatchEvent {
         model.setEvent(event);
         LogPrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
     }
-
 
 
     public static void addRoom(String roomId) {

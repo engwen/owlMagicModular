@@ -3,6 +3,7 @@ package com.owl.io.socket.server;
 import com.owl.io.socket.SocketDispatchEvent;
 import com.owl.io.socket.server.handler.AcceptCompleteHandler;
 import com.owl.util.LogPrintUtil;
+import com.owl.util.RegexUtil;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -23,14 +24,21 @@ public class OwlSocketServer {
     private AsynchronousChannelGroup channelGroup;
     //port
     private int port;
+    //dispatch
+    private SocketDispatch dispatch;
 
 
-    public static OwlSocketServer getInstance(int port) {
-        return new OwlSocketServer(port);
+    public static OwlSocketServer getInstance(int port, SocketDispatch dispatch) {
+        if (RegexUtil.isEmpty(dispatch)) {
+            LogPrintUtil.error("start socket error,dispatch can`t be null ");
+            return null;
+        }
+        return new OwlSocketServer(port, dispatch);
     }
 
-    private OwlSocketServer(int port) {
+    private OwlSocketServer(int port, SocketDispatch dispatch) {
         this.port = port;
+        this.dispatch = dispatch;
         try {
             init();
         } catch (IOException e) {
@@ -44,7 +52,7 @@ public class OwlSocketServer {
         channelGroup = AsynchronousChannelGroup.withThreadPool(executorService);
         serverSocketChannel = AsynchronousServerSocketChannel.open(channelGroup).bind(new InetSocketAddress(this.port));
 //      使用监听器来接收来自客户端的链接请求
-        serverSocketChannel.accept(null, new AcceptCompleteHandler(serverSocketChannel));
+        serverSocketChannel.accept(null, new AcceptCompleteHandler(serverSocketChannel,dispatch));
     }
 
     public boolean stop() {

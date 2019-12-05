@@ -24,9 +24,9 @@ public abstract class OwlObserverAB {
 
     /**
      * 添加对象监听
-     * @param owlEvent 事件
-     * @param model            对象
-     * @param listenCode       将要执行的代码
+     * @param owlEvent   事件
+     * @param model      对象
+     * @param listenCode 将要执行的代码
      */
     static void addEventListen(OwlEvent owlEvent, OwlObserved model, OwlListenCodeBase listenCode) {
         //添加事件处理方法记录
@@ -39,7 +39,7 @@ public abstract class OwlObserverAB {
     /**
      * 移除指定对象的指定監聽事件
      * @param owlEvent 事件类型
-     * @param model            对象
+     * @param model    对象
      */
     static void removeEventListen(OwlEvent owlEvent, OwlObserved model) {
         removeEventList(owlEvent, obj -> model == obj);
@@ -47,8 +47,8 @@ public abstract class OwlObserverAB {
 
     /**
      * 移除指定类的指定監聽事件
-     * @param owlEvent 事件类型
-     * @param classModel       类
+     * @param owlEvent   事件类型
+     * @param classModel 类
      */
     public static void removeEventListen(OwlEvent owlEvent, Class classModel) {
         removeEventList(owlEvent, obj -> classModel.equals(obj.getClass()));
@@ -113,8 +113,8 @@ public abstract class OwlObserverAB {
     /**
      * /**
      * 抛出事件
-     * @param owlEvent 事件
-     * @param classModel       类
+     * @param owlEvent   事件
+     * @param classModel 类
      */
     public static void dispatchEvent(OwlEvent owlEvent, Class classModel, Object... params) {
         dispatchEvent(owlEvent, obj -> obj.getClass().equals(classModel), params);
