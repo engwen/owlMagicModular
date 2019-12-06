@@ -35,7 +35,7 @@ public class EmailBase {
         Properties properties = System.getProperties();
         properties.put("mail.transport.protocol", "smtp");// 连接协议
         properties.put("mail.smtp.host", host);// 主机名
-        properties.put("mail.smtp.port", port);// 端口号
+//        properties.put("mail.smtp.port", port);// 端口号
         properties.put("mail.smtp.auth", useAuth.toString());
         properties.put("mail.smtp.ssl.enable", useSSL.toString());// 设置是否使用ssl安全连接
         properties.put("mail.debug", useDebug.toString());// 设置是否显示debug信息 true 会在控制台显示相关信息
