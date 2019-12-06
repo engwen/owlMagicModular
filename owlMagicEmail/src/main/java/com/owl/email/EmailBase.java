@@ -1,6 +1,7 @@
 package com.owl.email;
 
 import com.owl.util.LogPrintUtil;
+import com.owl.util.RegexUtil;
 
 import javax.mail.Session;
 import javax.mail.Message;
@@ -8,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 /**
@@ -20,7 +22,7 @@ public class EmailBase {
     private String to;
     private String from;
     private String host;
-    private String port;
+    private String port = "465";
     private Boolean useAuth = true;
     private Boolean useSSL = true;
     private Boolean useDebug = true;
@@ -29,9 +31,27 @@ public class EmailBase {
     private String subject;//主題
     private String context;//内容
     private String userName;//發送用戶
-    private String userPassword;//發送用戶密碼
+    private String password;//發送用戶密碼
+
+    private EmailBase(String to, String from, String password) {
+        this.to = to;
+        this.from = from;
+        this.password = password;
+    }
+
+    public static EmailBase getInstances(String to, String from, String password) {
+        return new EmailBase(to, from, password);
+    }
+
+    public void init(String subject, String context) {
+        this.subject = subject;
+        this.context = context;
+    }
 
     public void send() {
+        if (!sendReady()) {
+            return;
+        }
         Properties properties = System.getProperties();
         properties.put("mail.transport.protocol", "smtp");// 连接协议
         properties.put("mail.smtp.host", host);// 主机名
@@ -43,8 +63,14 @@ public class EmailBase {
         try {
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
+            String nick = "";
+            try {
+                nick = javax.mail.internet.MimeUtility.encodeText(userName);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
+            message.setFrom(new InternetAddress(nick + " <" + from + ">"));
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             // Set Subject: header field
@@ -57,7 +83,7 @@ public class EmailBase {
             }
             Transport transport = session.getTransport();//getTransport
             // 连接自己的邮箱账户
-            transport.connect(userName, userPassword);//"jnzwmdimklhujdeb"
+            transport.connect(from, password);//"jnzwmdimklhujdeb"
             // Send message
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
@@ -65,6 +91,38 @@ public class EmailBase {
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
+    }
+
+    private boolean sendReady() {
+        if (RegexUtil.isEmpty(this.subject)) {
+            LogPrintUtil.error("邮件主题不能为空");
+            return false;
+        }
+        if (RegexUtil.isEmpty(this.context)) {
+            LogPrintUtil.error("邮件内容不能为空");
+            return false;
+        }
+        if (!RegexUtil.isEmail(this.from)) {
+            LogPrintUtil.error("发件人不能为空");
+            return false;
+        }
+        if (RegexUtil.isEmpty(this.to)) {
+            LogPrintUtil.error("收件人不能为空");
+            return false;
+        }
+        if (RegexUtil.isEmpty(this.host)) {
+            LogPrintUtil.error("邮件服务器不能为空");
+            return false;
+        }
+        if (RegexUtil.isEmpty(this.password)) {
+            LogPrintUtil.error("发件人密码不能为空");
+            return false;
+        }
+        if (RegexUtil.isEmpty(this.port)) {
+            LogPrintUtil.error("发送端口不能为空");
+            return false;
+        }
+        return true;
     }
 
     public String getTo() {
@@ -155,11 +213,11 @@ public class EmailBase {
         this.userName = userName;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -10,15 +10,10 @@ public class EmailTest {
 
     @Test
     public void sendEmail(){
-        EmailBase base = new EmailBase();
-        base.setContext("t是的范德萨发第三方啊对方答复");
-        base.setFrom("1490418412@qq.com");
-        base.setTo("xiachanzou@outlook.com");
-        base.setSubject("ddd");
+        EmailBase base =  EmailBase.getInstances("xiachanzou@outlook.com","1490418412@qq.com","jnzwmdimklhujdeb");
+        base.init("这是一个测试文件","t是的范德萨发第三方啊对方答复");
+        base.setUserName("英文");
         base.setHost("smtp.qq.com");//smtp.qq.mail，smtp.163.com
-        base.setPort("465");
-        base.setUserName("1490418412@qq.com");
-        base.setUserPassword("jnzwmdimklhujdeb");
         base.send();
     }
 }
