@@ -15,11 +15,11 @@ public class ClientSocket {
     public void oepns() throws IOException, InterruptedException {
         OwlSocketClientServer client =  OwlSocketClientServer.getInstance("localhost",8092);
 //        SocketClient client2 = new SocketClient("localhost",8092);
-        client.emit("testEvent","aaaaaaaaaaa");
+//        client.emit("testEvent","aaaaaaaaaaa");
 
 
 //        client2.emit("testEvent","bbbbbbbbbbbbb");
-        client.emit("testEvent","dddddddd");
+//        client.emit("testEvent","dddddddd");
         client.disconnect();
         Thread.sleep(10000);
 //        client2.disconnect();

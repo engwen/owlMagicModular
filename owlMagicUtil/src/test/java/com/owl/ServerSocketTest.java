@@ -12,7 +12,7 @@ public class ServerSocketTest {
 
     @Test
     public void start() throws InterruptedException {
-        OwlSocketServer owlSocketServer = OwlSocketServer.getInstance(8092);
+//        OwlSocketServer owlSocketServer = OwlSocketServer.getInstance(8092);
         Thread.sleep(1000000);
     }
 }

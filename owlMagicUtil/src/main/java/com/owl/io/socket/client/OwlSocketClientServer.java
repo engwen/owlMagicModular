@@ -6,6 +6,7 @@ import com.owl.util.LogPrintUtil;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -53,7 +54,7 @@ public class OwlSocketClientServer {
         }
     }
 
-    public void emit(String event, String msg) {
+    public void emit(String event, Map msg) {
         SocketEvent model = new SocketEvent(event, msg);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(model.toString().getBytes());

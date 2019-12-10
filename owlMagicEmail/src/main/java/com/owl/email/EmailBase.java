@@ -55,7 +55,7 @@ public class EmailBase {
         Properties properties = System.getProperties();
         properties.put("mail.transport.protocol", "smtp");// 连接协议
         properties.put("mail.smtp.host", host);// 主机名
-//        properties.put("mail.smtp.port", port);// 端口号
+        properties.put("mail.smtp.port", port);// 端口号
         properties.put("mail.smtp.auth", useAuth.toString());
         properties.put("mail.smtp.ssl.enable", useSSL.toString());// 设置是否使用ssl安全连接
         properties.put("mail.debug", useDebug.toString());// 设置是否显示debug信息 true 会在控制台显示相关信息
@@ -64,6 +64,7 @@ public class EmailBase {
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
             String nick = "";
+            Transport transport;
             try {
                 nick = javax.mail.internet.MimeUtility.encodeText(userName);
             } catch (UnsupportedEncodingException e) {
@@ -81,12 +82,15 @@ public class EmailBase {
             } else {
                 message.setText(context);
             }
-            Transport transport = session.getTransport();//getTransport
+            transport = session.getTransport();//getTransport
             // 连接自己的邮箱账户
             transport.connect(from, password);//"jnzwmdimklhujdeb"
             // Send message
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
+            if (transport.isConnected()) {
+                transport.close();
+            }
             LogPrintUtil.info("Sent message successfully....");
         } catch (MessagingException mex) {
             mex.printStackTrace();
@@ -94,35 +98,36 @@ public class EmailBase {
     }
 
     private boolean sendReady() {
-        if (RegexUtil.isEmpty(this.subject)) {
-            LogPrintUtil.error("邮件主题不能为空");
-            return false;
-        }
-        if (RegexUtil.isEmpty(this.context)) {
-            LogPrintUtil.error("邮件内容不能为空");
-            return false;
-        }
+        boolean result = true;
         if (!RegexUtil.isEmail(this.from)) {
-            LogPrintUtil.error("发件人不能为空");
-            return false;
-        }
-        if (RegexUtil.isEmpty(this.to)) {
-            LogPrintUtil.error("收件人不能为空");
-            return false;
-        }
-        if (RegexUtil.isEmpty(this.host)) {
-            LogPrintUtil.error("邮件服务器不能为空");
-            return false;
+            LogPrintUtil.error("发件人邮箱格式非法");
+            result = false;
         }
         if (RegexUtil.isEmpty(this.password)) {
             LogPrintUtil.error("发件人密码不能为空");
-            return false;
+            result = false;
+        }
+        if (RegexUtil.isEmpty(this.to)) {
+            LogPrintUtil.error("收件人不能为空");
+            result = false;
+        }
+        if (RegexUtil.isEmpty(this.subject)) {
+            LogPrintUtil.error("邮件主题不能为空");
+            result = false;
+        }
+        if (RegexUtil.isEmpty(this.context)) {
+            LogPrintUtil.error("邮件内容不能为空");
+            result = false;
+        }
+        if (RegexUtil.isEmpty(this.host)) {
+            LogPrintUtil.error("邮件服务器不能为空");
+            result = false;
         }
         if (RegexUtil.isEmpty(this.port)) {
             LogPrintUtil.error("发送端口不能为空");
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 
     public String getTo() {
