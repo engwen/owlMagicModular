@@ -4,5 +4,5 @@ include 'owlMagicUtil'
 include 'owlMagicComment'
 include 'owlMagicShiro'
 include 'owlMagicFile'
-include 'OwlMagicEmail'
+include 'owlMagicEmail'
 
