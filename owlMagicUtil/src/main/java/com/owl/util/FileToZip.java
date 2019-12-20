@@ -28,35 +28,36 @@ public abstract class FileToZip {
         ZipOutputStream zos = null;
 
         if (!sourceFile.exists()) {
-            System.out.println("待压缩的文件目录：" + sourceFilePath + "不存在.");
+            LogPrintUtil.error("待压缩的文件目录：" + sourceFilePath + "不存在.");
         } else {
             try {
-                File zipFile = new File(zipFilePath + "/" + fileName + ".zip");
+                File zipFile = new File(zipFilePath + File.separator + fileName + ".zip");
                 if (zipFile.exists()) {
-                    System.out.println(zipFilePath + "目录下存在名字为:" + fileName + ".zip" + "打包文件.");
-                } else {
-                    File[] sourceFiles = sourceFile.listFiles();
-                    if (null == sourceFiles || sourceFiles.length < 1) {
-                        System.out.println("待压缩的文件目录：" + sourceFilePath + "里面不存在文件，无需压缩.");
-                    } else {
-                        fos = new FileOutputStream(zipFile);
-                        zos = new ZipOutputStream(new BufferedOutputStream(fos));
-                        byte[] bufs = new byte[1024 * 10];
-                        for (int i = 0; i < sourceFiles.length; i++) {
-                            //创建ZIP实体，并添加进压缩包  
-                            ZipEntry zipEntry = new ZipEntry(sourceFiles[i].getName());
-                            zos.putNextEntry(zipEntry);
-                            //读取待压缩的文件并写进压缩包里  
-                            fis = new FileInputStream(sourceFiles[i]);
-                            bis = new BufferedInputStream(fis, 1024 * 10);
-                            int read = 0;
-                            while ((read = bis.read(bufs, 0, 1024 * 10)) != -1) {
-                                zos.write(bufs, 0, read);
-                            }
-                        }
-                        flag = true;
-                    }
+                    zipFile.delete();
+                    LogPrintUtil.error(zipFilePath + "目录下存在名字为:" + fileName + ".zip" + "打包文件.已将其删除");
                 }
+                File[] sourceFiles = sourceFile.listFiles();
+                if (null == sourceFiles || sourceFiles.length < 1) {
+                    LogPrintUtil.error("待压缩的文件目录：" + sourceFilePath + "里面不存在文件，无需压缩.");
+                } else {
+                    fos = new FileOutputStream(zipFile);
+                    zos = new ZipOutputStream(new BufferedOutputStream(fos));
+                    byte[] bufs = new byte[1024 * 10];
+                    for (File file : sourceFiles) {
+                        //创建ZIP实体，并添加进压缩包
+                        ZipEntry zipEntry = new ZipEntry(file.getName());
+                        zos.putNextEntry(zipEntry);
+                        //读取待压缩的文件并写进压缩包里
+                        fis = new FileInputStream(file);
+                        bis = new BufferedInputStream(fis, 1024 * 10);
+                        int read = 0;
+                        while ((read = bis.read(bufs, 0, 1024 * 10)) != -1) {
+                            zos.write(bufs, 0, read);
+                        }
+                    }
+                    flag = true;
+                }
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -68,6 +69,8 @@ public abstract class FileToZip {
                 try {
                     if (null != bis) bis.close();
                     if (null != zos) zos.close();
+                    if (null != fis) fis.close();
+                    if (null != fos) fos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
@@ -82,7 +85,7 @@ public abstract class FileToZip {
      * <p>
      * 特注：zos一定放在循环外结束，不然我打不死你
      * @param zipFilename 名稱
-     * @param path 路徑
+     * @param path        路徑
      * @return boolean
      * @throws Exception ex
      */

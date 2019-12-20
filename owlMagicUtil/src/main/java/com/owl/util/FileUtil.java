@@ -1,9 +1,8 @@
 package com.owl.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import com.owl.io.file.FileIO;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,20 @@ import java.util.List;
  * 2019/5/23.
  */
 public class FileUtil {
+
+    public static boolean createDirectory(String dir) {
+        File dirFile = new File(dir);
+        return dirFile.mkdirs();
+    }
+
+    public static void writeFile(String dir, String fileName, String content) {
+        FileIO.writeFile(dir, fileName, content);
+    }
+
+    public static String readFile(String filePath) {
+        return FileIO.readFile(filePath);
+    }
+
     public static void writerListToFile(List<String> list, String path) {
         try {
             FileWriter writer = new FileWriter(path);

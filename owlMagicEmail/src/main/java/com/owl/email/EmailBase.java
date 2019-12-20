@@ -22,6 +22,7 @@ public class EmailBase {
     private String to;
     private String from;
     private String host;
+    private String smtpType;
     private String port = "465";
     private Boolean useAuth = true;
     private Boolean useSSL = true;
@@ -53,7 +54,7 @@ public class EmailBase {
             return;
         }
         Properties properties = System.getProperties();
-        properties.put("mail.transport.protocol", "smtp");// 连接协议
+        properties.put("mail.transport.protocol", smtpType);// 连接协议
         properties.put("mail.smtp.host", host);// 主机名
         properties.put("mail.smtp.port", port);// 端口号
         properties.put("mail.smtp.auth", useAuth.toString());
@@ -125,6 +126,10 @@ public class EmailBase {
         }
         if (RegexUtil.isEmpty(this.port)) {
             LogPrintUtil.error("发送端口不能为空");
+            result = false;
+        }
+        if (RegexUtil.isEmpty(this.smtpType)) {
+            LogPrintUtil.error("邮件服务器类型不能为空");
             result = false;
         }
         return result;
@@ -224,5 +229,13 @@ public class EmailBase {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSmtpType() {
+        return smtpType;
+    }
+
+    public void setSmtpType(String smtpType) {
+        this.smtpType = smtpType;
     }
 }
