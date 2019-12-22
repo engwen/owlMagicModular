@@ -1,7 +1,5 @@
 package com.owl.model;
 
-import com.owl.util.TreeBaseUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +79,9 @@ public abstract class TreeBase extends ModelPrototype {
      * @return List
      */
     public static List<Long> getIdList(Long aimID, List<TreeBase> treeBases) {
-        return TreeBaseUtil.getTreeBaseIdList(getTreeList(aimID, treeBases));
+        List<Long> idList = new ArrayList<>();
+        getTreeList(aimID, treeBases).forEach(it -> idList.add(it.getId()));
+        return idList;
     }
 
     /**

@@ -1,8 +1,0 @@
-rootProject.name = 'owlMagicModular'
-
-include 'owlMagicUtil'
-include 'owlMagicComment'
-include 'owlMagicShiro'
-include 'owlMagicFile'
-include 'owlMagicEmail'
-

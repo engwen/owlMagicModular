@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.engwen</groupId>
+    <artifactId>owlMagicModular</artifactId>
+    <packaging>pom</packaging>
+    <version>3.0.0</version>
+
+    <modules>
+        <module>owlMagicComment</module>
+        <module>owlMagicUtil</module>
+        <module>owlMagicGenerator</module>
+        <module>owlMagicFile</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.test.skip>true</maven.test.skip>
+        <junit.version>4.11</junit.version>
+    </properties>
+
+</project>
