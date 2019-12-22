@@ -1,4 +1,4 @@
-package core;
+package com.owl.core;
 
 import com.owl.util.DateCountUtil;
 import org.mybatis.generator.api.FullyQualifiedTable;
@@ -44,10 +44,9 @@ public class EntityCommentPlugin extends PluginAdapter {
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         String tableComment = getTableComment(table);
         topLevelClass.addJavaDocLine("/**");
-        if (StringUtility.stringHasValue(tableComment)) topLevelClass.addJavaDocLine(" * " + tableComment + "<p/>");
-        topLevelClass.addJavaDocLine(" * " + table.toString() + "<p/>");
+        if (StringUtility.stringHasValue(tableComment)) topLevelClass.addJavaDocLine(" * " + tableComment +" (model) "+ table.toString());
+        topLevelClass.addJavaDocLine(" * author owlMagicBuild");
         topLevelClass.addJavaDocLine(" * time " + DateCountUtil.getDateFormSdf(new Date(), DateCountUtil.YMD) + ".");
-        topLevelClass.addJavaDocLine(" *");
         topLevelClass.addJavaDocLine(" */");
     }
 

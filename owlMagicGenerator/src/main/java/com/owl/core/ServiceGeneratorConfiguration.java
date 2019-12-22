@@ -1,4 +1,4 @@
-package core;
+package com.owl.core;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;

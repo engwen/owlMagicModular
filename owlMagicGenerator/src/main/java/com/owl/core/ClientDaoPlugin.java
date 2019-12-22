@@ -1,4 +1,4 @@
-package core;
+package com.owl.core;
 
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.JavaTypeResolver;

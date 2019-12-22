@@ -1,4 +1,4 @@
-package core;
+package com.owl.core;
 
 import org.mybatis.generator.config.Context;
 import org.mybatis.generator.config.ModelType;

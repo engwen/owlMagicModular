@@ -1,5 +1,6 @@
-package core;
+package com.owl.core;
 
+import com.owl.mvc.dto.BanListDTO;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 
 /**
@@ -9,6 +10,7 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
  */
 public class FullyQualifiedJavaTypeProxyFactory extends FullyQualifiedJavaType {
 
+    private static FullyQualifiedJavaType modelInstance = new FullyQualifiedJavaType("com.owl.model.ModelPrototype");
     private static FullyQualifiedJavaType pageVOInstance = new FullyQualifiedJavaType("com.owl.mvc.vo.PageVO");
     private static FullyQualifiedJavaType cellBaseDaoInstance = new FullyQualifiedJavaType("com.owl.mvc.dao.CellBaseDao");
     private static FullyQualifiedJavaType relationBaseDaoInstance = new FullyQualifiedJavaType("com.owl.mvc.dao.RelationBaseDao");
@@ -48,4 +50,10 @@ public class FullyQualifiedJavaTypeProxyFactory extends FullyQualifiedJavaType {
     public static final FullyQualifiedJavaType getRelationBaseServiceImplInstance() {
         return relationBaseServiceImplInstance;
     }
+
+
+    public static FullyQualifiedJavaType getModelInstance() {
+        return modelInstance;
+    }
+
 }

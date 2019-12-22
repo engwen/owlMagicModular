@@ -1,4 +1,4 @@
-package core;
+package com.owl.core;
 
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedTable;

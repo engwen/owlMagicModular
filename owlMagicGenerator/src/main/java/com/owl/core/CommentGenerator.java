@@ -1,4 +1,4 @@
-package core;
+package com.owl.core;
 
 import com.owl.util.DateCountUtil;
 import org.mybatis.generator.api.IntrospectedColumn;
