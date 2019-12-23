@@ -16,14 +16,12 @@
         <maven.test.skip>true</maven.test.skip>
 
         <!-- 工具包版本 -->
-        <owlMagicUtil.version>2.4.2</owlMagicUtil.version>
+        <owlMagicUtil.version>3.0.0</owlMagicUtil.version>
         <junit.version>4.11</junit.version>
-        <groovy.version>2.5.7</groovy.version>
         <javax-javaee-api.version>8.0.1</javax-javaee-api.version>
         <aspectj-aspectj.version>1.9.4</aspectj-aspectj.version>
         <aspectj-aspectjweaver.version>1.9.4</aspectj-aspectjweaver.version>
         <spring-web.version>4.2.5.RELEASE</spring-web.version>
-        <groovy.version>2.5.7</groovy.version>
         <jackson-databind.version>2.9.5</jackson-databind.version>
     </properties>
 
