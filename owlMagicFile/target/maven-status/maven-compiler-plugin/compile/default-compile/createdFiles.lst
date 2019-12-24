@@ -1,9 +1,0 @@
-com\owl\magicFile\vo\OMFileVO.class
-com\owl\magicFile\service\impl\FileServiceImpl.class
-com\owl\magicFile\service\OMFileService.class
-com\owl\magicFile\controller\FileController.class
-com\owl\magicFile\model\OMFile.class
-com\owl\magicFile\conf\ServletListener.class
-com\owl\magicFile\dao\OMFileDao.class
-ServletInitializer.class
-Application.class

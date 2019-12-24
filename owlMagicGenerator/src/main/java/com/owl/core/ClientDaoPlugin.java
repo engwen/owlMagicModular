@@ -1,5 +1,6 @@
 package com.owl.core;
 
+import com.owl.core.plugin.ModelCommentPlugin;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.JavaTypeResolver;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * email xiachanzou@outlook.com
  * 2019/12/21.
  */
-public class ClientDaoPlugin extends EntityCommentPlugin {
+public class ClientDaoPlugin extends ModelCommentPlugin {
 
     @Override
     public boolean clientGenerated(Interface interfaze, IntrospectedTable introspectedTable) {

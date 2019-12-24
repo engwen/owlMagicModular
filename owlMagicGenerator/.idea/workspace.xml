@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8faa4e20-b501-4f0b-b4f3-1f5da8be900a" name="Default Changelist" comment="" />
+    <list default="true" id="8faa4e20-b501-4f0b-b4f3-1f5da8be900a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_engwen_owlMagicComment_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_engwen_owlMagicUtil_2_4_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/ClientDaoPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/ClientDaoPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/CommentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/model/ModelCommentGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/EntityCommentPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/plugin/ModelCommentPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketDispatchEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketDispatchEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketRoom.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketRoom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/model/TreeBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/model/TreeBase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/function/ListenCodeMethod.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/function/ListenCodeMethod.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/observer/OwlObserverAB.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/observer/OwlObserverAB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/ObjectUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/ObjectUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/OwlHttpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/OwlHttpClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/RegexUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/RegexUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/resources/generatorConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/resources/mapper/OwlMenuMapper.xml" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,12 +64,12 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\WorkSpaces\default\owlMagicModular\owlMagicGenerator\src\main\java" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\WorkSpaces\default\owlMagicModular\owlMagicGenerator\src\main\java" />
       <recent name="F:\WorkSpaces\default\owlMagicModular\owlMagicGenerator\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\WorkSpaces\default\owlMagicModular\owlMagicGenerator\src\main\java" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -67,6 +87,14 @@
   <component name="RunManager">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OwlGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="OwlGenerator" />
+      <module name="owlMagicGenerator" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -174,6 +202,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.OwlGenerator" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration>C:\Users\xiach\AppData\Roaming\Subversion</configuration>

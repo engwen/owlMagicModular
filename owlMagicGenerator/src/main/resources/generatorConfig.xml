@@ -8,8 +8,8 @@
 <!-- 数据库驱动-->  
     <classPathEntry  location="src/main/resources/mysql-connector-java-5.1.46.jar"/>
     <context id="DB2Tables"  targetRuntime="MyBatis3">
-        <plugin type="com.owl.core.EntityCommentPlugin" />
-        <commentGenerator>  
+        <plugin type="com.owl.core.plugin.ModelCommentPlugin" />
+        <commentGenerator type="com.owl.core.model.ModelCommentGenerator">
             <property name="suppressDate" value="false"/>  
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
             <property name="suppressAllComments" value="true"/>
@@ -30,9 +30,9 @@
             <property name="enableSubPackages" value="true"/>  
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置-->
-<!--        <javaClientGenerator type="XMLMAPPER" targetPackage="comm.dao" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="comm.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>-->
+        </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->  
 	<table tableName="owl_menu" domainObjectName="OwlMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 </context>  
