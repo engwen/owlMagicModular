@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.owl.shiro.dao.OwlUserDao">
+    <resultMap id="BaseResultMap" type="com.owl.shiro.model.OwlUser">
+        <!-- 请添加所需要的属性-->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="is_ban" property="isBan" jdbcType="BIT"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="last_signin_time" property="lastSigninTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Table_ID_Name">
+        id
+    </sql>
+    <sql id="Table_Name">
+        owl_user
+    </sql>
+    <sql id="Base_Column_List">
+        <include refid="Table_ID_Name"/> ,
+        name, password, account, email, mobile, last_signin_time,
+        is_ban, status, create_time, update_time
+    </sql>
+    <sql id="Base_Column_List_No_Pass">
+        <include refid="Table_ID_Name"/> ,
+        name, account, email, mobile, last_signin_time,
+        is_ban, status, create_time, update_time
+    </sql>
+    <sql id="Order_Name">
+        name
+    </sql>
+
+    <sql id="Select_Like">
+        <trim prefix="where" suffixOverrides="and">
+            <if test="null != model">
+                <choose>
+
+                    <when test="null != model.id">
+                        <include refid="Table_ID_Name"/>  = #{model.id}
+                    </when>
+
+                    <otherwise>
+
+                        <if test="null != model.name and '' != model.name">
+                            name like CONCAT(CONCAT('%',#{model.name}),'%')
+                            AND
+                        </if>
+                        <if test="null != model.account and '' != model.account">
+                            account like CONCAT(CONCAT('%',#{model.account}),'%')
+                            AND
+                        </if>
+                        <if test="null != model.email and '' != model.email">
+                            email like CONCAT(CONCAT('%',#{model.email}),'%') AND
+                        </if>
+                        <if test="null != model.mobile and '' != model.mobile">
+                            mobile like CONCAT(CONCAT('%',#{model.mobile}),'%') AND
+                        </if>
+
+                        <if test="null != model.isBan">
+                            is_ban = #{model.isBan} and
+                        </if>
+                        <if test="null != model.status">
+                            status = true
+                        </if>
+                    </otherwise>
+                </choose>
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="Select_Exact">
+        <trim prefix="where" suffixOverrides="and">
+            <if test="null != model">
+                <choose>
+
+                    <when test="null != model.id">
+                        <include refid="Table_ID_Name"/>  = #{model.id}
+                    </when>
+
+                    <otherwise>
+                        <if test="null != model.name and '' != model.name">
+                            name = #{model.name}
+                            AND
+                        </if>
+                        <if test="null != model.isBan">
+                            is_ban = #{model.isBan} and
+                        </if>
+                        <if test="null != model.status">
+                            status = true and
+                        </if>
+                        <trim prefix="(" suffix=")" suffixOverrides="or">
+                            <if test="null != model.account and '' != model.account">
+                                account = #{model.account,jdbcType=VARCHAR} or
+                            </if>
+                            <if test="null != model.email and '' != model.email">
+                                email = #{model.email,jdbcType=VARCHAR} or
+                            </if>
+                            <if test="null != model.mobile and '' != model.mobile">
+                                mobile = #{model.mobile,jdbcType=VARCHAR} or
+                            </if>
+                        </trim>
+                    </otherwise>
+                </choose>
+            </if>
+        </trim>
+    </sql>
+
+
+
+    <insert id="insertSelective" parameterType="com.owl.shiro.model.OwlUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into <include refid="Table_Name"/>
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isBan != null">
+                is_ban,
+            </if>
+            create_time,update_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="isBan != null">
+                #{isBan,jdbcType=BIT},
+            </if>
+            null,null
+        </trim>
+    </insert>
+
+    <!-- 请添加所需要的属性-->
+    <insert id="insertList">
+        insert into <include refid="Table_Name"/>
+        (
+        name, password,account, email, mobile,
+        is_ban, status, last_signin_time, create_time, update_time
+        )
+        values
+        <foreach collection="modelList" item="model" separator=",">
+            (
+            #{model.name,jdbcType=VARCHAR}, #{model.password,jdbcType=VARCHAR},
+            #{model.account,jdbcType=VARCHAR}, #{model.email,jdbcType=VARCHAR}, #{model.mobile,jdbcType=VARCHAR},
+            #{model.isBan,jdbcType=BIT},#{model.status,jdbcType=BIT}, null, null , null
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateBySelective">
+        update <include refid="Table_Name"/>
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isBan != null">
+                is_ban = #{isBan,jdbcType=BIT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="lastSigninTime != null">
+                last_signin_time = #{lastSigninTime},
+            </if>
+            update_time = NULL
+        </set>
+        where <include refid="Table_ID_Name"/> = #{id,jdbcType=BIGINT} and status = true
+    </update>
+
+    <update id="deleteBySelective">
+        update <include refid="Table_Name"/>
+        set status=false,update_time = NULL
+        <trim prefix="where" suffixOverrides="and">
+            <choose>
+                <when test="id != null">
+                    <include refid="Table_ID_Name"/> = #{id}
+                </when>
+                <when test="null != account">
+                    account = #{account,jdbcType=VARCHAR}
+                </when>
+                <when test="null != email">
+                    email = #{email,jdbcType=VARCHAR}
+                </when>
+                <when test="null != mobile">
+                    mobile = #{mobile,jdbcType=VARCHAR}
+                </when>
+            </choose>
+        </trim>
+    </update>
+
+    <!-- 以下不需要改變  -->
+
+    <update id="deleteByIdList">
+        update <include refid="Table_Name"/>
+        set status=false,update_time = NULL
+        WHERE <include refid="Table_ID_Name"/> IN
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="banOrLeave">
+        UPDATE <include refid="Table_Name"/>
+        SET is_ban = #{isBan},update_time = NULL
+        WHERE <include refid="Table_ID_Name"/> IN
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and status = true
+    </update>
+
+    <select id="selectBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="Table_Name"/>
+        <include refid="Select_Like"/>
+        ORDER BY CONVERT(<include refid="Order_Name"/> using gbk) ASC
+    </select>
+
+    <select id="selectByExact" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="Table_Name"/>
+        <include refid="Select_Exact"/>
+        ORDER BY CONVERT(<include refid="Order_Name"/> using gbk) ASC
+    </select>
+
+    <select id="countSumByCondition" resultType="java.lang.Integer">
+        select count(<include refid="Table_ID_Name"/>) from
+        <include refid="Table_Name"/>
+        <include refid="Select_Like"/>
+    </select>
+
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_No_Pass"/>
+        from <include refid="Table_Name"/>
+        <include refid="Select_Like"/>
+        ORDER BY CONVERT(<include refid="Order_Name"/> using gbk) ASC
+        limit #{upLimit},#{rows}
+    </select>
+
+
+
+
+    <sql id="Base_Column_List_No_Password">
+    id, name, account, email, mobile, status, last_signin_time, create_time,
+    update_time
+    </sql>
+
+    <select id="selectAllByUser" resultMap="BaseResultMap" parameterType="com.owl.shiro.model.OwlUser">
+        select
+        <include refid="Base_Column_List"/>
+        from owl_user
+        <trim prefix="where" suffixOverrides="or">
+            <if test="null != account">
+                account = #{account,jdbcType=VARCHAR} or
+            </if>
+            <if test="null != email">
+                email = #{email,jdbcType=VARCHAR} or
+            </if>
+            <if test="null != mobile">
+                mobile = #{mobile,jdbcType=VARCHAR} or
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectByUser" resultMap="BaseResultMap" parameterType="com.owl.shiro.model.OwlUser">
+        select
+        <include refid="Base_Column_List"/>
+        from owl_user
+        <trim prefix="where">
+            <choose>
+                <when test="null != id">
+                    id = #{id,jdbcType=BIGINT}
+                </when>
+                <when test="null != account">
+                    account = #{account,jdbcType=VARCHAR}
+                </when>
+                <when test="null != email">
+                    email = #{email,jdbcType=VARCHAR}
+                </when>
+                <when test="null != mobile">
+                    mobile = #{mobile,jdbcType=VARCHAR}
+                </when>
+            </choose>
+        </trim>
+    </select>
+
+    <select id="selectRoleByUserID" resultMap="com.owl.shiro.dao.OwlRoleDao.BaseResultMap">
+        select a.id,a.role from owl_role a
+        left join owl_user_role b
+        on a.id = b.role_id
+        left join owl_user c
+        on b.user_id = c.id
+        where c.id = #{id,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectUserByRoleID" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_No_Password"/>
+        from owl_user a
+        LEFT JOIN owl_user_role b
+        ON a.id = b.user_id
+        LEFT JOIN owl_role c
+        ON b.role_id = c.id
+        where c.id = #{id,jdbcType=BIGINT}
+    </select>
+</mapper>

@@ -14,6 +14,7 @@
         <module>owlMagicUtil</module>
         <module>owlMagicGenerator</module>
         <module>owlMagicFile</module>
+        <module>owlMagicShiro</module>
         <module>owlMagicEmail</module>
     </modules>
     <properties>
