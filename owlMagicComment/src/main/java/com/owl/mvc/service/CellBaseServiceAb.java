@@ -6,6 +6,7 @@ import com.owl.mvc.dto.BanListDTO;
 import com.owl.mvc.dto.DeleteDTO;
 import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.so.IdListSO;
+import com.owl.mvc.so.IdSO;
 import com.owl.mvc.utils.CellBaseServiceUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
@@ -45,33 +46,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     }
 
     /**
-     * 刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param model 对象
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO delete(T model) {
-        return CellBaseServiceUtil.delete(cellBaseDao, model);
-    }
-
-    /**
-     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param idList ID集合
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO deleteList(List<ID> idList) {
-        return CellBaseServiceUtil.deleteList(cellBaseDao, idList);
-    }
-
-    @Override
-    public MsgResultVO deleteList(DeleteDTO<ID> deleteDTO) {
-        return CellBaseServiceUtil.deleteList(cellBaseDao, deleteDTO);
-    }
-
-
-    /**
-     * 刪除 更新前需要查询，因此可能返回对象为父类型
+     * 物理删除 更新前需要查询，因此可能返回对象为父类型
      * @param model 对象
      * @return 基礎數據
      */
@@ -81,56 +56,30 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     }
 
     /**
-     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
+     * 物理删除
+     * @param id 对象
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO deleteByPrimaryKeyRe(ID id) {
+        return CellBaseServiceUtil.deleteByPrimaryKeyRe(cellBaseDao, id);
+    }
+
+    /**
+     * 批量物理删除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteListRe(List<ID> idList) {
-        return CellBaseServiceUtil.deleteListRe(cellBaseDao, idList);
+    public MsgResultVO deleteByPrimaryKeyListRe(List<ID> idList) {
+        return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, idList);
     }
 
     @Override
-    public MsgResultVO deleteListRe(DeleteDTO<ID> deleteDTO) {
-        return CellBaseServiceUtil.deleteListRe(cellBaseDao, deleteDTO);
-    }
-    /**
-     * 禁用或啓用
-     * @param banDTO 禁用對象
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO banOrLeave(BanDTO<ID> banDTO) {
-        return CellBaseServiceUtil.banOrLeave(cellBaseDao, banDTO);
+    public MsgResultVO deleteByPrimaryKeyListRe(DeleteDTO<ID> deleteDTO) {
+        return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, deleteDTO);
     }
 
-    /**
-     * 禁用或啓用
-     * @param id    對象ID
-     * @param isBan 對象狀態，可以爲空
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO banOrLeave(ID id, Boolean isBan) {
-        return CellBaseServiceUtil.banOrLeave(cellBaseDao, id, isBan);
-    }
-
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param idList 對象ID
-     * @param isBan  對象狀態
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO banOrLeaveList(List<ID> idList, Boolean isBan) {
-        return CellBaseServiceUtil.banOrLeaveList(cellBaseDao, idList, isBan);
-    }
-
-    @Override
-    public MsgResultVO banOrLeaveList(BanListDTO<ID> banListDTO) {
-        return CellBaseServiceUtil.banOrLeaveList(cellBaseDao, banListDTO);
-    }
 
     /**
      * 更新 更新前需要查询，因此可能返回对象为父类型
@@ -142,6 +91,20 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
         return CellBaseServiceUtil.update(cellBaseDao, model);
     }
 
+    /**
+     * 獲取詳情
+     * @param id 汎型對象檢索條件
+     * @return 汎型對象
+     */
+    @Override
+    public MsgResultVO<T> detailsById(ID id) {
+        return CellBaseServiceUtil.selectByPrimaryKey(cellBaseDao, id);
+    }
+
+    @Override
+    public MsgResultVO<T> detailsById(IdSO<ID> idSO) {
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(idSO));
+    }
     /**
      * 獲取詳情
      * @param model 汎型對象檢索條件
@@ -182,7 +145,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<List<T>> selectByIdList(IdListSO idListSO) {
-        return CellBaseServiceUtil.selectByIdList(cellBaseDao, idListSO);
+        return CellBaseServiceUtil.selectByPrimaryKeyList(cellBaseDao, idListSO);
     }
 
     /**
@@ -202,5 +165,76 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     @Override
     public MsgResultVO<?> isExist(T model) {
         return CellBaseServiceUtil.isExist(cellBaseDao, model);
+    }
+
+
+
+
+
+
+
+    /*-----------------------------------------------------------------------------------*/
+
+
+    /**
+     * 刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param model 对象
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO delete(T model) {
+        return CellBaseServiceUtil.delete(cellBaseDao, model);
+    }
+
+    /**
+     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param idList ID集合
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO deleteList(List<ID> idList) {
+        return CellBaseServiceUtil.deleteList(cellBaseDao, idList);
+    }
+
+    @Override
+    public MsgResultVO deleteList(DeleteDTO<ID> deleteDTO) {
+        return CellBaseServiceUtil.deleteList(cellBaseDao, deleteDTO);
+    }
+
+    /**
+     * 禁用或啓用
+     * @param banDTO 禁用對象
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO banOrLeave(BanDTO<ID> banDTO) {
+        return CellBaseServiceUtil.banOrLeave(cellBaseDao, banDTO);
+    }
+
+    /**
+     * 禁用或啓用
+     * @param id    對象ID
+     * @param isBan 對象狀態，可以爲空
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO banOrLeave(ID id, Boolean isBan) {
+        return CellBaseServiceUtil.banOrLeave(cellBaseDao, id, isBan);
+    }
+
+    /**
+     * 批量操作 禁用或啓用
+     * @param idList 對象ID
+     * @param isBan  對象狀態
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO banOrLeaveList(List<ID> idList, Boolean isBan) {
+        return CellBaseServiceUtil.banOrLeaveList(cellBaseDao, idList, isBan);
+    }
+
+    @Override
+    public MsgResultVO banOrLeaveList(BanListDTO<ID> banListDTO) {
+        return CellBaseServiceUtil.banOrLeaveList(cellBaseDao, banListDTO);
     }
 }

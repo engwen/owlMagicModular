@@ -21,7 +21,7 @@ public interface CellBaseDao<T, ID> {
      * @param model 泛型对象
      * @return int
      */
-    int insertSelective(T model);
+    int insert(T model);
 
     /**
      * 批量插入
@@ -31,25 +31,18 @@ public interface CellBaseDao<T, ID> {
     int insertList(ModelListSO<T> modelListSO);
 
     /**
-     * 批量刪除
-     * @param idListSO 内含id集合
+     * 物理 刪除
+     * @param idSO 泛型对象
      * @return int
      */
-    int deleteByIdList(IdListSO<ID> idListSO);
-
-    /**
-     * 刪除
-     * @param model 泛型对象
-     * @return int
-     */
-    int deleteBySelective(T model);
+    int deleteByPrimaryKeyRe(IdSO<ID> idSO);
 
     /**
      * 物理 批量刪除
      * @param idListSO 内含id集合
      * @return int
      */
-    int deleteByIdListRe(IdListSO<ID> idListSO);
+    int deleteByPrimaryKeyListRe(IdListSO<ID> idListSO);
 
     /**
      * 物理 刪除
@@ -59,28 +52,25 @@ public interface CellBaseDao<T, ID> {
     int deleteBySelectiveRe(T model);
 
     /**
-     * 批量操作 禁用或啓用
-     * @param banListDTO 對象
-     *                   param idList 對象ID
-     *                   param status 對象狀態
-     * @return int
-     */
-    int banOrLeave(BanListDTO<ID> banListDTO);
-
-    /**
      * 依據指定的屬性進行更新
      * @param model 泛型对象
      * @return int
      */
-    int updateBySelective(T model);
+    int updateByPrimaryKey(T model);
 
     /**
-     * 依據屬性獲取對象集合 粗略查询
-     * @param selectLikeSO 泛型对象
-     *                     Param("model")
+     * 依據 id 屬性獲取對象 准确查询
+     * @param idSO id泛型
      * @return 泛型对象集合
      */
-    List<T> selectByLike(SelectLikeSO<T> selectLikeSO);
+    T selectByPrimaryKey(IdSO<ID> idSO);
+
+    /**
+     * 查詢指定集合
+     * @param idListSO 内含汎型對象
+     * @return list
+     */
+    List<T> selectByPrimaryKeyList(IdListSO<ID> idListSO);
 
     /**
      * 依據屬性獲取對象集合 准确查询
@@ -91,11 +81,12 @@ public interface CellBaseDao<T, ID> {
     List<T> selectByExact(SelectLikeSO<T> selectLikeSO);
 
     /**
-     * 依據 id 屬性獲取對象集合 准确查询
-     * @param idSO id泛型
+     * 依據屬性獲取對象集合 粗略查询
+     * @param selectLikeSO 泛型对象
+     *                     Param("model")
      * @return 泛型对象集合
      */
-    T selectById(IdSO<ID> idSO);
+    List<T> selectByLike(SelectLikeSO<T> selectLikeSO);
 
     /**
      * 依據指定的屬性統計數據條數
@@ -113,10 +104,28 @@ public interface CellBaseDao<T, ID> {
      */
     List<T> listByCondition(SelectLikeSO<T> selectLikeSO);
 
+/*--------------------    需要适配的接口    --------------------*/
+
     /**
-     * 查詢指定集合
-     * @param idListSO 内含汎型對象
-     * @return list
+     * 刪除
+     * @param model 泛型对象
+     * @return int
      */
-    List<T> selectByIdList(IdListSO<ID> idListSO);
+    int deleteBySelective(T model);
+
+    /**
+     * 批量刪除
+     * @param idListSO 内含id集合
+     * @return int
+     */
+    int deleteByIdList(IdListSO<ID> idListSO);
+
+    /**
+     * 批量操作 禁用或啓用
+     * @param banListDTO 對象
+     *                   param idList 對象ID
+     *                   param status 對象狀態
+     * @return int
+     */
+    int banOrLeave(BanListDTO<ID> banListDTO);
 }

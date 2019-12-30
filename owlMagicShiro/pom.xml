@@ -4,14 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.owl.shiro</groupId>
-    <artifactId>owlShiro</artifactId>
-    <version>1.0.0</version>
-    <packaging>war</packaging>
+    <groupId>com.github.engwen</groupId>
+    <artifactId>owlMagicShiro</artifactId>
+    <packaging>pom</packaging>
+    <version>3.0.0</version>
 
-    <name>owlShiro Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
     <profiles>
         <!-- 本地开发环境 -->
         <profile>
@@ -301,6 +298,6 @@
     </dependencies>
 
     <build>
-        <finalName>owlShiro</finalName>
+        <finalName>owlMagicShiro</finalName>
     </build>
 </project>

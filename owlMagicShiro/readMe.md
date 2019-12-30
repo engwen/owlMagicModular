@@ -1,4 +1,4 @@
-owlShiro 简介
+owlMagicShiro 简介
 -------
 
 *此包被用于认证系统以及双师课堂二期的权限管理模块，使用时，直接将基础包复制到目标项目，更改spring配置文件，并添加shiro的配置文件，将resources下的相关mapping复制到目标项目的mapping目录*

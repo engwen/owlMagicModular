@@ -9,7 +9,6 @@ import com.owl.mvc.service.CellBaseServiceAb;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -95,7 +94,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
     @Override
     public MsgResultVO deleteListRe(DeleteDTO<ID> deleteDTO) {
         defaultBack();
-        return cellBaseServiceAb.deleteListRe(deleteDTO);
+        return cellBaseServiceAb.deleteByPrimaryKeyListRe(deleteDTO);
     }
 
     /**

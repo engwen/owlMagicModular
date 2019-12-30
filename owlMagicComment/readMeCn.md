@@ -1,9 +1,12 @@
 # OwlMagicComment
 
--------
-> 自定义注解
+[TOC]
 
-1. @OwlCheckParams
+-------
+
+#>自定义注解
+
+##### 1. @OwlCheckParams
 
      方法注解。该注解可用于controller层校验请求参数，包含notAllNull（不可全部为空），notNull（不能为空）以及canNull
      （可以为空）三个属性，为方便书写接口文档以及后期查询代码，此三个属性合并起来应当为本接口可接收的所
@@ -37,7 +40,7 @@
         }
       返回数据：{"result":false,"resultCode":"0002","resultMsg":"请求参数 account,password 不能为空","resultData":null,"params":{}}
     
-1. @OwlLogInfo
+##### 2. @OwlLogInfo
 
     类、方法注解。在接口开始的时候打印进入接口的信息。"now in %s" 
     
@@ -60,9 +63,9 @@
         
         [INFO][2019-06-10 09:24:23][com.owl.shiro.controller.AuthController] - now in signin
 
-1. @OwlCountTime    
+##### 3. @OwlCountTime    
 
-    方法注解。用来计算方法开始和结束的时间差
+    类、方法注解。用来计算方法开始和结束的时间差
     
             @RequestMapping("signin")
             @OwlCheckParams(notAllNull = {"account", "email", "mobile"}, notNull = {"password"})
@@ -75,7 +78,7 @@
    
         [INFO][2019-06-10 10:02:53][com.owl.comment.asImpl.OwlCountTimeAS] - 方法 signin 花费 ： 0.068 s
 
-1. @OwlSetNullData    
+##### 4. @OwlSetNullData    
 
     方法注解。用来设置请求参数或者返回参数为null
     
@@ -83,17 +86,17 @@
             
             @RequestMapping(value = "list")
             @OwlSetNullData(paramsValue = {"id"}, backValue = {"password"})
-            public MsgResultVO<List<OwlUser>> list(@RequestBody OwlUser user) {
+            public MsgResultVO<List<OwlUser>>list(@RequestBody OwlUser user) {
                  return owlUserService.list(user);
             }
     
-1. @OwlTry    
+##### 5. @OwlTry    
     
-    方法注解。使用它就相当于在方法的最外层添加了一个try catch方法。他的返回值为MsgResultVO。
+    类、方法注解。使用它就相当于在方法的最外层添加了一个try catch方法。他的返回值为MsgResultVO。
     
-1. @OwlBackToObjectAS    
+##### 6. @OwlBackToObjectAS    
     
-    方法注解。当你不想使用MsgResultVO的时候，使用它可以将MsgResultVO改变成其它类型的返回值。
+    类、方法注解。当你不想使用MsgResultVO的时候，使用它可以将MsgResultVO改变成其它类型的返回值。
     你只需要提供 路径 classPath，以及存在的结果值，结果码，结果信息，结果对象等便可以将返回值变为你想要的
     对象
     
@@ -117,14 +120,17 @@
         
     记得使用本注解时需要修改返回值为object对象
      
-1. @OwlBackToMsgResultAS    
+##### 7. @OwlBackToMsgResultAS    
     
-    方法注解。当你想使用MsgResultVO作为返回值的时候，使用它可以将其它类型的返回值改变成MsgResultVO。使用方法和 
+    类、方法注解。当你想使用MsgResultVO作为返回值的时候，使用它可以将其它类型的返回值改变成MsgResultVO。使用方法和 
      @OwlBackToObjectAS
     几乎一样。但你不需要指定  classPath
     
 -------
->观察者模式  灵感来自 Flex AS 中的事件监听机制
+
+# >其它模式
+
+#####  1. 观察者模式  灵感来自 Flex AS 中的事件监听机制
 
 目标是在接收到指定的事件时可以执行指定的监听事件代码，一个被观察者可以监听多个事件
 
@@ -141,15 +147,15 @@
     
         public class TestOb extends OwlObserved {
                 //被觀察者需要执行的代碼
-                public Consumer<OwlObserved> SystemOutYYYYY() {
+                public Consumer<OwlObserved>SystemOutYYYYY() {
                     //做你想做的一切。别忘记本包中的 SpringContextUtil 可以在这里帮你获取 bean 哦
-                    return  (obj)-> System.out.println("yyyyyyyy");
+                    return  (obj)->System.out.println("yyyyyyyy");
                 }
             
                 //被觀察者需要执行的代碼
-                public Consumer<OwlObserved> SystemOutHHHH() {
+                public Consumer<OwlObserved>SystemOutHHHH() {
                     //做你想做的一切。别忘记本包中的 SpringContextUtil 可以在这里帮你获取 bean 哦
-                    return  (obj)-> System.out.println("hhhhhhh");
+                    return  (obj)->System.out.println("hhhhhhh");
                 }
                 //除此之外，你還可以使用
                 public static void SystemOutYYYYY(OwlObserved owlObserved) {
@@ -186,86 +192,208 @@
     抛出事件功能
 
 ------- 
->MVC 简写部分（常用的CRUD使用方法）
+# >MVC 简写部分（常用的CRUD使用方法）
 
-1. SpringContextUtil
+##### 1. SpringContextUtil
     
-    我提供这个工具是为了正在多线程中方便你快速的获取指定的bean
+   我提供这个工具是为了正在多线程中方便你快速的获取指定的bean
 
-1. Dao
+##### 2. CellBaseDao<T, ID>和 RelationBaseDao<T,MainID,FollowerID>你可以在继承后编写自己的方法
 
-   本模板中的 Dao 类接口 需要继承 CellBaseDao<T> 或  RelationBaseDao<T>，你可以在继承后编写自己的方法
-   
-   例如：
-   
-        public interface OwlMenuDao extends CellBaseDao<OwlMenu> {
-            Set<OwlMenu> menuListByRole(IdListSO idListSO);
-        }
-   
-1. xml
+   *  CellBaseDao<T, ID>单属性模板 dao，为单属性的 model 提供数据库的直接操作
+       
+       本类中提供以下方法：
 
-    本模板中的 CellDemo.xml 和RelationDemo.xml 打包在jar中，你可以直接复制其中的内容到自己的xml文件中，
-    指定<mapper namespace="com.owl.dao.OwlUserMapper">，修改其中的配置属性，Table_ID_Name 即为当前表的id名称
+
+            /**
+             * 直接插入
+             * @param model 泛型对象
+             * @return int
+             */
+            int insertSelective(T model);
+        
+            /**
+             * 批量插入
+             * @param modelListSO 泛型对象集合List
+             * @return int
+             */
+            int insertList(ModelListSO<T>modelListSO);
+        
+            /**
+             * 批量刪除
+             * @param idListSO 内含id集合
+             * @return int
+             */
+            int deleteByIdList(IdListSO<ID>idListSO);
+        
+            /**
+             * 刪除
+             * @param model 泛型对象
+             * @return int
+             */
+            int deleteBySelective(T model);
+        
+            /**
+             * 物理 批量刪除
+             * @param idListSO 内含id集合
+             * @return int
+             */
+            int deleteByIdListRe(IdListSO<ID>idListSO);
+        
+            /**
+             * 物理 刪除
+             * @param model 泛型对象
+             * @return int
+             */
+            int deleteBySelectiveRe(T model);
+        
+            /**
+             * 批量操作 禁用或啓用
+             * @param banListDTO 對象
+             *                   param idList 對象ID
+             *                   param status 對象狀態
+             * @return int
+             */
+            int banOrLeave(BanListDTO<ID>banListDTO);
+        
+            /**
+             * 依據指定的屬性進行更新
+             * @param model 泛型对象
+             * @return int
+             */
+            int updateBySelective(T model);
+        
+            /**
+             * 依據屬性獲取對象集合 粗略查询
+             * @param selectLikeSO 泛型对象
+             *                     Param("model")
+             * @return 泛型对象集合
+             */
+            List<T>selectByLike(SelectLikeSO<T>selectLikeSO);
+        
+            /**
+             * 依據屬性獲取對象集合 准确查询
+             * @param selectLikeSO 泛型对象
+             *                     Param("model")
+             * @return 泛型对象集合
+             */
+            List<T>selectByExact(SelectLikeSO<T>selectLikeSO);
+        
+            /**
+             * 依據 id 屬性獲取對象集合 准确查询
+             * @param idSO id泛型
+             * @return 泛型对象集合
+             */
+            T selectById(IdSO<ID>idSO);
+        
+            /**
+             * 依據指定的屬性統計數據條數
+             * @param selectLikeSO 泛型对象
+             * @return int
+             */
+            Integer countSumByCondition(SelectLikeSO<T>selectLikeSO);
+        
+            /**
+             * 依據指定的屬性獲取指定的集合
+             * @param selectLikeSO Param("upLimit")
+             *                     Param("rows")
+             *                     Param("model")
+             * @return 泛型对象集合
+             */
+            List<T>listByCondition(SelectLikeSO<T>selectLikeSO);
+        
+            /**
+             * 查詢指定集合
+             * @param idListSO 内含汎型對象
+             * @return list
+             */
+            List<T>selectByIdList(IdListSO<ID>idListSO);
+
+   *  RelationBaseDao<T,MainID,FollowerID>关系属性模板 dao，为关系属性的 model 提供数据库的直接操作
+          
+      本类中提供以下方法：
+      
+      
+        /**
+         * 批量插入
+         * @param modelListSO 内含汎型對象
+         * @return int
+         */
+        int insertList(ModelListSO<T>modelListSO);
+    
+        /**
+         * 批量插入
+         * @param relationDTO 内含一對多
+         * @return int
+         */
+        int insertRelation(RelationDTO<MainID,FollowerID>relationDTO);
+    
+        /**
+         * 批量刪除或个别删除
+         * @param modelSO 内含汎型對象
+         * @return int
+         */
+        int delete(ModelSO<T>modelSO);
+    
+        /**
+         * 批量刪除
+         * @param modelListSO 内含汎型對象
+         * @return int
+         */
+        int deleteList(ModelListSO<T>modelListSO);
+    
+        /**
+         * 批量刪除
+         * @param relationDTO 内含一對多
+         * @return int
+         */
+        int deleteRelation(RelationDTO<MainID,FollowerID>relationDTO);
+    
+        /**
+         * 查詢是否存在
+         * @param modelSO 内含汎型對象
+         * @return list
+         */
+        List<T>selectBySelective(ModelSO<T>modelSO);
+##### 3. xml
+
+   本模板中的 [CellDemo.xml](https://github.com/engwen/owlMagicComment/blob/master/src/main/resources/CellDemo.xml) 和
+   [RelationDemo.xml](https://github.com/engwen/owlMagicComment/blob/master/src/main/resources/RelationDemo.xml)
+    打包在jar中，你可以直接复制其中的内容到自己的xml文件中，
+    指定<mapper namespace="com.*.dao.*Mapper">，修改其中的配置属性，Table_ID_Name 即为当前表的id名称
     sql Select_Like 表示的模糊查询，Select_Exact 为精确查询
     注释<!-- 以下不需要改變  -->的下方是不需要修改的代码。但是在此之前你需要修改其中的属性以使它和你的数据库表
     一一对应
 
-1. Service
+##### 4. service
 
-    Service层需要继承 CellBaseServiceAb<T> 或者 RelationBaseServiceAb<T>。
+   我提供了完整的 [CellBaseService<T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/CellBaseService.java)
+    和 [RelationBaseService<T, MainID, FollowerID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/RelationBaseService.java)
+   接口，为了便于你的使用，我提供了很多看似无用的方法，比如查询条件为id和model，这本可以将条件设置为一个model，
+   但是考虑到那样你需要自己 new 一个 model 并塞入id再去查询，因此我直接提供了封装。
+   
+   你还可以自己实现这个接口，但是我推荐你使用继承，因为只要你的 dao 和 xml 都已经实现，那么继承并不需要重写便已经足够常规使用。
+   Service层继承 [CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/CellBaseServiceAb.java)
+   或者 [RelationBaseServiceAb<M extends RelationBaseDao<T, MainID, FollowerID>, T, MainID, FollowerID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/RelationBaseServiceAb.java)
+     
+   请不要因为它们的长度而感到恐惧，这样编写的目标是为了帮助你快速为它的默认实现注入dao
+   基础的增删改查已经由我帮助你实现，是时候彻底的离开基础代码的编写工作，把重心完全
+   放在业务上面了
     
-     并通过
-            
-              @Resource
-                private OwlMenuDao owlMenuDao;
-              @Autowired
-                public void setCellBaseDao() {
-                    super.setCellBaseDao(owlMenuDao);
-                }
-                
-    或：
-             
-               @Resource
-               private OwlPageMenuDao owlPageMenuDao;
-           
-               @Autowired
-               public void setRelationBaseDao() {
-                   super.setRelationBaseDao(owlPageMenuDao);
-               }     
          
-     的方法为模板注入 Dao 类，你可以重写本类中的方法以使它按照你的方式进行业务处理。
+   PS: 你可以重写本类中的方法以使它按照你的方式进行业务处理。
 
-1. Controller
+##### 5. Controller
     
-    CellBaseController类定义了基础的增删改查
+   [CellBaseController<T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/controller/CellBaseController.java)
+   类定义了基础的增删改查
     
-            MsgResultVO<T> create(T model);
-
-            MsgResultVO<?> createList(List<T> list);
-
-            MsgResultVO delete(T model);
-
-            MsgResultVO deleteList(DeleteDTO deleteDTO);
-
-            MsgResultVO banOrLeave(BanDTO banDTO);
-
-            MsgResultVO banOrLeaveList(BanListDTO banListDTO);
-
-            MsgResultVO<?> update(T model);
-
-            MsgResultVO<T> details(T model);
-
-            MsgResultVO<PageVO<T>> list(PageDTO<T> pageDTO);
-        
-            MsgResultVO<List<T>> getAll(T model);
-        
-            MsgResultVO<?> isExist(T model);
-    
-    继承 CellBaseControllerAb 后，你便可以快速调用接口中定义的各个方法。
+   继承 [CellBaseControllerAb<M extends CellBaseServiceAb, T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/controller/CellBaseControllerAb.java) 后，你便可以快速调用接口中定义的各个方法。我不会提供给你关系类型的controller，因为那是需要依托于
+   你的业务做的工作，你需要重写 service，然后自己去实现那些业务。当然，service的默认实现
 
      
            
-###本包引入的jar包包括
+### 附录：本包引入的jar包包括
 
  -------
  
@@ -303,13 +431,13 @@
 ```
 
 
-###历史升级记录
+#历史升级记录
 
 
 
 -------
 
- 1.2.2
+ ##### 1.2.2
  
  -- 添加
  
@@ -328,7 +456,7 @@
  4. PageVO 类整改，现在 PageVO 对象加入 MsgResultVO 中的部分方法
  
 
- 1.2.0
+ #####  1.2.0
  
  -- 添加
  
@@ -350,12 +478,12 @@
  
  
  
- 1.1.9
+ #####  1.1.9
  
  
 - 添加
 
-> 备忘录模式  OwlMemento
+>备忘录模式  OwlMemento
   
 继承 OwlMemento 的类，将会获得备忘录功能，在执行代码后，可以将类属性数据恢复到使用备忘功能的时候
 同时，它提供了历史数据的集合，你可以将数据恢复到任何一次使用备忘功能的时候。提供clear方法以便于
@@ -363,38 +491,38 @@
 
 - 添加
 
-> 简化版的事件机制工具类  OwlObserverUtil
+>简化版的事件机制工具类  OwlObserverUtil
 
 虽然提供几乎和继承类的一样的功能，并且已经和缘由的功能基本打通——和继承类能相互响应，但是我还是推荐你通过继承方法去实现，
 它只是为了实现目标类在不能再次使用 extend 仍旧可以完成监听工作而产生的一个变种。
  
 - 优化 
 
-> 现在观察者模式使用线程安全的 ConcurrentHashMap 存储数据
+>现在观察者模式使用线程安全的 ConcurrentHashMap 存储数据
 
-> 观察者在接收到事件之后会开启新的线程处理所有的观察者的待执行代码
+>观察者在接收到事件之后会开启新的线程处理所有的观察者的待执行代码
 
-> 为了防止各个版本的 logger 的冲突，现在 jar 中的所有的 logger 改成基于 System.out 类似于 log4j的格式
+>为了防止各个版本的 logger 的冲突，现在 jar 中的所有的 logger 改成基于 System.out 类似于 log4j的格式
 
-> 修改观察者的几个方法，现在更加易用
+>修改观察者的几个方法，现在更加易用
 
-> 修改代码传递为自定义 lambda  传递
+>修改代码传递为自定义 lambda  传递
 
-> 添加了一个缓存线程池
+>添加了一个缓存线程池
 
-> 现在即便是数组对象，toJSON依旧能够正确的输出结果
+>现在即便是数组对象，toJSON依旧能够正确的输出结果
 
  
- 1.1.8
+ #####  1.1.8
  
 - 优化 
 
-> 在上一版的基础上，去除CellBaseServiceUtil 以及 RelationBaseServiceUtil 工具类中的实现，并将它们的工作移动到抽象类中。
+>在上一版的基础上，去除CellBaseServiceUtil 以及 RelationBaseServiceUtil 工具类中的实现，并将它们的工作移动到抽象类中。
 现在你可以使用 service 类继承 CellBaseServiceAb 和 RelationBaseServiceAb 以便使用它们当中提供好的 CRUD 。我不再推荐你
 使用这两个工具类，但是你仍然可以使用
 
-> 添加 IdListSO 处理ID集合情况的问题
-> 现在你需要在继承CellBaseServiceAb 和 RelationBaseServiceAb 的时候使用 set*Dao 的方法，使得抽象类能明白你将要使用
+>添加 IdListSO 处理ID集合情况的问题
+>现在你需要在继承CellBaseServiceAb 和 RelationBaseServiceAb 的时候使用 set*Dao 的方法，使得抽象类能明白你将要使用
 的 dao 是哪一个 例如：
 
     @Resource
@@ -405,30 +533,30 @@
         super.setCellBaseDao(owlMenuDao);
     }
  
-> @OwlSetNullDataAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
+>@OwlSetNullDataAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
 
-> @OwlCheckParamsAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
+>@OwlCheckParamsAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
 
-> @OwlBackToObjectAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
+>@OwlBackToObjectAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
 
-> 现在基础数据库对应的查询支持按照名称排序
+>现在基础数据库对应的查询支持按照名称排序
 
-> 现在 MsgResultVO 支持 getInstanceSuccess 获取对象
+>现在 MsgResultVO 支持 getInstanceSuccess 获取对象
 
-> 添加 ModelSO 处理接受 model 已解决底层 xml 不能统一的问题 
+>添加 ModelSO 处理接受 model 已解决底层 xml 不能统一的问题 
 
-> RelationBaseDao 添加了删除单个操作
+>RelationBaseDao 添加了删除单个操作
 
-> @OwlTry 现在能提供 value ，便于在使用的时候输出
+>@OwlTry 现在能提供 value ，便于在使用的时候输出
 
-> 大量的代码结构优化
+>大量的代码结构优化
 
 - 新功能 
 
-> 添加观察者模式
+>添加观察者模式
 
  
- 1.1.5  -  1.1.7
+ #####  1.1.5  -  1.1.7
  
  
 - 添加
@@ -452,7 +580,7 @@
  
  >为了解决对异常的检查，在 1.1.7 版本中将会开放 MVC 架构中的所有 try catch
  
- 1.1.4
+ #####  1.1.4
  
  - 添加
  
@@ -487,7 +615,7 @@
          @RequestMapping("/test2")
          @OwlBackToMsgResult(msg = "msg",code = "code",data = "data")
          public Object test2() {
-                TestVO<Date> result = new TestVO();
+                TestVO<Date>result = new TestVO();
                 result.setMsg("test");
                 result.setCode("0000");
                 result.setData(new Date());
@@ -497,7 +625,7 @@
   上例中，返回值类型将由 TestVO 转为 MsgResultVO ，内容为：{"result":null,"resultCode":"0000","resultMsg":"test","resultData":1545890084447,"params":{}}
 
  
-1.1.3 
+ ##### 1.1.3 
  
 - 升级
    
@@ -506,7 +634,7 @@
  添加设定请求参数集合 paramsValue 为null，设定返回参数集合为nul修改为 backValue
  
  
-1.1.2 
+ ##### 1.1.2 
 
 - 升级
 
@@ -520,7 +648,7 @@
  sql或是service的改动往往会导致其它使用这些的地方发生意想不到的事情，基于这些考虑，我添加了这个注解，用于将
  返回值去除。
  注意：这个方法只支持 MsgResultVO 中的封装对象，也就是说，和 OwlCheckParams 这个接口一样，你需要将返回值设定
- 为 MsgResultVO<T> ，你可以将返回的对象放在 resultData 中，但它必须是自定义对象或者Map，其他的对象都不会被支
+ 为 MsgResultVO<T>，你可以将返回的对象放在 resultData 中，但它必须是自定义对象或者Map，其他的对象都不会被支
  持，它所支持的属性也只是包装类，String，Long，Integer，Float，Double，List和Date
  
  例如 ：
@@ -538,21 +666,21 @@
         
  
  
-1.1.1 
+ ##### 1.1.1 
 
 - 升级
 
    修复了一些BUG，优化了一些代码
    
  
-1.1 
+ ##### 1.1 
 
 - 添加  @OwlLogInfo
     
    该注解将会在使用它的地方打印"now in class %s , method %s" ，注意，这并不能给你一些额外的有用信息，只是用
    来输出一些日志帮助你快速定位被调用的接口。
     
-1.0
+ ##### 1.0
 
 - 添加  @OwlCheckParams
 

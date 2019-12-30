@@ -7,6 +7,7 @@ import com.owl.mvc.dto.DeleteDTO;
 import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
+import com.owl.mvc.so.IdSO;
 import com.owl.mvc.so.ModelListSO;
 import com.owl.mvc.so.SelectLikeSO;
 import com.owl.mvc.vo.MsgResultVO;
@@ -31,7 +32,7 @@ public abstract class CellBaseServiceUtil {
      * @return 汎型對象
      */
     public static <T, ID> MsgResultVO<T> create(CellBaseDao<T, ID> cellBaseDao, T model) {
-        cellBaseDao.insertSelective(model);
+        cellBaseDao.insert(model);
         return MsgResultVO.getInstanceSuccess(model);
     }
 
@@ -47,7 +48,7 @@ public abstract class CellBaseServiceUtil {
         if (isExist(cellBaseDao, model).getResult()) {
             resultVO.errorResult(MsgConstant.REQUEST_IS_EXITS);
         } else {
-            cellBaseDao.insertSelective(model);
+            cellBaseDao.insert(model);
             resultVO.successResult(model);
         }
         return resultVO;
@@ -69,19 +70,150 @@ public abstract class CellBaseServiceUtil {
      * @param model 对象
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO delete(CellBaseDao<T, ID> cellBaseDao, T model) {
-        cellBaseDao.deleteBySelective(model);
+    public static <T, ID> MsgResultVO deleteRe(CellBaseDao<T, ID> cellBaseDao, T model) {
+        cellBaseDao.deleteBySelectiveRe(model);
         return MsgResultVO.getInstanceSuccess();
     }
-
+    
+    /*
+     * 刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param model 对象
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyRe(CellBaseDao<T, ID> cellBaseDao, ID id) {
+        cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
+        return MsgResultVO.getInstanceSuccess();
+    }
+    
     /*
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO deleteList(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyListRe(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
         IdListSO<ID> idListSO = new IdListSO<>(idList);
-        cellBaseDao.deleteByIdList(idListSO);
+        cellBaseDao.deleteByPrimaryKeyListRe(idListSO);
+        return MsgResultVO.getInstanceSuccess();
+    }
+
+    /*
+     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param deleteDTO ID集合
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyListRe(CellBaseDao<T, ID> cellBaseDao, DeleteDTO<ID> deleteDTO) {
+        return deleteByPrimaryKeyListRe(cellBaseDao, deleteDTO.getIdList());
+    }
+
+    /*
+     * 更新 更新前需要查询，因此可能返回对象为父类型
+     * @param model 汎型對象
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO<T> update(CellBaseDao<T, ID> cellBaseDao, T model) {
+        MsgResultVO<T> resultVO = new MsgResultVO<>();
+        if (isExist(cellBaseDao, model).getResult()) {
+            cellBaseDao.updateByPrimaryKey(model);
+            resultVO.successResult();
+        } else {
+            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
+        }
+        return resultVO;
+    }
+
+    /*
+     * 查詢指定集合
+     * @param idListSO 内含汎型對象
+     * @return list
+     */
+    public static <T, ID> MsgResultVO<T> selectByPrimaryKey(CellBaseDao<T, ID> cellBaseDao, ID id) {
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(new IdSO<>(id)));
+    }
+
+
+    /*
+     * 獲取詳情
+     * @param model 汎型對象檢索條件
+     * @return 汎型對象
+     */
+    public static <T, ID> MsgResultVO<T> details(CellBaseDao<T, ID> cellBaseDao, T model) {
+        MsgResultVO<T> resultVO = new MsgResultVO<>();
+        List<T> temp = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
+        if (null == temp || temp.size() == 0) {
+            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
+        } else if (temp.size() == 1) {
+            resultVO.successResult(temp.get(0));
+        } else {
+            System.out.println("there are list with details back, but you just want one");
+            resultVO.errorResult(MsgConstant.REQUEST_BACK_ARE_LIST);
+        }
+        return resultVO;
+    }
+
+
+    public static <T, ID> PageVO<T> list(CellBaseDao<T, ID> cellBaseDao, PageDTO<T> pageDTO) {
+        return list(cellBaseDao, pageDTO.getGetAll(), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getModel());
+    }
+
+    /*
+     * 獲取分頁列表，添加 model 提供檢索功能
+     * @param getAll      是否獲取所有
+     * @param requestPage 請求頁數
+     * @param rows        請求列表的尺寸
+     * @param model       檢索條件
+     * @return 分頁對象
+     */
+    public static <T, ID> PageVO<T> list(CellBaseDao<T, ID> cellBaseDao, Boolean getAll, Integer requestPage, Integer rows, T model) {
+        PageVO<T> pageVO = new PageVO<>();
+        pageVO.initPageVO(cellBaseDao.countSumByCondition(SelectLikeSO.getInstance(model)), requestPage, rows, getAll);
+        pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getRows())));
+        return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
+    }
+
+    /*
+     * 查詢指定集合
+     * @param idListSO 内含汎型對象
+     * @return list
+     */
+    public static <T, ID> MsgResultVO<List<T>> selectByPrimaryKeyList(CellBaseDao<T, ID> cellBaseDao, IdListSO idListSO) {
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(idListSO));
+    }
+
+    /*
+     * 獲取所有的對象
+     * @param model 汎型對象檢索條件
+     * @return 對象集合
+     */
+    public static <T, ID> MsgResultVO<List<T>> getAll(CellBaseDao<T, ID> cellBaseDao, T model) {
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByLike(SelectLikeSO.getInstance(model)));
+    }
+
+    /*
+     * 檢查数据是否存在
+     * @param model 检索条件
+     * @return Boolean
+     */
+    public static <T, ID> MsgResultVO isExist(CellBaseDao<T, ID> cellBaseDao, T model) {
+        MsgResultVO resultVO = new MsgResultVO();
+        List<T> list = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
+        if (null != list && list.size() > 0) {
+            resultVO.successResult(MsgConstant.REQUEST_IS_EXITS);
+        } else {
+            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
+        }
+        return resultVO;
+    }
+
+
+/*-------------------------------- 需要适配 ----------------------------------------*/
+
+    /*
+     * 刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param model 对象
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO delete(CellBaseDao<T, ID> cellBaseDao, T model) {
+        cellBaseDao.deleteBySelective(model);
         return MsgResultVO.getInstanceSuccess();
     }
 
@@ -94,35 +226,15 @@ public abstract class CellBaseServiceUtil {
         return deleteList(cellBaseDao, deleteDTO.getIdList());
     }
 
-
-    /*
-     * 刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param model 对象
-     * @return 基礎數據
-     */
-    public static <T, ID> MsgResultVO deleteRe(CellBaseDao<T, ID> cellBaseDao, T model) {
-        cellBaseDao.deleteBySelectiveRe(model);
-        return MsgResultVO.getInstanceSuccess();
-    }
-
     /*
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO deleteListRe(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
+    public static <T, ID> MsgResultVO deleteList(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
         IdListSO<ID> idListSO = new IdListSO<>(idList);
-        cellBaseDao.deleteByIdListRe(idListSO);
+        cellBaseDao.deleteByIdList(idListSO);
         return MsgResultVO.getInstanceSuccess();
-    }
-
-    /*
-     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param deleteDTO ID集合
-     * @return 基礎數據
-     */
-    public static <T, ID> MsgResultVO deleteListRe(CellBaseDao<T, ID> cellBaseDao, DeleteDTO<ID> deleteDTO) {
-        return deleteListRe(cellBaseDao, deleteDTO.getIdList());
     }
 
 
@@ -174,94 +286,5 @@ public abstract class CellBaseServiceUtil {
     public static <T, ID> MsgResultVO banOrLeaveList(CellBaseDao<T, ID> cellBaseDao, BanListDTO<ID> banListDTO) {
         cellBaseDao.banOrLeave(banListDTO);
         return MsgResultVO.getInstanceSuccess();
-    }
-
-    /*
-     * 更新 更新前需要查询，因此可能返回对象为父类型
-     * @param model 汎型對象
-     * @return 基礎數據
-     */
-    public static <T, ID> MsgResultVO<T> update(CellBaseDao<T, ID> cellBaseDao, T model) {
-        MsgResultVO<T> resultVO = new MsgResultVO<>();
-        if (isExist(cellBaseDao, model).getResult()) {
-            cellBaseDao.updateBySelective(model);
-            resultVO.successResult();
-        } else {
-            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
-        }
-        return resultVO;
-    }
-
-    /*
-     * 獲取詳情
-     * @param model 汎型對象檢索條件
-     * @return 汎型對象
-     */
-    public static <T, ID> MsgResultVO<T> details(CellBaseDao<T, ID> cellBaseDao, T model) {
-        MsgResultVO<T> resultVO = new MsgResultVO<>();
-        List<T> temp = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
-        if (null == temp || temp.size() == 0) {
-            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
-        } else if (temp.size() == 1) {
-            resultVO.successResult(temp.get(0));
-        } else {
-            System.out.println("there are list with details back, but you just want one");
-            resultVO.errorResult(MsgConstant.REQUEST_BACK_ARE_LIST);
-        }
-        return resultVO;
-    }
-
-
-    public static <T, ID> PageVO<T> list(CellBaseDao<T, ID> cellBaseDao, PageDTO<T> pageDTO) {
-        return list(cellBaseDao, pageDTO.getGetAll(), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getModel());
-    }
-
-    /*
-     * 獲取分頁列表，添加 model 提供檢索功能
-     * @param getAll      是否獲取所有
-     * @param requestPage 請求頁數
-     * @param rows        請求列表的尺寸
-     * @param model       檢索條件
-     * @return 分頁對象
-     */
-    public static <T, ID> PageVO<T> list(CellBaseDao<T, ID> cellBaseDao, Boolean getAll, Integer requestPage, Integer rows, T model) {
-        PageVO<T> pageVO = new PageVO<>();
-        pageVO.initPageVO(cellBaseDao.countSumByCondition(SelectLikeSO.getInstance(model)), requestPage, rows, getAll);
-        pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getRows())));
-        return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
-    }
-
-    /*
-     * 查詢指定集合
-     * @param idListSO 内含汎型對象
-     * @return list
-     */
-    public static <T, ID> MsgResultVO<List<T>> selectByIdList(CellBaseDao<T, ID> cellBaseDao, IdListSO idListSO) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByIdList(idListSO));
-    }
-
-    /*
-     * 獲取所有的對象
-     * @param model 汎型對象檢索條件
-     * @return 對象集合
-     */
-    public static <T, ID> MsgResultVO<List<T>> getAll(CellBaseDao<T, ID> cellBaseDao, T model) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByLike(SelectLikeSO.getInstance(model)));
-    }
-
-    /*
-     * 檢查数据是否存在
-     * @param model 检索条件
-     * @return Boolean
-     */
-    public static <T, ID> MsgResultVO isExist(CellBaseDao<T, ID> cellBaseDao, T model) {
-        MsgResultVO resultVO = new MsgResultVO();
-        List<T> list = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
-        if (null != list && list.size() > 0) {
-            resultVO.successResult(MsgConstant.REQUEST_IS_EXITS);
-        } else {
-            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
-        }
-        return resultVO;
     }
 }
