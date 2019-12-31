@@ -61,7 +61,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteByPrimaryKeyRe(ID id) {
+    public MsgResultVO deleteByIdRe(ID id) {
         return CellBaseServiceUtil.deleteByPrimaryKeyRe(cellBaseDao, id);
     }
 
@@ -71,12 +71,12 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteByPrimaryKeyListRe(List<ID> idList) {
+    public MsgResultVO deleteByIdListRe(List<ID> idList) {
         return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, idList);
     }
 
     @Override
-    public MsgResultVO deleteByPrimaryKeyListRe(DeleteDTO<ID> deleteDTO) {
+    public MsgResultVO deleteByIdListRe(DeleteDTO<ID> deleteDTO) {
         return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, deleteDTO);
     }
 

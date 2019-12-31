@@ -94,7 +94,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
     @Override
     public MsgResultVO deleteListRe(DeleteDTO<ID> deleteDTO) {
         defaultBack();
-        return cellBaseServiceAb.deleteByPrimaryKeyListRe(deleteDTO);
+        return cellBaseServiceAb.deleteByIdListRe(deleteDTO);
     }
 
     /**
