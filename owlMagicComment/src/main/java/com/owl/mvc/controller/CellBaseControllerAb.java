@@ -65,6 +65,17 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
     }
 
     /**
+     * 删除功能
+     * @param id 待删除的对象id
+     * @return 结果
+     */
+    @Override
+    public MsgResultVO deleteById(ID id) {
+        defaultBack();
+        return cellBaseServiceAb.deleteById(id);
+    }
+
+    /**
      * 批量删除
      * @param deleteDTO 删除对象DTO
      * @return 结果

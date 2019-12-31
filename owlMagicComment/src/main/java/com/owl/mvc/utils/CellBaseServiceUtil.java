@@ -6,10 +6,7 @@ import com.owl.mvc.dto.BanListDTO;
 import com.owl.mvc.dto.DeleteDTO;
 import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.model.MsgConstant;
-import com.owl.mvc.so.IdListSO;
-import com.owl.mvc.so.IdSO;
-import com.owl.mvc.so.ModelListSO;
-import com.owl.mvc.so.SelectLikeSO;
+import com.owl.mvc.so.*;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 
@@ -71,10 +68,10 @@ public abstract class CellBaseServiceUtil {
      * @return 基礎數據
      */
     public static <T, ID> MsgResultVO deleteRe(CellBaseDao<T, ID> cellBaseDao, T model) {
-        cellBaseDao.deleteBySelectiveRe(model);
+        cellBaseDao.deleteBySelectiveRe(ModelSO.getInstance(model));
         return MsgResultVO.getInstanceSuccess();
     }
-    
+
     /*
      * 刪除 更新前需要查询，因此可能返回对象为父类型
      * @param model 对象
@@ -84,7 +81,7 @@ public abstract class CellBaseServiceUtil {
         cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
         return MsgResultVO.getInstanceSuccess();
     }
-    
+
     /*
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
@@ -205,7 +202,17 @@ public abstract class CellBaseServiceUtil {
     }
 
 
-/*-------------------------------- 需要适配 ----------------------------------------*/
+    /*-------------------------------- 需要适配 ----------------------------------------*/
+
+    /*
+     * 刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param model 对象
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO deleteByPrimaryKey(CellBaseDao<T, ID> cellBaseDao, ID id) {
+        cellBaseDao.deleteByPrimaryKey(new IdSO<>(id));
+        return MsgResultVO.getInstanceSuccess();
+    }
 
     /*
      * 刪除 更新前需要查询，因此可能返回对象为父类型
@@ -213,7 +220,7 @@ public abstract class CellBaseServiceUtil {
      * @return 基礎數據
      */
     public static <T, ID> MsgResultVO delete(CellBaseDao<T, ID> cellBaseDao, T model) {
-        cellBaseDao.deleteBySelective(model);
+        cellBaseDao.deleteBySelective(ModelSO.getInstance(model));
         return MsgResultVO.getInstanceSuccess();
     }
 
@@ -222,8 +229,8 @@ public abstract class CellBaseServiceUtil {
      * @param deleteDTO ID集合
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO deleteList(CellBaseDao<T, ID> cellBaseDao, DeleteDTO<ID> deleteDTO) {
-        return deleteList(cellBaseDao, deleteDTO.getIdList());
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyList(CellBaseDao<T, ID> cellBaseDao, DeleteDTO<ID> deleteDTO) {
+        return deleteByPrimaryKeyList(cellBaseDao, deleteDTO.getIdList());
     }
 
     /*
@@ -231,9 +238,9 @@ public abstract class CellBaseServiceUtil {
      * @param idList ID集合
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO deleteList(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyList(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
         IdListSO<ID> idListSO = new IdListSO<>(idList);
-        cellBaseDao.deleteByIdList(idListSO);
+        cellBaseDao.deleteByPrimaryKeyList(idListSO);
         return MsgResultVO.getInstanceSuccess();
     }
 
@@ -246,7 +253,7 @@ public abstract class CellBaseServiceUtil {
     public static <T, ID> MsgResultVO deleteByCheck(CellBaseDao<T, ID> cellBaseDao, T model) {
         MsgResultVO<T> resultVO = new MsgResultVO<>();
         if (isExist(cellBaseDao, model).getResult()) {
-            cellBaseDao.deleteBySelective(model);
+            cellBaseDao.deleteBySelective(ModelSO.getInstance(model));
             resultVO.successResult();
         } else {
             resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);

@@ -38,6 +38,7 @@ interface CellBaseController<T,ID> {
      */
     MsgResultVO delete(T model);
 
+    MsgResultVO deleteById(ID id);
 
     /**
      * 批量删除
