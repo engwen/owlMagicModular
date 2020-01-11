@@ -61,7 +61,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteByPrimaryKeyRe(ID id) {
+    public MsgResultVO deleteByIdRe(ID id) {
         return CellBaseServiceUtil.deleteByPrimaryKeyRe(cellBaseDao, id);
     }
 
@@ -71,12 +71,12 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteByPrimaryKeyListRe(List<ID> idList) {
+    public MsgResultVO deleteByIdListRe(List<ID> idList) {
         return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, idList);
     }
 
     @Override
-    public MsgResultVO deleteByPrimaryKeyListRe(DeleteDTO<ID> deleteDTO) {
+    public MsgResultVO deleteByIdListRe(DeleteDTO<ID> deleteDTO) {
         return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, deleteDTO);
     }
 
@@ -187,18 +187,28 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     }
 
     /**
+     * 物理删除
+     * @param id 对象
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO deleteById(ID id) {
+        return CellBaseServiceUtil.deleteByPrimaryKey(cellBaseDao, id);
+    }
+
+    /**
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
      * @return 基礎數據
      */
     @Override
     public MsgResultVO deleteList(List<ID> idList) {
-        return CellBaseServiceUtil.deleteList(cellBaseDao, idList);
+        return CellBaseServiceUtil.deleteByPrimaryKeyList(cellBaseDao, idList);
     }
 
     @Override
     public MsgResultVO deleteList(DeleteDTO<ID> deleteDTO) {
-        return CellBaseServiceUtil.deleteList(cellBaseDao, deleteDTO);
+        return CellBaseServiceUtil.deleteByPrimaryKeyList(cellBaseDao, deleteDTO);
     }
 
     /**

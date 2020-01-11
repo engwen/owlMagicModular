@@ -71,7 +71,7 @@ public abstract class CellBaseServiceUtil {
         cellBaseDao.deleteBySelectiveRe(ModelSO.getInstance(model));
         return MsgResultVO.getInstanceSuccess();
     }
-    
+
     /*
      * 刪除 更新前需要查询，因此可能返回对象为父类型
      * @param model 对象
@@ -81,7 +81,7 @@ public abstract class CellBaseServiceUtil {
         cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
         return MsgResultVO.getInstanceSuccess();
     }
-    
+
     /*
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
@@ -202,7 +202,17 @@ public abstract class CellBaseServiceUtil {
     }
 
 
-/*-------------------------------- 需要适配 ----------------------------------------*/
+    /*-------------------------------- 需要适配 ----------------------------------------*/
+
+    /*
+     * 刪除 更新前需要查询，因此可能返回对象为父类型
+     * @param model 对象
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO deleteByPrimaryKey(CellBaseDao<T, ID> cellBaseDao, ID id) {
+        cellBaseDao.deleteByPrimaryKey(new IdSO<>(id));
+        return MsgResultVO.getInstanceSuccess();
+    }
 
     /*
      * 刪除 更新前需要查询，因此可能返回对象为父类型
@@ -219,8 +229,8 @@ public abstract class CellBaseServiceUtil {
      * @param deleteDTO ID集合
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO deleteList(CellBaseDao<T, ID> cellBaseDao, DeleteDTO<ID> deleteDTO) {
-        return deleteList(cellBaseDao, deleteDTO.getIdList());
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyList(CellBaseDao<T, ID> cellBaseDao, DeleteDTO<ID> deleteDTO) {
+        return deleteByPrimaryKeyList(cellBaseDao, deleteDTO.getIdList());
     }
 
     /*
@@ -228,9 +238,9 @@ public abstract class CellBaseServiceUtil {
      * @param idList ID集合
      * @return 基礎數據
      */
-    public static <T, ID> MsgResultVO deleteList(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
+    public static <T, ID> MsgResultVO deleteByPrimaryKeyList(CellBaseDao<T, ID> cellBaseDao, List<ID> idList) {
         IdListSO<ID> idListSO = new IdListSO<>(idList);
-        cellBaseDao.deleteByIdList(idListSO);
+        cellBaseDao.deleteByPrimaryKeyList(idListSO);
         return MsgResultVO.getInstanceSuccess();
     }
 

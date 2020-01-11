@@ -40,16 +40,16 @@ interface CellBaseService<T, ID> {
      */
     MsgResultVO deleteRe(T model);
 
-    MsgResultVO deleteByPrimaryKeyRe(ID id);
+    MsgResultVO deleteByIdRe(ID id);
 
     /**
      * 物理刪除
      * @param idList ID集合
      * @return
      */
-    MsgResultVO deleteByPrimaryKeyListRe(List<ID> idList);
+    MsgResultVO deleteByIdListRe(List<ID> idList);
 
-    MsgResultVO deleteByPrimaryKeyListRe(DeleteDTO<ID> deleteDTO);
+    MsgResultVO deleteByIdListRe(DeleteDTO<ID> deleteDTO);
 
 
     /**
@@ -118,6 +118,7 @@ interface CellBaseService<T, ID> {
      */
     MsgResultVO delete(T model);
 
+    MsgResultVO deleteById(ID id);
     /**
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合
