@@ -4,7 +4,7 @@
 
 -------
 
-#>自定义注解
+## 自定义注解
 
 ##### 1. @OwlCheckParams
 
@@ -86,7 +86,7 @@
             
             @RequestMapping(value = "list")
             @OwlSetNullData(paramsValue = {"id"}, backValue = {"password"})
-            public MsgResultVO<List<OwlUser>>list(@RequestBody OwlUser user) {
+            public MsgResultVO<List<OwlUser>> list(@RequestBody OwlUser user) {
                  return owlUserService.list(user);
             }
     
@@ -128,7 +128,7 @@
     
 -------
 
-# >其它模式
+# 其它模式
 
 #####  1. 观察者模式  灵感来自 Flex AS 中的事件监听机制
 
@@ -147,15 +147,15 @@
     
         public class TestOb extends OwlObserved {
                 //被觀察者需要执行的代碼
-                public Consumer<OwlObserved>SystemOutYYYYY() {
+                public Consumer<OwlObserved> SystemOutYYYYY() {
                     //做你想做的一切。别忘记本包中的 SpringContextUtil 可以在这里帮你获取 bean 哦
-                    return  (obj)->System.out.println("yyyyyyyy");
+                    return  (obj)-> System.out.println("yyyyyyyy");
                 }
             
                 //被觀察者需要执行的代碼
-                public Consumer<OwlObserved>SystemOutHHHH() {
+                public Consumer<OwlObserved> SystemOutHHHH() {
                     //做你想做的一切。别忘记本包中的 SpringContextUtil 可以在这里帮你获取 bean 哦
-                    return  (obj)->System.out.println("hhhhhhh");
+                    return  (obj)-> System.out.println("hhhhhhh");
                 }
                 //除此之外，你還可以使用
                 public static void SystemOutYYYYY(OwlObserved owlObserved) {
@@ -192,15 +192,18 @@
     抛出事件功能
 
 ------- 
-# >MVC 简写部分（常用的CRUD使用方法）
+
+<div id="CRUD"></div>
+
+# MVC 简写部分（常用的CRUD使用方法）
 
 ##### 1. SpringContextUtil
     
    我提供这个工具是为了正在多线程中方便你快速的获取指定的bean
 
-##### 2. CellBaseDao<T, ID>和 RelationBaseDao<T,MainID,FollowerID>你可以在继承后编写自己的方法
+##### 2. CellBaseDao<T, ID> 和 RelationBaseDao<T,MainID,FollowerID> 你可以在继承后编写自己的方法
 
-   *  CellBaseDao<T, ID>单属性模板 dao，为单属性的 model 提供数据库的直接操作
+   *  CellBaseDao<T, ID> 单属性模板 dao，为单属性的 model 提供数据库的直接操作
        
        本类中提供以下方法：
 
@@ -217,14 +220,14 @@
              * @param modelListSO 泛型对象集合List
              * @return int
              */
-            int insertList(ModelListSO<T>modelListSO);
+            int insertList(ModelListSO<T> modelListSO);
         
             /**
              * 批量刪除
              * @param idListSO 内含id集合
              * @return int
              */
-            int deleteByIdList(IdListSO<ID>idListSO);
+            int deleteByIdList(IdListSO<ID> idListSO);
         
             /**
              * 刪除
@@ -238,7 +241,7 @@
              * @param idListSO 内含id集合
              * @return int
              */
-            int deleteByIdListRe(IdListSO<ID>idListSO);
+            int deleteByIdListRe(IdListSO<ID> idListSO);
         
             /**
              * 物理 刪除
@@ -254,7 +257,7 @@
              *                   param status 對象狀態
              * @return int
              */
-            int banOrLeave(BanListDTO<ID>banListDTO);
+            int banOrLeave(BanListDTO<ID> banListDTO);
         
             /**
              * 依據指定的屬性進行更新
@@ -269,7 +272,7 @@
              *                     Param("model")
              * @return 泛型对象集合
              */
-            List<T>selectByLike(SelectLikeSO<T>selectLikeSO);
+            List<T> selectByLike(SelectLikeSO<T> selectLikeSO);
         
             /**
              * 依據屬性獲取對象集合 准确查询
@@ -277,21 +280,21 @@
              *                     Param("model")
              * @return 泛型对象集合
              */
-            List<T>selectByExact(SelectLikeSO<T>selectLikeSO);
+            List<T> selectByExact(SelectLikeSO<T> selectLikeSO);
         
             /**
              * 依據 id 屬性獲取對象集合 准确查询
              * @param idSO id泛型
              * @return 泛型对象集合
              */
-            T selectById(IdSO<ID>idSO);
+            T selectById(IdSO<ID> idSO);
         
             /**
              * 依據指定的屬性統計數據條數
              * @param selectLikeSO 泛型对象
              * @return int
              */
-            Integer countSumByCondition(SelectLikeSO<T>selectLikeSO);
+            Integer countSumByCondition(SelectLikeSO<T> selectLikeSO);
         
             /**
              * 依據指定的屬性獲取指定的集合
@@ -300,61 +303,61 @@
              *                     Param("model")
              * @return 泛型对象集合
              */
-            List<T>listByCondition(SelectLikeSO<T>selectLikeSO);
+            List<T> listByCondition(SelectLikeSO<T> selectLikeSO);
         
             /**
              * 查詢指定集合
              * @param idListSO 内含汎型對象
              * @return list
              */
-            List<T>selectByIdList(IdListSO<ID>idListSO);
+            List<T> selectByIdList(IdListSO<ID> idListSO);
 
-   *  RelationBaseDao<T,MainID,FollowerID>关系属性模板 dao，为关系属性的 model 提供数据库的直接操作
+   *  RelationBaseDao<T,MainID,FollowerID> 关系属性模板 dao，为关系属性的 model 提供数据库的直接操作
           
       本类中提供以下方法：
       
       
-        /**
-         * 批量插入
-         * @param modelListSO 内含汎型對象
-         * @return int
-         */
-        int insertList(ModelListSO<T>modelListSO);
-    
-        /**
-         * 批量插入
-         * @param relationDTO 内含一對多
-         * @return int
-         */
-        int insertRelation(RelationDTO<MainID,FollowerID>relationDTO);
-    
-        /**
-         * 批量刪除或个别删除
-         * @param modelSO 内含汎型對象
-         * @return int
-         */
-        int delete(ModelSO<T>modelSO);
-    
-        /**
-         * 批量刪除
-         * @param modelListSO 内含汎型對象
-         * @return int
-         */
-        int deleteList(ModelListSO<T>modelListSO);
-    
-        /**
-         * 批量刪除
-         * @param relationDTO 内含一對多
-         * @return int
-         */
-        int deleteRelation(RelationDTO<MainID,FollowerID>relationDTO);
-    
-        /**
-         * 查詢是否存在
-         * @param modelSO 内含汎型對象
-         * @return list
-         */
-        List<T>selectBySelective(ModelSO<T>modelSO);
+            /**
+             * 批量插入
+             * @param modelListSO 内含汎型對象
+             * @return int
+             */
+            int insertList(ModelListSO<T> modelListSO);
+        
+            /**
+             * 批量插入
+             * @param relationDTO 内含一對多
+             * @return int
+             */
+            int insertRelation(RelationDTO<MainID,FollowerID> relationDTO);
+        
+            /**
+             * 批量刪除或个别删除
+             * @param modelSO 内含汎型對象
+             * @return int
+             */
+            int delete(ModelSO<T> modelSO);
+        
+            /**
+             * 批量刪除
+             * @param modelListSO 内含汎型對象
+             * @return int
+             */
+            int deleteList(ModelListSO<T> modelListSO);
+        
+            /**
+             * 批量刪除
+             * @param relationDTO 内含一對多
+             * @return int
+             */
+            int deleteRelation(RelationDTO<MainID,FollowerID> relationDTO);
+        
+            /**
+             * 查詢是否存在
+             * @param modelSO 内含汎型對象
+             * @return list
+             */
+            List<T> selectBySelective(ModelSO<T> modelSO);
 ##### 3. xml
 
    本模板中的 [CellDemo.xml](https://github.com/engwen/owlMagicComment/blob/master/src/main/resources/CellDemo.xml) 和
@@ -483,7 +486,7 @@
  
 - 添加
 
->备忘录模式  OwlMemento
+> 备忘录模式  OwlMemento
   
 继承 OwlMemento 的类，将会获得备忘录功能，在执行代码后，可以将类属性数据恢复到使用备忘功能的时候
 同时，它提供了历史数据的集合，你可以将数据恢复到任何一次使用备忘功能的时候。提供clear方法以便于
@@ -491,38 +494,38 @@
 
 - 添加
 
->简化版的事件机制工具类  OwlObserverUtil
+> 简化版的事件机制工具类  OwlObserverUtil
 
 虽然提供几乎和继承类的一样的功能，并且已经和缘由的功能基本打通——和继承类能相互响应，但是我还是推荐你通过继承方法去实现，
 它只是为了实现目标类在不能再次使用 extend 仍旧可以完成监听工作而产生的一个变种。
  
 - 优化 
 
->现在观察者模式使用线程安全的 ConcurrentHashMap 存储数据
+> 现在观察者模式使用线程安全的 ConcurrentHashMap 存储数据
 
->观察者在接收到事件之后会开启新的线程处理所有的观察者的待执行代码
+> 观察者在接收到事件之后会开启新的线程处理所有的观察者的待执行代码
 
->为了防止各个版本的 logger 的冲突，现在 jar 中的所有的 logger 改成基于 System.out 类似于 log4j的格式
+> 为了防止各个版本的 logger 的冲突，现在 jar 中的所有的 logger 改成基于 System.out 类似于 log4j的格式
 
->修改观察者的几个方法，现在更加易用
+> 修改观察者的几个方法，现在更加易用
 
->修改代码传递为自定义 lambda  传递
+> 修改代码传递为自定义 lambda  传递
 
->添加了一个缓存线程池
+> 添加了一个缓存线程池
 
->现在即便是数组对象，toJSON依旧能够正确的输出结果
+> 现在即便是数组对象，toJSON依旧能够正确的输出结果
 
  
  #####  1.1.8
  
 - 优化 
 
->在上一版的基础上，去除CellBaseServiceUtil 以及 RelationBaseServiceUtil 工具类中的实现，并将它们的工作移动到抽象类中。
+> 在上一版的基础上，去除CellBaseServiceUtil 以及 RelationBaseServiceUtil 工具类中的实现，并将它们的工作移动到抽象类中。
 现在你可以使用 service 类继承 CellBaseServiceAb 和 RelationBaseServiceAb 以便使用它们当中提供好的 CRUD 。我不再推荐你
 使用这两个工具类，但是你仍然可以使用
 
->添加 IdListSO 处理ID集合情况的问题
->现在你需要在继承CellBaseServiceAb 和 RelationBaseServiceAb 的时候使用 set*Dao 的方法，使得抽象类能明白你将要使用
+> 添加 IdListSO 处理ID集合情况的问题
+> 现在你需要在继承CellBaseServiceAb 和 RelationBaseServiceAb 的时候使用 set*Dao 的方法，使得抽象类能明白你将要使用
 的 dao 是哪一个 例如：
 
     @Resource
@@ -533,27 +536,27 @@
         super.setCellBaseDao(owlMenuDao);
     }
  
->@OwlSetNullDataAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
+> @OwlSetNullDataAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
 
->@OwlCheckParamsAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
+> @OwlCheckParamsAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
 
->@OwlBackToObjectAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
+> @OwlBackToObjectAS 现在可以解决对象包含对象的时候，被包含对象的属性设置问题
 
->现在基础数据库对应的查询支持按照名称排序
+> 现在基础数据库对应的查询支持按照名称排序
 
->现在 MsgResultVO 支持 getInstanceSuccess 获取对象
+> 现在 MsgResultVO 支持 getInstanceSuccess 获取对象
 
->添加 ModelSO 处理接受 model 已解决底层 xml 不能统一的问题 
+> 添加 ModelSO 处理接受 model 已解决底层 xml 不能统一的问题 
 
->RelationBaseDao 添加了删除单个操作
+> RelationBaseDao 添加了删除单个操作
 
->@OwlTry 现在能提供 value ，便于在使用的时候输出
+> @OwlTry 现在能提供 value ，便于在使用的时候输出
 
->大量的代码结构优化
+> 大量的代码结构优化
 
 - 新功能 
 
->添加观察者模式
+> 添加观察者模式
 
  
  #####  1.1.5  -  1.1.7
@@ -615,7 +618,7 @@
          @RequestMapping("/test2")
          @OwlBackToMsgResult(msg = "msg",code = "code",data = "data")
          public Object test2() {
-                TestVO<Date>result = new TestVO();
+                TestVO<Date> result = new TestVO();
                 result.setMsg("test");
                 result.setCode("0000");
                 result.setData(new Date());
@@ -648,7 +651,7 @@
  sql或是service的改动往往会导致其它使用这些的地方发生意想不到的事情，基于这些考虑，我添加了这个注解，用于将
  返回值去除。
  注意：这个方法只支持 MsgResultVO 中的封装对象，也就是说，和 OwlCheckParams 这个接口一样，你需要将返回值设定
- 为 MsgResultVO<T>，你可以将返回的对象放在 resultData 中，但它必须是自定义对象或者Map，其他的对象都不会被支
+ 为 MsgResultVO<T> ，你可以将返回的对象放在 resultData 中，但它必须是自定义对象或者Map，其他的对象都不会被支
  持，它所支持的属性也只是包装类，String，Long，Integer，Float，Double，List和Date
  
  例如 ：

@@ -1,10 +1,7 @@
 package com.owl.mvc.dao;
 
 import com.owl.mvc.dto.BanListDTO;
-import com.owl.mvc.so.IdListSO;
-import com.owl.mvc.so.IdSO;
-import com.owl.mvc.so.ModelListSO;
-import com.owl.mvc.so.SelectLikeSO;
+import com.owl.mvc.so.*;
 
 import java.util.List;
 
@@ -49,7 +46,7 @@ public interface CellBaseDao<T, ID> {
      * @param model 泛型对象
      * @return int
      */
-    int deleteBySelectiveRe(T model);
+    int deleteBySelectiveRe(ModelSO<T> model);
 
     /**
      * 依據指定的屬性進行更新
@@ -111,7 +108,7 @@ public interface CellBaseDao<T, ID> {
      * @param model 泛型对象
      * @return int
      */
-    int deleteBySelective(T model);
+    int deleteBySelective(ModelSO<T> model);
 
     /**
      * 批量刪除
