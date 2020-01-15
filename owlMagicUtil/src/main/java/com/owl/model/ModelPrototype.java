@@ -4,6 +4,7 @@ package com.owl.model;
 import com.owl.util.ObjectUtil;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 返回基礎信息類，該類不可實例化直接使用
@@ -21,6 +22,14 @@ public abstract class ModelPrototype implements Serializable {
      */
     public String toJSON() {
         return ObjectUtil.toJSON(this);
+    }
+
+    /**
+     * 为了方便转换结果信息，直接使用Map对象
+     * @return map对象
+     */
+    public Map<String, Object> toMap() {
+        return ObjectUtil.toMap(this);
     }
 
     @Override

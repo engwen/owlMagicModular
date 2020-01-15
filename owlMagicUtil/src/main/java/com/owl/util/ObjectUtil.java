@@ -1,5 +1,6 @@
 package com.owl.util;
 
+import com.owl.model.ModelPrototype;
 import com.owl.util.model.OwlStringPg;
 
 import java.lang.reflect.Field;
@@ -220,6 +221,25 @@ public class ObjectUtil {
         } else {
             getObjectProperties(temp, stringBuilder);
         }
+    }
+
+
+    /**
+     * 将属性转为 Map 对象
+     * @return map
+     */
+    public static <T> Map<String, Object> toMap(T object) {
+        Map<String, Object> params = new HashMap<>();
+        Field[] fields = object.getClass().getDeclaredFields();
+        try {
+            for (Field field : fields) {
+                field.setAccessible(true);
+                params.put(field.getName(), field.get(object));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return params;
     }
 
     /*

@@ -70,6 +70,15 @@ public abstract class RegexUtil {
     }
 
     /**
+     * 驗證是否不为爲空
+     * @param input 字符串
+     * @return boolean
+     */
+    public static boolean isNotEmpty(String input) {
+        return !isEmpty(input);
+    }
+
+    /**
      * 驗證是否爲空 傳遞參數時
      * @param input 字符串
      * @return boolean
