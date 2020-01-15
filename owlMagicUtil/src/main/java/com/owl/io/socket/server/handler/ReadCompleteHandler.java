@@ -29,7 +29,7 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
     /**
      * Invoked when an operation has completed.
      * @param result     The result of the I/O operation.
-     * @param attachment
+     * @param attachment ByteBuffer
      */
     @Override
     public void completed(Integer result, ByteBuffer attachment) {
@@ -53,7 +53,7 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
     /**
      * Invoked when an operation fails.
      * @param exc        The exception to indicate why the I/O operation failed
-     * @param attachment
+     * @param attachment ByteBuffer
      */
     @Override
     public void failed(Throwable exc, ByteBuffer attachment) {

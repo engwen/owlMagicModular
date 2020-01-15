@@ -18,10 +18,9 @@ public class FileIO {
 
     /**
      * 将字符串写入指定文件
-     * @param dir
-     * @param fileName
-     * @param content
-     * @throws IOException
+     * @param dir      文件目录
+     * @param fileName 文件名
+     * @param content  内容
      */
     public static void writeFile(String dir, String fileName, String content) {
         File dirFile = new File(dir);
@@ -57,9 +56,8 @@ public class FileIO {
 
     /**
      * 读取指定文件的内容并返回
-     * @param filePath
-     * @return
-     * @throws IOException
+     * @param filePath 文件路径
+     * @return 字符串内容
      */
     public static String readFile(String filePath) {
         StringBuilder result = new StringBuilder("");

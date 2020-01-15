@@ -105,6 +105,7 @@ public abstract class OwlObserverAB {
     /**
      * 抛出事件
      * @param owlEvent 事件
+     * @param params 参数
      */
     public static void dispatchEvent(OwlEvent owlEvent, Object... params) {
         dispatchEvent(owlEvent, obj -> true, params);
@@ -115,6 +116,7 @@ public abstract class OwlObserverAB {
      * 抛出事件
      * @param owlEvent   事件
      * @param classModel 类
+     * @param params 参数
      */
     public static void dispatchEvent(OwlEvent owlEvent, Class classModel, Object... params) {
         dispatchEvent(owlEvent, obj -> obj.getClass().equals(classModel), params);

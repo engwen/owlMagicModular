@@ -27,7 +27,7 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
     /**
      * Invoked when an operation has completed.
      * @param result     The result of the I/O operation.
-     * @param attachment
+     * @param attachment OwlSocketServer
      */
     @Override
     public void completed(AsynchronousSocketChannel result, OwlSocketServer attachment) {
@@ -43,7 +43,7 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
     /**
      * Invoked when an operation fails.
      * @param exc        The exception to indicate why the I/O operation failed
-     * @param attachment
+     * @param attachment OwlSocketServer
      */
     @Override
     public void failed(Throwable exc, OwlSocketServer attachment) {

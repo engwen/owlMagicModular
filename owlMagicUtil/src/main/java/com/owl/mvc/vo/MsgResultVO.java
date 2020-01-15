@@ -132,6 +132,7 @@ public class MsgResultVO<T> extends ModelPrototype {
 
     /**
      * 請求成功
+     * @param resultMsg 消息信息
      * @return 結果對象
      */
     public MsgResultVO<T> successResult(String resultMsg) {

@@ -36,7 +36,7 @@ interface CellBaseService<T, ID> {
     /**
      * 物理刪除
      * @param model 對象
-     * @return
+     * @return 汎型對象
      */
     MsgResultVO deleteRe(T model);
 
@@ -45,7 +45,7 @@ interface CellBaseService<T, ID> {
     /**
      * 物理刪除
      * @param idList ID集合
-     * @return
+     * @return 汎型對象
      */
     MsgResultVO deleteByIdListRe(List<ID> idList);
 
