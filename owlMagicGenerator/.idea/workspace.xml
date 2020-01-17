@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8faa4e20-b501-4f0b-b4f3-1f5da8be900a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_engwen_owlMagicComment_1_2_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_engwen_owlMagicUtil_2_4_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/ClientDaoPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/ClientDaoPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/CommentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/model/ModelCommentGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/EntityCommentPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/plugin/ModelCommentPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/core/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/core/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketDispatchEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketDispatchEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketRoom.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/io/socket/SocketRoom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/model/TreeBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/model/TreeBase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/function/ListenCodeMethod.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/function/ListenCodeMethod.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/observer/OwlObserverAB.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/pattern/observer/OwlObserverAB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/ObjectUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/ObjectUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/OwlHttpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/OwlHttpClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/RegexUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/target/classes/com/owl/util/RegexUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/resources/generatorConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/resources/mapper/OwlMenuMapper.xml" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +31,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="external.system.task.project.file.to.start" value="D:/Program_Files/groovy-2.5.7" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../ideal-cloud" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -220,6 +202,8 @@
       <updated>1576981976390</updated>
       <workItem from="1576981980653" duration="2957000" />
       <workItem from="1576989552351" duration="58000" />
+      <workItem from="1577338772754" duration="216000" />
+      <workItem from="1577339097438" duration="54000" />
     </task>
     <servers />
   </component>
