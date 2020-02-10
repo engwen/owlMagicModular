@@ -3,10 +3,7 @@ package com.owl.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 日期工具類
@@ -23,6 +20,7 @@ public abstract class DateCountUtil {
     public static final SimpleDateFormat YMDHM4BAR = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public static final SimpleDateFormat YMDH4BAR = new SimpleDateFormat("yyyy-MM-dd HH");
     public static final SimpleDateFormat YMD4BAR = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat YMD4EN = new SimpleDateFormat("MMM.dd, yyyy", Locale.UK);
 
     public static final SimpleDateFormat HHMMSS = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm");
@@ -76,6 +74,15 @@ public abstract class DateCountUtil {
     public static Date getDateFormSdfStr(String dateString, String sdfStr) {
         SimpleDateFormat sdf = new SimpleDateFormat(sdfStr);
         return getDateFormSdf(dateString, sdf);
+    }
+
+    /**
+     * 根据指定日期，返回英文格式的日期
+     * @param dateYMD date
+     * @return 日期
+     */
+    public static String changeYMDtoEn(Date dateYMD) {
+        return YMD4EN.format(dateYMD);
     }
 
     /**
