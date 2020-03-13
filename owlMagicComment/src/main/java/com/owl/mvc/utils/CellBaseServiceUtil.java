@@ -103,18 +103,26 @@ public abstract class CellBaseServiceUtil {
     }
 
     /*
-     * 更新 更新前需要查询，因此可能返回对象为父类型
+     * 全部更新
      * @param model 汎型對象
      * @return 基礎數據
      */
     public static <T, ID> MsgResultVO<T> update(CellBaseDao<T, ID> cellBaseDao, T model) {
         MsgResultVO<T> resultVO = new MsgResultVO<>();
-        if (isExist(cellBaseDao, model).getResult()) {
-            cellBaseDao.updateByPrimaryKey(model);
-            resultVO.successResult();
-        } else {
-            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
-        }
+        cellBaseDao.updateByPrimaryKey(model);
+        resultVO.successResult();
+        return resultVO;
+    }
+
+    /*
+     * 全部更新
+     * @param model 汎型對象
+     * @return 基礎數據
+     */
+    public static <T, ID> MsgResultVO<T> updateByNotNull(CellBaseDao<T, ID> cellBaseDao, T model) {
+        MsgResultVO<T> resultVO = new MsgResultVO<>();
+        cellBaseDao.updateByPrimaryKeySelective(model);
+        resultVO.successResult();
         return resultVO;
     }
 
@@ -182,7 +190,16 @@ public abstract class CellBaseServiceUtil {
      * @return 對象集合
      */
     public static <T, ID> MsgResultVO<List<T>> getAll(CellBaseDao<T, ID> cellBaseDao, T model) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByLike(SelectLikeSO.getInstance(model)));
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(SelectLikeSO.getInstance(model)));
+    }
+
+    /*
+     * 獲取所有的對象
+     * @param model 汎型對象檢索條件
+     * @return 對象集合
+     */
+    public static <T, ID> MsgResultVO<List<T>> listByExact(CellBaseDao<T, ID> cellBaseDao, T model) {
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(SelectLikeSO.getInstance(model)));
     }
 
     /*
@@ -242,23 +259,6 @@ public abstract class CellBaseServiceUtil {
         IdListSO<ID> idListSO = new IdListSO<>(idList);
         cellBaseDao.deleteByPrimaryKeyList(idListSO);
         return MsgResultVO.getInstanceSuccess();
-    }
-
-
-    /*
-     * 刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param model 对象
-     * @return 基礎數據
-     */
-    public static <T, ID> MsgResultVO deleteByCheck(CellBaseDao<T, ID> cellBaseDao, T model) {
-        MsgResultVO<T> resultVO = new MsgResultVO<>();
-        if (isExist(cellBaseDao, model).getResult()) {
-            cellBaseDao.deleteBySelective(ModelSO.getInstance(model));
-            resultVO.successResult();
-        } else {
-            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
-        }
-        return resultVO;
     }
 
 

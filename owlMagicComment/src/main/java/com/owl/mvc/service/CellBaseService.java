@@ -53,11 +53,19 @@ interface CellBaseService<T, ID> {
 
 
     /**
-     * 更新 更新前需要查询，因此可能返回对象为父类型
+     * 全部属性更新
      * @param model 汎型對象
      * @return 基礎數據
      */
     MsgResultVO<?> update(T model);
+
+    /**
+     * 增量属性更新
+     * @param model 汎型對象
+     * @return 基礎數據
+     */
+    MsgResultVO<?> updateByNotNull(T model);
+
 
     /**
      * 獲取詳情
@@ -89,11 +97,11 @@ interface CellBaseService<T, ID> {
     PageVO<T> list(PageDTO<T> pageDTO);
 
     /**
-     * 查詢指定集合
-     * @param idListSO 内含汎型對象
-     * @return list
+     * 獲取所有的對象，添加 model 提供檢索功能,精确查询
+     * @param model 检索条件
+     * @return 對象集合
      */
-    MsgResultVO<List<T>> selectByIdList(IdListSO<ID> idListSO);
+    MsgResultVO<List<T>> listByExact(T model);
 
     /**
      * 獲取所有的對象，添加 model 提供檢索功能
@@ -101,6 +109,14 @@ interface CellBaseService<T, ID> {
      * @return 對象集合
      */
     MsgResultVO<List<T>> getAll(T model);
+
+
+    /**
+     * 查詢指定集合
+     * @param idListSO 内含汎型對象
+     * @return list
+     */
+    MsgResultVO<List<T>> selectByIdList(IdListSO<ID> idListSO);
 
     /**
      * 檢查数据是否存在

@@ -82,7 +82,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
 
 
     /**
-     * 更新 更新前需要查询，因此可能返回对象为父类型
+     * 更新 更新前需要查询
      * @param model 汎型對象
      * @return 基礎數據
      */
@@ -90,6 +90,17 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     public MsgResultVO<?> update(T model) {
         return CellBaseServiceUtil.update(cellBaseDao, model);
     }
+
+    /**
+     * 更新 更新前需要查询
+     * @param model 汎型對象
+     * @return 基礎數據
+     */
+    @Override
+    public MsgResultVO<?> updateByNotNull(T model) {
+        return CellBaseServiceUtil.updateByNotNull(cellBaseDao, model);
+    }
+
 
     /**
      * 獲取詳情
@@ -149,12 +160,12 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     }
 
     /**
-     * 獲取所有的對象
+     * 精确查询，獲取所有符合条件的對象
      * @return 對象集合
      */
     @Override
-    public MsgResultVO<List<T>> getAll(T model) {
-        return CellBaseServiceUtil.getAll(cellBaseDao, model);
+    public MsgResultVO<List<T>> listByExact(T model) {
+        return CellBaseServiceUtil.listByExact(cellBaseDao, model);
     }
 
     /**

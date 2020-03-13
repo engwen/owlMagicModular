@@ -131,7 +131,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
     }
 
     /**
-     * 更新
+     * 全量更新
      * @param model 将要被更新的对象
      * @return 结果
      */
@@ -140,6 +140,18 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
         defaultBack();
         return cellBaseServiceAb.update(model);
     }
+
+    /**
+     * 增量更新
+     * @param model 将要被更新的对象
+     * @return 结果
+     */
+    @Override
+    public MsgResultVO<?> updateByNotNull(T model) {
+        defaultBack();
+        return cellBaseServiceAb.updateByNotNull(model);
+    }
+
 
     /**
      * 获取详情

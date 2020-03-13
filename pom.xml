@@ -16,6 +16,20 @@
         <module>owlMagicShiro</module>
         <module>owlMagicEmail</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.engwen</groupId>
+            <artifactId>owlMagicUtil</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

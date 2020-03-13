@@ -53,11 +53,18 @@ public interface CellBaseDao<T, ID> {
     int deleteBySelectiveRe(ModelSO<T> modelSO);
 
     /**
-     * 依據指定的屬性進行更新
+     * 全屬性進行更新
      * @param model 泛型对象
      * @return int
      */
     int updateByPrimaryKey(T model);
+
+    /**
+     * 依據指定的屬性進行更新
+     * @param model 泛型对象
+     * @return int
+     */
+    int updateByPrimaryKeySelective(T model);
 
     /**
      * 依據 id 屬性獲取對象 准确查询
