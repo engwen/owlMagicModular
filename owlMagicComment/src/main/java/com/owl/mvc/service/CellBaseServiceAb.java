@@ -5,13 +5,13 @@ import com.owl.mvc.dto.BanDTO;
 import com.owl.mvc.dto.BanListDTO;
 import com.owl.mvc.dto.DeleteDTO;
 import com.owl.mvc.dto.PageDTO;
-import com.owl.mvc.so.IdListSO;
-import com.owl.mvc.so.IdSO;
-import com.owl.mvc.utils.CellBaseServiceUtil;
+import com.owl.mvc.model.MsgConstant;
+import com.owl.mvc.so.*;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +32,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<T> create(T model) {
-        return CellBaseServiceUtil.create(cellBaseDao, model);
+        cellBaseDao.insert(model);
+        return MsgResultVO.getInstanceSuccess(model);
     }
 
     /**
@@ -42,7 +43,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> createList(List<T> modelList) {
-        return CellBaseServiceUtil.createList(cellBaseDao, modelList);
+        cellBaseDao.insertList(ModelListSO.getInstance(modelList));
+        return MsgResultVO.getInstanceSuccess();
     }
 
     /**
@@ -52,7 +54,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO deleteRe(T model) {
-        return CellBaseServiceUtil.deleteRe(cellBaseDao, model);
+        cellBaseDao.deleteBySelectiveRe(ModelSO.getInstance(model));
+        return MsgResultVO.getInstanceSuccess();
     }
 
     /**
@@ -62,7 +65,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO deleteByIdRe(ID id) {
-        return CellBaseServiceUtil.deleteByPrimaryKeyRe(cellBaseDao, id);
+        cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
+        return MsgResultVO.getInstanceSuccess();
     }
 
     /**
@@ -72,12 +76,14 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO deleteByIdListRe(List<ID> idList) {
-        return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, idList);
+        IdListSO<ID> idListSO = new IdListSO<>(idList);
+        cellBaseDao.deleteByPrimaryKeyListRe(idListSO);
+        return MsgResultVO.getInstanceSuccess();
     }
 
     @Override
     public MsgResultVO deleteByIdListRe(DeleteDTO<ID> deleteDTO) {
-        return CellBaseServiceUtil.deleteByPrimaryKeyListRe(cellBaseDao, deleteDTO);
+        return deleteByIdListRe(deleteDTO.getIdList());
     }
 
 
@@ -88,7 +94,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> update(T model) {
-        return CellBaseServiceUtil.update(cellBaseDao, model);
+        cellBaseDao.updateByPrimaryKey(model);
+        return MsgResultVO.getInstanceSuccess();
     }
 
     /**
@@ -98,7 +105,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
-        return CellBaseServiceUtil.updateByNotNull(cellBaseDao, model);
+        MsgResultVO<T> resultVO = new MsgResultVO<>();
+        cellBaseDao.updateByPrimaryKeySelective(model);
+        resultVO.successResult();
+        return resultVO;
     }
 
 
@@ -109,7 +119,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<T> detailsById(ID id) {
-        return CellBaseServiceUtil.selectByPrimaryKey(cellBaseDao, id);
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(new IdSO<>(id)));
     }
 
     @Override
@@ -123,7 +133,17 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<T> details(T model) {
-        return CellBaseServiceUtil.details(cellBaseDao, model);
+        MsgResultVO<T> resultVO = new MsgResultVO<>();
+        List<T> temp = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
+        if (null == temp || temp.size() == 0) {
+            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
+        } else if (temp.size() == 1) {
+            resultVO.successResult(temp.get(0));
+        } else {
+            System.out.println("there are list with details back, but you just want one");
+            resultVO.errorResult(MsgConstant.REQUEST_BACK_ARE_LIST);
+        }
+        return resultVO;
     }
 
     /**
@@ -133,7 +153,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        return CellBaseServiceUtil.list(cellBaseDao, pageDTO);
+        return list(pageDTO.getGetAll(), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getModel());
     }
 
     /**
@@ -146,7 +166,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public PageVO<T> list(Boolean getAll, Integer requestPage, Integer rows, T model) {
-        return CellBaseServiceUtil.list(cellBaseDao, getAll, requestPage, rows, model);
+        PageVO<T> pageVO = new PageVO<>();
+        pageVO.initPageVO(cellBaseDao.countSumByCondition(SelectLikeSO.getInstance(model)), requestPage, rows, getAll);
+        pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getRows())));
+        return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
     }
 
     /**
@@ -156,7 +179,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<List<T>> selectByIdList(IdListSO idListSO) {
-        return CellBaseServiceUtil.selectByPrimaryKeyList(cellBaseDao, idListSO);
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(idListSO));
     }
 
     /**
@@ -165,7 +188,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<List<T>> listByExact(T model) {
-        return CellBaseServiceUtil.listByExact(cellBaseDao, model);
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(SelectLikeSO.getInstance(model)));
     }
 
     /**
@@ -175,7 +198,14 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> isExist(T model) {
-        return CellBaseServiceUtil.isExist(cellBaseDao, model);
+        MsgResultVO resultVO = new MsgResultVO();
+        List<T> list = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
+        if (null != list && list.size() > 0) {
+            resultVO.successResult(MsgConstant.REQUEST_IS_EXITS);
+        } else {
+            resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
+        }
+        return resultVO;
     }
 
 
@@ -194,7 +224,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO delete(T model) {
-        return CellBaseServiceUtil.delete(cellBaseDao, model);
+        cellBaseDao.deleteBySelective(ModelSO.getInstance(model));
+        return MsgResultVO.getInstanceSuccess();
     }
 
     /**
@@ -204,7 +235,8 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO deleteById(ID id) {
-        return CellBaseServiceUtil.deleteByPrimaryKey(cellBaseDao, id);
+        cellBaseDao.deleteByPrimaryKey(new IdSO<>(id));
+        return MsgResultVO.getInstanceSuccess();
     }
 
     /**
@@ -214,12 +246,14 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO deleteList(List<ID> idList) {
-        return CellBaseServiceUtil.deleteByPrimaryKeyList(cellBaseDao, idList);
+        IdListSO<ID> idListSO = new IdListSO<>(idList);
+        cellBaseDao.deleteByPrimaryKeyList(idListSO);
+        return MsgResultVO.getInstanceSuccess();
     }
 
     @Override
     public MsgResultVO deleteList(DeleteDTO<ID> deleteDTO) {
-        return CellBaseServiceUtil.deleteByPrimaryKeyList(cellBaseDao, deleteDTO);
+        return deleteList(deleteDTO.getIdList());
     }
 
     /**
@@ -229,7 +263,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO banOrLeave(BanDTO<ID> banDTO) {
-        return CellBaseServiceUtil.banOrLeave(cellBaseDao, banDTO);
+        return banOrLeave(banDTO.getId(), banDTO.getIsBan());
     }
 
     /**
@@ -240,7 +274,9 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO banOrLeave(ID id, Boolean isBan) {
-        return CellBaseServiceUtil.banOrLeave(cellBaseDao, id, isBan);
+        List<ID> ids = new ArrayList<>();
+        ids.add(id);
+        return banOrLeaveList(ids, isBan);
     }
 
     /**
@@ -251,11 +287,13 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO banOrLeaveList(List<ID> idList, Boolean isBan) {
-        return CellBaseServiceUtil.banOrLeaveList(cellBaseDao, idList, isBan);
+        BanListDTO<ID> banListDTO = new BanListDTO<>(idList, isBan);
+        return banOrLeaveList(banListDTO);
     }
 
     @Override
     public MsgResultVO banOrLeaveList(BanListDTO<ID> banListDTO) {
-        return CellBaseServiceUtil.banOrLeaveList(cellBaseDao, banListDTO);
+        cellBaseDao.banOrLeave(banListDTO);
+        return MsgResultVO.getInstanceSuccess();
     }
 }

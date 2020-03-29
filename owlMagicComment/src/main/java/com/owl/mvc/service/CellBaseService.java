@@ -103,13 +103,6 @@ interface CellBaseService<T, ID> {
      */
     MsgResultVO<List<T>> listByExact(T model);
 
-    /**
-     * 獲取所有的對象，添加 model 提供檢索功能
-     * @param model 检索条件
-     * @return 對象集合
-     */
-    MsgResultVO<List<T>> getAll(T model);
-
 
     /**
      * 查詢指定集合

@@ -108,7 +108,7 @@ interface CellBaseController<T,ID> {
      * @param model 检索条件
      * @return 结果集合
      */
-    MsgResultVO<List<T>> getAll(T model);
+    MsgResultVO<List<T>> list(T model);
 
     /**
      * 檢查数据是否存在

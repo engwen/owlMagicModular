@@ -181,9 +181,9 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      * @return 结果集合
      */
     @Override
-    public MsgResultVO<List<T>> getAll(T model) {
+    public MsgResultVO<List<T>> list(T model) {
         defaultBack();
-        return cellBaseServiceAb.getAll(model);
+        return cellBaseServiceAb.listByExact(model);
     }
 
     /**
