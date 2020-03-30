@@ -20,9 +20,17 @@ public class MsgConstant {
 
     public static MsgConstant STR_NOT_ARE_JSON = new MsgConstant("0030","The string can`t match JSON type");
 
+
+    public static MsgConstant REQUEST_NO_SIGNUP = new MsgConstant("1002", "not find this account, if you first use, please signup");
+    public static MsgConstant REQUEST_NO_SIGNIN = new MsgConstant("1003", "your are not login,please signin");
     public static MsgConstant REQUEST_ACCOUNT_OR_PASSWORD_ERROR = new MsgConstant("1004", "account or password error");
     public static MsgConstant CONTROLLER_THROWABLE_ERROR = new MsgConstant("1005", "operation failed");
     public static MsgConstant TRY_CATCH_THROWABLE_ERROR = new MsgConstant("1006", "There seems to be something wrong with the website.");
+    public static MsgConstant REQUEST_PERMISSION_DEFINED = new MsgConstant("1007", "permission defined");
+    public static MsgConstant PARAM_EMAIL_ERROR = new MsgConstant("1008", "email presentation error");
+    public static MsgConstant PARAM_MOBILE_ERROR = new MsgConstant("1009", "mobile presentation error");
+    public static MsgConstant PARAM_ACCOUNT_ERROR = new MsgConstant("1010", "account presentation error");
+
 
 
     public MsgConstant(String code, String msg) {
