@@ -1,10 +1,7 @@
 package com.owl.mvc.service;
 
 import com.owl.mvc.dao.CellBaseDao;
-import com.owl.mvc.dto.BanDTO;
-import com.owl.mvc.dto.BanListDTO;
-import com.owl.mvc.dto.DeleteDTO;
-import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.dto.*;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.*;
 import com.owl.mvc.vo.MsgResultVO;
@@ -126,6 +123,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     public MsgResultVO<T> detailsById(IdSO<ID> idSO) {
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(idSO));
     }
+
     /**
      * 獲取詳情
      * @param model 汎型對象檢索條件
@@ -153,7 +151,13 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        return list(pageDTO.getGetAll(), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getModel());
+        PageVO<T> pageVO = new PageVO<>();
+        SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
+        pageVO.initPageVO(cellBaseDao.countSumByCondition(selectLikeSO), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getGetAll());
+        selectLikeSO.setRows(pageVO.getRows());
+        selectLikeSO.setUpLimit(pageVO.getUpLimit());
+        pageVO.setResultData(cellBaseDao.listByCondition(selectLikeSO));
+        return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
     }
 
     /**
@@ -187,8 +191,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 對象集合
      */
     @Override
-    public MsgResultVO<List<T>> listByExact(T model) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(SelectLikeSO.getInstance(model)));
+    public MsgResultVO<List<T>> listByExact(ModelDTO<T> modelDTO) {
+        SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(modelDTO);
+        selectLikeSO.setSETime(modelDTO.getStartTime(), modelDTO.getEndTime());
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
     }
 
     /**

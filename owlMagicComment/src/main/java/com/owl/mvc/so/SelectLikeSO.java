@@ -1,5 +1,10 @@
 package com.owl.mvc.so;
 
+import com.owl.mvc.dto.ModelDTO;
+import com.owl.mvc.dto.PageDTO;
+
+import java.util.Date;
+
 /**
  * 本類使用于查詢 dao 接口，爲了方便并行 sql ，因此使用本封裝
  * @author engwen
@@ -10,9 +15,29 @@ public class SelectLikeSO<T> {
     private T model;
     private Integer upLimit;
     private Integer rows;
+    private Date startTime;
+    private Date endTime;
 
     public static <T> SelectLikeSO<T> getInstance(T model) {
         return new SelectLikeSO<>(model);
+    }
+
+    public static <T> SelectLikeSO<T> getInstance(ModelDTO<T> modelDTO) {
+        SelectLikeSO<T> selectLikeSO = new SelectLikeSO<>(modelDTO.getModel());
+        selectLikeSO.setSETime(modelDTO.getStartTime(), modelDTO.getEndTime());
+        return selectLikeSO;
+    }
+
+    public static <T> SelectLikeSO<T> getInstance(PageDTO<T> pageDTO) {
+        SelectLikeSO<T> selectLikeSO = new SelectLikeSO<>(pageDTO.getModel());
+        selectLikeSO.setSETime(pageDTO.getStartTime(), pageDTO.getEndTime());
+        return selectLikeSO;
+    }
+
+    public static <T> SelectLikeSO<T> getInstance(T model, Date startTime, Date endTime) {
+        SelectLikeSO<T> selectLikeSO = new SelectLikeSO<>(model);
+        selectLikeSO.setSETime(startTime, endTime);
+        return selectLikeSO;
     }
 
     public static <T> SelectLikeSO<T> getInstance(T model, Integer upLimit, Integer rows) {
@@ -27,6 +52,11 @@ public class SelectLikeSO<T> {
         this.model = model;
         this.upLimit = upLimit;
         this.rows = rows;
+    }
+
+    public void setSETime(Date startTime, Date endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public T getModel() {
@@ -51,5 +81,21 @@ public class SelectLikeSO<T> {
 
     public void setRows(Integer rows) {
         this.rows = rows;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

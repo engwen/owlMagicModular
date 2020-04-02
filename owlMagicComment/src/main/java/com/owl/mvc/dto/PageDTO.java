@@ -1,5 +1,7 @@
 package com.owl.mvc.dto;
 
+import java.util.Date;
+
 /**
  * 界面接收类
  * @author engwen
@@ -17,6 +19,9 @@ public class PageDTO<T> {
     private Integer requestPage;
     private Integer rows;
     private T model;
+
+    private Date startTime;
+    private Date endTime;
 
     public PageDTO() {
     }
@@ -62,5 +67,21 @@ public class PageDTO<T> {
 
     public void setModel(T model) {
         this.model = model;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

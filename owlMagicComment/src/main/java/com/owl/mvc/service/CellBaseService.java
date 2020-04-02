@@ -1,9 +1,6 @@
 package com.owl.mvc.service;
 
-import com.owl.mvc.dto.BanDTO;
-import com.owl.mvc.dto.BanListDTO;
-import com.owl.mvc.dto.DeleteDTO;
-import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.dto.*;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
 import com.owl.mvc.vo.MsgResultVO;
@@ -98,10 +95,10 @@ interface CellBaseService<T, ID> {
 
     /**
      * 獲取所有的對象，添加 model 提供檢索功能,精确查询
-     * @param model 检索条件
+     * @param modelDTO 检索条件
      * @return 對象集合
      */
-    MsgResultVO<List<T>> listByExact(T model);
+    MsgResultVO<List<T>> listByExact(ModelDTO<T> modelDTO);
 
 
     /**
@@ -128,6 +125,7 @@ interface CellBaseService<T, ID> {
     MsgResultVO delete(T model);
 
     MsgResultVO deleteById(ID id);
+
     /**
      * 批量刪除 更新前需要查询，因此可能返回对象为父类型
      * @param idList ID集合

@@ -1,10 +1,7 @@
 package com.owl.mvc.controller;
 
 import com.owl.comment.utils.AsLogUtil;
-import com.owl.mvc.dto.BanDTO;
-import com.owl.mvc.dto.BanListDTO;
-import com.owl.mvc.dto.DeleteDTO;
-import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.dto.*;
 import com.owl.mvc.service.CellBaseServiceAb;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
@@ -177,13 +174,13 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
 
     /**
      * 获取所有对象
-     * @param model 检索条件
+     * @param modelDTO 检索条件
      * @return 结果集合
      */
     @Override
-    public MsgResultVO<List<T>> list(T model) {
+    public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO){
         defaultBack();
-        return cellBaseServiceAb.listByExact(model);
+        return cellBaseServiceAb.listByExact(modelDTO);
     }
 
     /**

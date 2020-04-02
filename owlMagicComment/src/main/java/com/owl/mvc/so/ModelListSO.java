@@ -3,7 +3,7 @@ package com.owl.mvc.so;
 import java.util.List;
 
 /**
- * 查询、删除使用 对象集合
+ * 插入使用 对象集合
  * @author engwen
  * email xiachanzou@outlook.com
  * 2019/1/8.
