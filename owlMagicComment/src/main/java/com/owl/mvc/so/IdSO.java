@@ -9,7 +9,7 @@ package com.owl.mvc.so;
 public class IdSO<ID> {
     private ID id;
 
-    public static <ID> IdSO getInstance(ID id) {
+    public static <ID> IdSO<ID> getInstance(ID id) {
         return new IdSO<>(id);
     }
 

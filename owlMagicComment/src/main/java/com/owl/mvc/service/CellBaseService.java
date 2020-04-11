@@ -1,6 +1,7 @@
 package com.owl.mvc.service;
 
-import com.owl.mvc.dto.*;
+import com.owl.mvc.dto.ModelDTO;
+import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
 import com.owl.mvc.vo.MsgResultVO;
@@ -45,8 +46,6 @@ interface CellBaseService<T, ID> {
      * @return 汎型對象
      */
     MsgResultVO deleteByIdListRe(List<ID> idList);
-
-    MsgResultVO deleteByIdListRe(DeleteDTO<ID> deleteDTO);
 
 
     /**
@@ -114,47 +113,4 @@ interface CellBaseService<T, ID> {
      * @return Boolean
      */
     MsgResultVO<?> isExist(T model);
-
-    /*------------------------------------------------------------------------*/
-
-    /**
-     * 刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param model 对象
-     * @return 基礎數據
-     */
-    MsgResultVO delete(T model);
-
-    MsgResultVO deleteById(ID id);
-
-    /**
-     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param idList ID集合
-     * @return 基礎數據
-     */
-    MsgResultVO deleteList(List<ID> idList);
-
-    MsgResultVO deleteList(DeleteDTO<ID> deleteDTO);
-
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param id     對象ID
-     * @param status 對象狀態，可以爲空
-     * @return 基礎數據
-     */
-    MsgResultVO banOrLeave(ID id, Boolean status);
-
-    MsgResultVO banOrLeave(BanDTO<ID> banDTO);
-
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param idList 對象ID
-     * @param status 對象狀態
-     * @return 基礎數據
-     */
-    MsgResultVO banOrLeaveList(List<ID> idList, Boolean status);
-
-    MsgResultVO banOrLeaveList(BanListDTO<ID> banListDTO);
-
 }

@@ -1,14 +1,18 @@
 package com.owl.mvc.service;
 
 import com.owl.mvc.dao.CellBaseDao;
-import com.owl.mvc.dto.*;
+import com.owl.mvc.dto.ModelDTO;
+import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.model.MsgConstant;
-import com.owl.mvc.so.*;
+import com.owl.mvc.so.IdListSO;
+import com.owl.mvc.so.IdSO;
+import com.owl.mvc.so.ModelListSO;
+import com.owl.mvc.so.ModelSO;
+import com.owl.mvc.so.SelectLikeSO;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,12 +81,6 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
         cellBaseDao.deleteByPrimaryKeyListRe(idListSO);
         return MsgResultVO.getInstanceSuccess();
     }
-
-    @Override
-    public MsgResultVO deleteByIdListRe(DeleteDTO<ID> deleteDTO) {
-        return deleteByIdListRe(deleteDTO.getIdList());
-    }
-
 
     /**
      * 更新 更新前需要查询
@@ -182,7 +180,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return list
      */
     @Override
-    public MsgResultVO<List<T>> selectByIdList(IdListSO idListSO) {
+    public MsgResultVO<List<T>> selectByIdList(IdListSO<ID> idListSO) {
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(idListSO));
     }
 
@@ -193,7 +191,6 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     @Override
     public MsgResultVO<List<T>> listByExact(ModelDTO<T> modelDTO) {
         SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(modelDTO);
-        selectLikeSO.setSETime(modelDTO.getStartTime(), modelDTO.getEndTime());
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
     }
 
@@ -212,94 +209,5 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
             resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
         }
         return resultVO;
-    }
-
-
-
-
-
-
-
-    /*-----------------------------------------------------------------------------------*/
-
-
-    /**
-     * 刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param model 对象
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO delete(T model) {
-        cellBaseDao.deleteBySelective(ModelSO.getInstance(model));
-        return MsgResultVO.getInstanceSuccess();
-    }
-
-    /**
-     * 物理删除
-     * @param id 对象
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO deleteById(ID id) {
-        cellBaseDao.deleteByPrimaryKey(new IdSO<>(id));
-        return MsgResultVO.getInstanceSuccess();
-    }
-
-    /**
-     * 批量刪除 更新前需要查询，因此可能返回对象为父类型
-     * @param idList ID集合
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO deleteList(List<ID> idList) {
-        IdListSO<ID> idListSO = new IdListSO<>(idList);
-        cellBaseDao.deleteByPrimaryKeyList(idListSO);
-        return MsgResultVO.getInstanceSuccess();
-    }
-
-    @Override
-    public MsgResultVO deleteList(DeleteDTO<ID> deleteDTO) {
-        return deleteList(deleteDTO.getIdList());
-    }
-
-    /**
-     * 禁用或啓用
-     * @param banDTO 禁用對象
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO banOrLeave(BanDTO<ID> banDTO) {
-        return banOrLeave(banDTO.getId(), banDTO.getIsBan());
-    }
-
-    /**
-     * 禁用或啓用
-     * @param id    對象ID
-     * @param isBan 對象狀態，可以爲空
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO banOrLeave(ID id, Boolean isBan) {
-        List<ID> ids = new ArrayList<>();
-        ids.add(id);
-        return banOrLeaveList(ids, isBan);
-    }
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param idList 對象ID
-     * @param isBan  對象狀態
-     * @return 基礎數據
-     */
-    @Override
-    public MsgResultVO banOrLeaveList(List<ID> idList, Boolean isBan) {
-        BanListDTO<ID> banListDTO = new BanListDTO<>(idList, isBan);
-        return banOrLeaveList(banListDTO);
-    }
-
-    @Override
-    public MsgResultVO banOrLeaveList(BanListDTO<ID> banListDTO) {
-        cellBaseDao.banOrLeave(banListDTO);
-        return MsgResultVO.getInstanceSuccess();
     }
 }

@@ -1,7 +1,9 @@
 package com.owl.mvc.so;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -15,7 +17,11 @@ public class SelectLikeSO<T> {
     private T model;
     private Integer upLimit;
     private Integer rows;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 
     public static <T> SelectLikeSO<T> getInstance(T model) {
@@ -23,8 +29,11 @@ public class SelectLikeSO<T> {
     }
 
     public static <T> SelectLikeSO<T> getInstance(ModelDTO<T> modelDTO) {
-        SelectLikeSO<T> selectLikeSO = new SelectLikeSO<>(modelDTO.getModel());
-        selectLikeSO.setSETime(modelDTO.getStartTime(), modelDTO.getEndTime());
+        SelectLikeSO<T> selectLikeSO = new SelectLikeSO<>(null);
+        if (null != modelDTO) {
+            selectLikeSO = new SelectLikeSO<>(modelDTO.getModel());
+            selectLikeSO.setSETime(modelDTO.getStartTime(), modelDTO.getEndTime());
+        }
         return selectLikeSO;
     }
 

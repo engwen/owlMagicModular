@@ -14,7 +14,7 @@ public class IdListSO<ID> {
         this.idList = idList;
     }
 
-    public static <ID> IdListSO getInstance(List<ID> idList) {
+    public static <ID> IdListSO<ID> getInstance(List<ID> idList) {
         return new IdListSO<>(idList);
     }
 

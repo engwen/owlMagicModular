@@ -297,12 +297,12 @@ En details ,please click <url>https://github.com/engwen/owlMagicComment/blob/mas
     返回TestVO：
         
         {"mdg":"0000","msg":"请求成功","data":{"id":1,"name":"系统管理员","password":null,"account":"admin",
-        "email":"admin@admin.com","mobile":"18812345678","isBan":false,"status":true,"lastSigninTime":1558060991000}
+        "email":"admin@admin.com","mobile":"18812345678","hasBan":false,"status":true,"lastSigninTime":1558060991000}
      
      而之前的返回值对象为MsgResultVO：
         
         {"result":true,"resultCode":"0000","resultMsg":"请求成功","resultData":{"id":1,"name":"系统管理员",
-        "password":null,"account":"admin","email":"admin@admin.com","mobile":"18812345678","isBan":false,
+        "password":null,"account":"admin","email":"admin@admin.com","mobile":"18812345678","hasBan":false,
         "status":true,"lastSigninTime":1558060991000}
         
     记得使用本注解时需要修改返回值为object对象

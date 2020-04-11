@@ -7,7 +7,7 @@
 
     <groupId>com.github.engwen</groupId>
     <artifactId>owlMagicComment</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +21,7 @@
         <javax-javaee-api.version>8.0.1</javax-javaee-api.version>
         <aspectj-aspectj.version>1.9.4</aspectj-aspectj.version>
         <aspectj-aspectjweaver.version>1.9.4</aspectj-aspectjweaver.version>
-        <spring-web.version>4.2.5.RELEASE</spring-web.version>
+        <spring-web.version>5.2.0.RELEASE</spring-web.version>
         <jackson-databind.version>2.9.5</jackson-databind.version>
     </properties>
 
@@ -53,6 +53,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>${spring-web.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
             <version>${spring-web.version}</version>
         </dependency>
 

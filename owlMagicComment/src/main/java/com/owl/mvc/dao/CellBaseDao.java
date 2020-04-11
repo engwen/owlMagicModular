@@ -112,35 +112,4 @@ public interface CellBaseDao<T, ID> {
      */
     List<T> listByCondition(SelectLikeSO<T> selectLikeSO);
 
-    /*--------------------    需要适配的接口    --------------------*/
-
-    /**
-     * 逻辑 刪除
-     * @param idSO 泛型对象
-     * @return int
-     */
-    int deleteByPrimaryKey(IdSO<ID> idSO);
-
-    /**
-     * 批量逻辑 刪除
-     * @param idListSO 内含id集合
-     * @return int
-     */
-    int deleteByPrimaryKeyList(IdListSO<ID> idListSO);
-
-    /**
-     * 逻辑 刪除
-     * @param modelSO 泛型对象封装
-     * @return int
-     */
-    int deleteBySelective(ModelSO<T> modelSO);
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param banListDTO 對象
-     *                   param idList 對象ID
-     *                   param status 對象狀態
-     * @return int
-     */
-    int banOrLeave(BanListDTO<ID> banListDTO);
 }

@@ -295,4 +295,12 @@ public class MsgResultVO<T> extends ModelPrototype {
     public void setResultData(T resultData) {
         this.resultData = resultData;
     }
+
+    public Map<String, Object> getItems() {
+        return items;
+    }
+
+    public void setItems(Map<String, Object> items) {
+        this.items = items;
+    }
 }

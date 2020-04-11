@@ -23,10 +23,6 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
     @Autowired
     private M cellBaseServiceAb;
 
-    private static void defaultBack() {
-        AsLogUtil.info("The default raw output will just do we default want, if you want do other ,please override");
-    }
-
     /**
      * 创建
      * @param model 将要被创建的对象
@@ -34,7 +30,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<T> create(T model) {
-        defaultBack();
+        AsLogUtil.info("default create");
         return cellBaseServiceAb.create(model);
     }
 
@@ -45,7 +41,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> createList(List<T> list) {
-        defaultBack();
+        AsLogUtil.info("default createList");
         return cellBaseServiceAb.createList(list);
     }
 
@@ -56,75 +52,20 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      * @return 结果
      */
     @Override
-    public MsgResultVO delete(T model) {
-        defaultBack();
-        return cellBaseServiceAb.delete(model);
-    }
-
-    /**
-     * 删除功能
-     * @param id 待删除的对象id
-     * @return 结果
-     */
-    @Override
-    public MsgResultVO deleteById(ID id) {
-        defaultBack();
-        return cellBaseServiceAb.deleteById(id);
-    }
-
-    /**
-     * 批量删除
-     * @param deleteDTO 删除对象DTO
-     * @return 结果
-     */
-    @Override
-    public MsgResultVO deleteList(DeleteDTO<ID> deleteDTO) {
-        defaultBack();
-        return cellBaseServiceAb.deleteList(deleteDTO);
-    }
-
-    /**
-     * 删除功能
-     * @param model 待删除的对象
-     * @return 结果
-     */
-    @Override
     public MsgResultVO deleteRe(T model) {
-        defaultBack();
+        AsLogUtil.info("default real delete");
         return cellBaseServiceAb.deleteRe(model);
     }
 
     /**
      * 批量删除
-     * @param deleteDTO 删除对象DTO
+     * @param idList 删除对象DTO
      * @return 结果
      */
     @Override
-    public MsgResultVO deleteListRe(DeleteDTO<ID> deleteDTO) {
-        defaultBack();
-        return cellBaseServiceAb.deleteByIdListRe(deleteDTO);
-    }
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param banDTO 禁用对象
-     * @return int
-     */
-    @Override
-    public MsgResultVO banOrLeave(BanDTO<ID> banDTO) {
-        defaultBack();
-        return cellBaseServiceAb.banOrLeave(banDTO);
-    }
-
-    /**
-     * 批量操作 禁用或啓用
-     * @param banListDTO 禁用对象集合
-     * @return int
-     */
-    @Override
-    public MsgResultVO banOrLeaveList(BanListDTO<ID> banListDTO) {
-        defaultBack();
-        return cellBaseServiceAb.banOrLeaveList(banListDTO);
+    public MsgResultVO deleteListRe(List<ID> idList) {
+        AsLogUtil.info("default real delete");
+        return cellBaseServiceAb.deleteByIdListRe(idList);
     }
 
     /**
@@ -134,7 +75,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> update(T model) {
-        defaultBack();
+        AsLogUtil.info("default update");
         return cellBaseServiceAb.update(model);
     }
 
@@ -145,7 +86,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
-        defaultBack();
+        AsLogUtil.info("default update");
         return cellBaseServiceAb.updateByNotNull(model);
     }
 
@@ -157,7 +98,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<T> details(T model) {
-        defaultBack();
+        AsLogUtil.info("default details");
         return cellBaseServiceAb.details(model);
     }
 
@@ -168,7 +109,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        defaultBack();
+        AsLogUtil.info("default list");
         return cellBaseServiceAb.list(pageDTO);
     }
 
@@ -179,7 +120,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO){
-        defaultBack();
+        AsLogUtil.info("default list");
         return cellBaseServiceAb.listByExact(modelDTO);
     }
 
@@ -190,7 +131,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> isExist(T model) {
-        defaultBack();
+        AsLogUtil.info("default isExist");
         return cellBaseServiceAb.isExist(model);
     }
 }

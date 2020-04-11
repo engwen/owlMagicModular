@@ -240,12 +240,12 @@ For example:
     Return to TestVO:
 
      {"mdg":"0000","msg":"请求成功","data":{"id":1,"name":"系统管理员","password":null,"account":"admin",
-            "email":"admin@admin.com","mobile":"18812345678","isBan":false,"status":true,"lastSigninTime":1558060991000}
+            "email":"admin@admin.com","mobile":"18812345678","hasBan":false,"status":true,"lastSigninTime":1558060991000}
 
     The previous return value object was MsgResultVO:
         
         {"result":true,"resultCode":"0000","resultMsg":"请求成功","resultData":{"id":1,"name":"系统管理员",
-        "password":null,"account":"admin","email":"admin@admin.com","mobile":"18812345678","isBan":false,
+        "password":null,"account":"admin","email":"admin@admin.com","mobile":"18812345678","hasBan":false,
         "status":true,"lastSigninTime":1558060991000}
         
    Remember that you need to modify the return value to be an object object object when using this annotation

@@ -58,13 +58,6 @@ interface RelationBaseService<T, MainID, FollowerID> {
 
     /**
      * 刪除旧的關係數據，并插入新的
-     * @param relationDTO  id idList
-     * @return 基礎數據
-     */
-    MsgResultVO updateRelation(RelationDTO<MainID, FollowerID> relationDTO);
-
-    /**
-     * 刪除旧的關係數據，并插入新的
      * @param modelList 汎型對象
      * @return 基礎數據
      */

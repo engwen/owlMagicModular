@@ -14,18 +14,18 @@ public class BanDTO<ID> {
     /*
      * 是否禁用
      * */
-    private Boolean isBan;
+    private Boolean hasBan;
 
-    public static <ID> BanDTO getInstance(ID id, Boolean isBan) {
-        return new BanDTO<>(id, isBan);
+    public static <ID> BanDTO getInstance(ID id, Boolean hasBan) {
+        return new BanDTO<>(id, hasBan);
     }
 
     public BanDTO() {
     }
 
-    private BanDTO(ID id, Boolean isBan) {
+    private BanDTO(ID id, Boolean hasBan) {
         this.id = id;
-        this.isBan = isBan;
+        this.hasBan = hasBan;
     }
 
     public ID getId() {
@@ -36,11 +36,11 @@ public class BanDTO<ID> {
         this.id = id;
     }
 
-    public Boolean getIsBan() {
-        return isBan;
+    public Boolean getHasBan() {
+        return hasBan;
     }
 
-    public void setIsBan(Boolean ban) {
-        this.isBan = ban;
+    public void setHasBan(Boolean ban) {
+        this.hasBan = ban;
     }
 }

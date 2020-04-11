@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.owl.Demo">
         <!-- 请添加所需要的属性-->
         <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="is_ban" property="isBan" jdbcType="BIT"/>
+        <result column="has_ban" property="hasBan" jdbcType="BIT"/>
         <result column="status" property="status" jdbcType="BIT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
@@ -18,7 +18,7 @@
     </sql>
     <sql id="Base_Column_List">
         <include refid="Table_ID_Name"/> ,
-        is_ban, status, create_time, update_time
+        has_ban, status, create_time, update_time
     </sql>
     <sql id="Order_Name">
         name
@@ -41,8 +41,8 @@
                             AND
                         </if>
 
-                        <if test="null != model.isBan">
-                            is_ban = #{model.isBan} and
+                        <if test="null != model.hasBan">
+                            has_ban = #{model.hasBan} and
                         </if>
                         <if test="null != model.status">
                             status = true
@@ -69,8 +69,8 @@
                             name = #{model.name} and
                         </if>
 
-                        <if test="null != model.isBan">
-                            is_ban = #{model.isBan} and
+                        <if test="null != model.hasBan">
+                            has_ban = #{model.hasBan} and
                         </if>
                         <if test="null != model.status">
                             status = true
@@ -92,8 +92,8 @@
             <if test="status != null">
                 status,
             </if>
-            <if test="isBan != null">
-                is_ban,
+            <if test="hasBan != null">
+                has_ban,
             </if>
             create_time,update_time
         </trim>
@@ -102,8 +102,8 @@
             <if test="status != null">
                 #{status,jdbcType=BIT},
             </if>
-            <if test="isBan != null">
-                #{isBan,jdbcType=BIT},
+            <if test="hasBan != null">
+                #{hasBan,jdbcType=BIT},
             </if>
             null,null
         </trim>
@@ -114,13 +114,13 @@
         insert into <include refid="Table_Name"/>
         (
 
-        is_ban, status, create_time, update_time
+        has_ban, status, create_time, update_time
         )
         values
         <foreach collection="modelList" item="model" separator=",">
             (
 
-            #{model.isBan,jdbcType=BIT},#{model.status,jdbcType=BIT} , null , null
+            #{model.hasBan,jdbcType=BIT},#{model.status,jdbcType=BIT} , null , null
             )
         </foreach>
     </insert>
@@ -188,7 +188,7 @@
 
     <update id="banOrLeave">
         UPDATE <include refid="Table_Name"/>
-        SET is_ban = #{isBan},update_time = NULL
+        SET has_ban = #{hasBan},update_time = NULL
         WHERE <include refid="Table_ID_Name"/> IN
         <foreach collection="idList" item="id" open="(" close=")" separator=",">
             #{id}
