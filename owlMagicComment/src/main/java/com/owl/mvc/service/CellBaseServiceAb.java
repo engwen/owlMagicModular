@@ -12,6 +12,7 @@ import com.owl.mvc.so.SelectLikeSO;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -201,10 +202,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> isExist(T model) {
-        MsgResultVO resultVO = new MsgResultVO();
+        MsgResultVO<List<T>> resultVO = new MsgResultVO<>();
         List<T> list = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
-        if (null != list && list.size() > 0) {
-            resultVO.successResult(MsgConstant.REQUEST_IS_EXITS);
+        if (CollectionUtils.isEmpty(list)) {
+            resultVO.successResult(list, MsgConstant.REQUEST_IS_EXITS);
         } else {
             resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
         }

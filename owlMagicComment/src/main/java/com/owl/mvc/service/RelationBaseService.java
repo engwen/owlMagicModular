@@ -12,7 +12,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/01/25.
  */
-interface RelationBaseService<T, MainID, FollowerID> {
+public interface RelationBaseService<T, MainID, FollowerID> {
 
     /**
      * 插入關係數據
