@@ -2,9 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b32dfac-c845-44bf-bf58-51a26426b09d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_engwen_owlMagicUtil_2_4_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/readMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readMeEn.md" beforeDir="false" afterPath="$PROJECT_DIR$/readMeEn.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/controller/CellBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/controller/CellBaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/controller/CellBaseControllerAb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/controller/CellBaseControllerAb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/dto/BanDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/dto/BanDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/service/CellBaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/service/CellBaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/service/CellBaseServiceAb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/service/CellBaseServiceAb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/service/RelationBaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/service/RelationBaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/IdListSO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/IdListSO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/IdSO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/IdSO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/ModelSO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/ModelSO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/SelectLikeSO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/so/SelectLikeSO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/owl/mvc/utils/SpringContextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/owl/mvc/utils/SpringContextUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/CellDemo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CellDemo.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../owlMagicShiro/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicShiro/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../owlMagicUtil/src/main/java/com/owl/mvc/vo/MsgResultVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../owlMagicUtil/src/main/java/com/owl/mvc/vo/MsgResultVO.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -187,6 +201,7 @@
       <workItem from="1579068614271" duration="2271000" />
       <workItem from="1579083462574" duration="44000" />
       <workItem from="1579666580059" duration="785000" />
+      <workItem from="1586231498207" duration="108000" />
     </task>
     <task id="LOCAL-00001" summary="添加注释">
       <created>1579069468678</created>

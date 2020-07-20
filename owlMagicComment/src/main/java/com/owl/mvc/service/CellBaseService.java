@@ -2,8 +2,12 @@ package com.owl.mvc.service;
 
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.function.CountListLamda;
+import com.owl.mvc.function.ListByPageLamda;
+import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
+import com.owl.mvc.so.SelectLikeSO;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 
@@ -99,7 +103,6 @@ public interface CellBaseService<T, ID> {
      */
     MsgResultVO<List<T>> listByExact(ModelDTO<T> modelDTO);
 
-
     /**
      * 查詢指定集合
      * @param idListSO 内含汎型對象
@@ -107,10 +110,23 @@ public interface CellBaseService<T, ID> {
      */
     MsgResultVO<List<T>> selectByIdList(IdListSO<ID> idListSO);
 
+    MsgResultVO<List<T>> selectByIdList(List<ID> idList);
+
     /**
      * 檢查数据是否存在
      * @param model 检索条件
      * @return Boolean
      */
     MsgResultVO<?> isExist(T model);
+
+
+    default <T, M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLamda<M> countList, ListByPageLamda<T, M> resultList) {
+        PageVO<T> pageVO = new PageVO<>();
+        SelectLikeSO<M> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
+        pageVO.initPageVO(countList.countSumList(selectLikeSO), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getGetAll());
+        selectLikeSO.setRows(pageVO.getRows());
+        selectLikeSO.setUpLimit(pageVO.getUpLimit());
+        pageVO.setResultData(resultList.selectPageList(selectLikeSO));
+        return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
+    }
 }

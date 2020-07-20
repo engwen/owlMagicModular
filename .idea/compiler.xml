@@ -6,14 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="owlMagicFile" />
+        <module name="owlMagicRedis" />
         <module name="owlMagicUtil" />
         <module name="owlMagicComment" />
         <module name="owlMagicEmail" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="owlMagicGenerator" target="1.8" />
+      <module name="owlMagicShiro" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="owlMagicFile" options="-parameters" />
+      <module name="owlMagicShiro" options="-parameters" />
+    </option>
   </component>
 </project>

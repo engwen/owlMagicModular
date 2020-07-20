@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
- * 讀取配置文件工具類（根目錄下）
+ * 讀取配置文件工具類（根目錄下）,本方法仅仅适用于war
  * author engwen
  * email xiachanzou@outlook.com
  * 2017/4/7.
@@ -16,7 +16,7 @@ public abstract class PropertiesUtil {
     private static final String CONFIG = "config";
 
     private static final String CONFIG_PROPERTIES = "config.properties";
-    private static String DEFAULT_PATH = (System.getProperty("user.dir") + File.separatorChar + "WEB-INF" + File.separatorChar + "classes" + File.separatorChar);
+    private static final String DEFAULT_PATH = (System.getProperty("user.dir") + File.separatorChar + "WEB-INF" + File.separatorChar + "classes" + File.separatorChar);
 
     /**
      * 讀取指定配置文件信息

@@ -22,6 +22,9 @@ public abstract class DateCountUtil {
     public static final SimpleDateFormat YMD4BAR = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat YMD4EN = new SimpleDateFormat("MMM.dd, yyyy", Locale.UK);
 
+    public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
+    public static final SimpleDateFormat MM = new SimpleDateFormat("mm");
+
     public static final SimpleDateFormat HHMMSS = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm");
 
@@ -307,6 +310,23 @@ public abstract class DateCountUtil {
         return HHMM.format(date);
     }
 
+    /**
+     * 将传入日期的月份
+     * @param date 日期
+     * @return str
+     */
+    public static String getMM(Date date) {
+        return MM.format(date);
+    }
+
+    /**
+     * 将传入日期的年
+     * @param date 日期
+     * @return str
+     */
+    public static String getYYYY(Date date) {
+        return YYYY.format(date);
+    }
 
     /**
      * 本周的第一天和最後一天

@@ -1,6 +1,5 @@
 package com.owl.mvc.dao;
 
-import com.owl.mvc.dto.BanListDTO;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
 import com.owl.mvc.so.ModelListSO;

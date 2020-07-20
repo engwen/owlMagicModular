@@ -1,11 +1,12 @@
 package com.owl.util;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * author engwen
  * email xiachanzou@outlook.com
- * 2020/3/4.
+ * 2020/5/14.
  */
 public class NumberUtil {
 
@@ -14,7 +15,7 @@ public class NumberUtil {
      * 数字转 String，避免显示科学计数法,范围参考 BigDecimal
      * @param value 值
      * @param scale 小数长度
-     * @return
+     * @return 字符串
      */
     public static String numberToStr(Double value, int scale) {
         return new BigDecimal(value).setScale(scale, BigDecimal.ROUND_HALF_UP).toEngineeringString();
@@ -25,7 +26,7 @@ public class NumberUtil {
      * 数字转 String，避免显示科学计数法,范围参考 BigDecimal
      * @param value 值
      * @param scale 小数长度
-     * @return
+     * @return 字符串
      */
     public static String numberToThousandStr(Double value, int scale) {
         String s = new BigDecimal(value).setScale(scale, BigDecimal.ROUND_HALF_UP).toEngineeringString();
@@ -41,5 +42,25 @@ public class NumberUtil {
         } else {
             return s;
         }
+    }
+
+    /**
+     * 将指定数据按照指定长度补零返回成字符
+     * @param value 值
+     * @param len   长度
+     * @return 字符串
+     */
+    public static String numberToStr(Integer value, int len) {
+        char[] chars = value.toString().toCharArray();
+        int oldLen = chars.length;
+        if (oldLen < len) {
+            char[] newChars = new char[len];
+            for (int i = 0, j = len - oldLen; i < j; i++) {
+                newChars[i] = '0';
+            }
+            System.arraycopy(chars, 0, newChars, len - oldLen, oldLen);
+            return new String(newChars);
+        }
+        return value.toString();
     }
 }

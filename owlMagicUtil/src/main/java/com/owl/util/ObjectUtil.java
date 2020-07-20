@@ -1,8 +1,11 @@
 package com.owl.util;
 
-import com.owl.model.ModelPrototype;
 import com.owl.util.model.OwlStringPg;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -120,6 +123,34 @@ public class ObjectUtil {
         return false;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T byteToObject(byte[] bytes) {
+        T obj = null;
+        try (ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+             ObjectInputStream oi = new ObjectInputStream(bi);) {
+            //bytearray to object
+            obj = (T) oi.readObject();
+            bi.close();
+            oi.close();
+        } catch (Exception e) {
+            System.out.println("translation" + e.getMessage());
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    public static <T> byte[] objectToByte(T obj) {
+        byte[] bytes = null;
+        try (ByteArrayOutputStream bo = new ByteArrayOutputStream();
+             ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeObject(obj);
+            bytes = bo.toByteArray();
+        } catch (Exception e) {
+            System.out.println("translation" + e.getMessage());
+            e.printStackTrace();
+        }
+        return bytes;
+    }
 
     /*
      * 将指定的一级对象转化为json字符串
@@ -172,9 +203,9 @@ public class ObjectUtil {
                     objectJSONValue(value, stringBuilder);
                     stringBuilder.append(",");
                 } catch (Exception e) {
-                    LogPrintUtil.error("属性转化出错。name:" + (errorFiled == null ? "" : errorFiled.getName()));
-                    LogPrintUtil.error("跳过该属性");
-                    e.printStackTrace();
+//                    LogPrintUtil.error("属性转化出错。name:" + (errorFiled == null ? "" : errorFiled.getName()));
+//                    LogPrintUtil.error("跳过该属性");
+//                    e.printStackTrace();
                 }
             }
             if (fields.length > 0) {

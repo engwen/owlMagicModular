@@ -19,6 +19,8 @@ public class MsgConstant {
     public static MsgConstant REQUEST_BACK_ARE_LIST = new MsgConstant("0013", "Qualified data are not unique");
 
     public static MsgConstant STR_NOT_ARE_JSON = new MsgConstant("0030","The string can`t match JSON type");
+    public static MsgConstant NOT_FIND_PROPERTIES = new MsgConstant("0031","The properties not find");
+
 
 
     public static MsgConstant REQUEST_NO_SIGNUP = new MsgConstant("1002", "not find this account, if you first use, please signup");
@@ -30,7 +32,8 @@ public class MsgConstant {
     public static MsgConstant PARAM_EMAIL_ERROR = new MsgConstant("1008", "email presentation error");
     public static MsgConstant PARAM_MOBILE_ERROR = new MsgConstant("1009", "mobile presentation error");
     public static MsgConstant PARAM_ACCOUNT_ERROR = new MsgConstant("1010", "account presentation error");
-
+    public static MsgConstant REQUEST_CANT_UPDATE_ADMIN = new MsgConstant("1011","can`t update admin");
+    public static MsgConstant REQUEST_CANT_UPDATE_STATUS = new MsgConstant("1012","can`t update status");
 
 
     public MsgConstant(String code, String msg) {

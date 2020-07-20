@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,6 +88,14 @@ public abstract class RegexUtil {
         return null == input || (input instanceof String && isEmpty((String) input)) || (input instanceof Collection && ((Collection) input).size() <= 0);
     }
 
+    public static boolean hasEmpty(Object... others) {
+        for (Object input : others) {
+            if (null == input || (input instanceof String && isEmpty((String) input))
+                    || (input instanceof Collection && ((Collection) input).size() <= 0))
+                return true;
+        }
+        return false;
+    }
 
     /**
      * 手机号码验证,11位，不知道详细的手机号码段，只是验证开头必须是1和位数

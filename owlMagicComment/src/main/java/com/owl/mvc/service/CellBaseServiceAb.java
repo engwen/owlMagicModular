@@ -3,6 +3,8 @@ package com.owl.mvc.service;
 import com.owl.mvc.dao.CellBaseDao;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.function.CountListLamda;
+import com.owl.mvc.function.ListByPageLamda;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
@@ -150,13 +152,11 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        PageVO<T> pageVO = new PageVO<>();
-        SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
-        pageVO.initPageVO(cellBaseDao.countSumByCondition(selectLikeSO), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getGetAll());
-        selectLikeSO.setRows(pageVO.getRows());
-        selectLikeSO.setUpLimit(pageVO.getUpLimit());
-        pageVO.setResultData(cellBaseDao.listByCondition(selectLikeSO));
-        return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
+        return this.buildPageVO(pageDTO, (selectLikeSO) -> {
+            return this.cellBaseDao.countSumByCondition(selectLikeSO);
+        }, (selectLikeSO) -> {
+            return this.cellBaseDao.listByCondition(selectLikeSO);
+        });
     }
 
     /**
@@ -185,6 +185,11 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(idListSO));
     }
 
+    @Override
+    public MsgResultVO<List<T>> selectByIdList(List<ID> idList) {
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(IdListSO.getInstance(idList)));
+    }
+
     /**
      * 精确查询，獲取所有符合条件的對象
      * @return 對象集合
@@ -204,7 +209,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     public MsgResultVO<?> isExist(T model) {
         MsgResultVO<List<T>> resultVO = new MsgResultVO<>();
         List<T> list = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
-        if (CollectionUtils.isEmpty(list)) {
+        if (!CollectionUtils.isEmpty(list)) {
             resultVO.successResult(list, MsgConstant.REQUEST_IS_EXITS);
         } else {
             resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);

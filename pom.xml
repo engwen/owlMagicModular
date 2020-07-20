@@ -12,16 +12,14 @@
     <modules>
         <module>owlMagicComment</module>
         <module>owlMagicUtil</module>
-        <module>owlMagicFile</module>
-        <module>owlMagicShiro</module>
+        <module>owlMagicRedis</module>
         <module>owlMagicEmail</module>
     </modules>
     <dependencies>
         <dependency>
-            <groupId>com.github.engwen</groupId>
-            <artifactId>owlMagicUtil</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

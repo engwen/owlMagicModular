@@ -161,6 +161,11 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
     }
 
     @Override
+    public PageVO<T> successResult() {
+        return this;
+    }
+
+    @Override
     public PageVO<T> successResult(MsgConstant msgConstant) {
         super.successResult(msgConstant);
         return this;
@@ -170,6 +175,16 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
     public PageVO<T> errorResult(MsgConstant msgConstant) {
         super.errorResult(msgConstant);
         return this;
+    }
+
+    public static <T> PageVO<T> getSuccessInstance(MsgConstant msgConstant) {
+        PageVO<T> result = new PageVO<>();
+        return result.successResult(msgConstant);
+    }
+
+    public static <T> PageVO<T> getErrorInstance(MsgConstant msgConstant) {
+        PageVO<T> result = new PageVO<>();
+        return result.errorResult(msgConstant);
     }
 
 

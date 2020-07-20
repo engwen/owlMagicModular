@@ -24,7 +24,7 @@ public class MsgResultVO<T> extends ModelPrototype {
     //儅以汎型數據仍不能滿足時，提供Map封裝參數
     private Map<String, Object> items;
 
-    private void setMsgConstant(MsgConstant msgConstant) {
+    public void setMsgConstant(MsgConstant msgConstant) {
         this.resultCode = msgConstant.getCode();
         this.resultMsg = msgConstant.getMsg();
     }
