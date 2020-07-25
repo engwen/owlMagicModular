@@ -9,45 +9,45 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * 2019/12/3.
  */
-public abstract class TreeBase<T extends TreeBase<T>> extends ModelPrototype {
+public class TreeBase<T ,ID> extends ModelPrototype {
     //自id
-    private Long id;
+    private ID id;
     //父id
-    private Long pid;
+    private ID pid;
     //名称
-    private String name;
+    private T node;
     //子集合
-    private List<T> treeList = new ArrayList<>();
+    private List<TreeBase<T ,ID>> treeList = new ArrayList<>();
 
-    public Long getId() {
+    public ID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ID id) {
         this.id = id;
     }
 
-    public Long getPid() {
+    public ID getPid() {
         return pid;
     }
 
-    public void setPid(Long pid) {
+    public void setPid(ID pid) {
         this.pid = pid;
     }
 
-    public List<T> getTreeList() {
+    public T getNode() {
+        return node;
+    }
+
+    public void setNode(T node) {
+        this.node = node;
+    }
+
+    public List<TreeBase<T, ID>> getTreeList() {
         return treeList;
     }
 
-    public void setTreeList(List<T> treeList) {
+    public void setTreeList(List<TreeBase<T, ID>> treeList) {
         this.treeList = treeList;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

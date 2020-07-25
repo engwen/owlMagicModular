@@ -3,14 +3,8 @@ package com.owl.mvc.service;
 import com.owl.mvc.dao.CellBaseDao;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
-import com.owl.mvc.function.CountListLamda;
-import com.owl.mvc.function.ListByPageLamda;
 import com.owl.mvc.model.MsgConstant;
-import com.owl.mvc.so.IdListSO;
-import com.owl.mvc.so.IdSO;
-import com.owl.mvc.so.ModelListSO;
-import com.owl.mvc.so.ModelSO;
-import com.owl.mvc.so.SelectLikeSO;
+import com.owl.mvc.so.*;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,9 +190,19 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<List<T>> listByExact(ModelDTO<T> modelDTO) {
+        if (modelDTO == null) {
+            return listByExact();
+        }
         SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(modelDTO);
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
     }
+
+    @Override
+    public MsgResultVO<List<T>> listByExact() {
+        SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance((T) null);
+        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
+    }
+
 
     /**
      * 檢查数据是否存在

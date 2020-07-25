@@ -2,10 +2,10 @@ package com.owl.pattern.observer;
 
 
 import com.owl.model.OwlEvent;
-import com.owl.pattern.function.ListenCodeMethod;
-import com.owl.pattern.function.ListenCodeNoParams;
-import com.owl.pattern.function.ListenCodeParams;
-import com.owl.pattern.function.base.OwlListenCodeBase;
+import com.owl.pattern.function.listenEvent.ListenCodeMethod;
+import com.owl.pattern.function.listenEvent.ListenCodeNoParams;
+import com.owl.pattern.function.listenEvent.ListenCodeParams;
+import com.owl.pattern.function.listenEvent.base.OwlListenCodeBase;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

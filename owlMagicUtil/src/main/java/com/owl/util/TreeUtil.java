@@ -1,6 +1,7 @@
 package com.owl.util;
 
 import com.owl.model.TreeBase;
+import com.owl.pattern.function.tree.TreeNodeGetInfoLamda;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,31 @@ import java.util.Optional;
  * 2020/7/3.
  */
 public abstract class TreeUtil {
+
+    public static <T, ID> List<TreeBase<T, ID>> buildTreeBaseList(List<T> list, TreeNodeGetInfoLamda<T, ID> getPid, TreeNodeGetInfoLamda<T, ID> getId) {
+        List<TreeBase<T, ID>> result = new ArrayList<>();
+        list.forEach(it -> {
+            TreeBase<T, ID> node = new TreeBase<>();
+            node.setPid(getPid.getInfo(it));
+            node.setId(getId.getInfo(it));
+            node.setNode(it);
+            result.add(node);
+        });
+        return result;
+    }
+
     /**
      * 获取树  將一個 list 集合轉變為一顆樹
      * @param treeBases 分樹的對象
      * @return List
      */
-    public static <T extends TreeBase<T>> List<T> getTree(List<T> treeBases) {
-        List<T> root = new ArrayList<>();
+    public static <T, ID> List<TreeBase<T, ID>> getTree(List<TreeBase<T, ID>> treeBases, ID top) {
+        List<TreeBase<T, ID>> root = new ArrayList<>();
+        if (top == null) {
+            return root;
+        }
         treeBases.forEach(it -> {
-            if (null == it.getPid() || it.getPid() == 0 || it.getPid() < 0) {
+            if (null == it.getPid() || it.getPid().equals(top)) {
                 root.add(getTrees(it, treeBases));
             }
         });
@@ -33,7 +50,7 @@ public abstract class TreeUtil {
      * @param treeBases 子葉
      * @return TreeBase
      */
-    private static <T extends TreeBase<T>> T getTrees(T root, List<T> treeBases) {
+    private static <T, ID> TreeBase<T, ID> getTrees(TreeBase<T, ID> root, List<TreeBase<T, ID>> treeBases) {
         treeBases.forEach(treeVO -> {
             if (null != treeVO.getPid() && treeVO.getPid().equals(root.getId())) {
                 root.getTreeList().add(getTrees(treeVO, treeBases));
@@ -48,8 +65,8 @@ public abstract class TreeUtil {
      * @param treeBases 所有的集合
      * @return List
      */
-    public static <T extends TreeBase<T>> List<Long> getIdList(Long aimID, List<T> treeBases) {
-        List<Long> idList = new ArrayList<>();
+    public static <T, ID> List<ID> getIdList(ID aimID, List<TreeBase<T, ID>> treeBases) {
+        List<ID> idList = new ArrayList<>();
         getTreeList(aimID, treeBases).forEach(it -> idList.add(it.getId()));
         return idList;
     }
@@ -60,11 +77,11 @@ public abstract class TreeUtil {
      * @param treeBases 所有的集合
      * @return List
      */
-    public static <T extends TreeBase<T>> List<T> getTreeList(Long aimID, List<T> treeBases) {
-        List<T> result = new ArrayList<>();
+    public static <T, ID> List<TreeBase<T, ID>> getTreeList(ID aimID, List<TreeBase<T, ID>> treeBases) {
+        List<TreeBase<T, ID>> result = new ArrayList<>();
         if (null != aimID) {
             treeBases.forEach(treeVO -> {
-                if ((aimID == 0 && treeVO.getPid() == 0) || aimID.equals(treeVO.getId())) {
+                if (aimID.equals(treeVO.getId())) {
                     result.addAll(getListTrees(treeVO, treeBases));
                 }
             });
@@ -79,8 +96,8 @@ public abstract class TreeUtil {
      * @param treeVOList 對象集合
      * @return List
      */
-    private static <T extends TreeBase<T>> List<T> getListTrees(T root, List<T> treeVOList) {
-        List<T> result = new ArrayList<>();
+    private static <T, ID> List<TreeBase<T, ID>> getListTrees(TreeBase<T, ID> root, List<TreeBase<T, ID>> treeVOList) {
+        List<TreeBase<T, ID>> result = new ArrayList<>();
         treeVOList.forEach(treeVO -> {
             if (root.getId().equals(treeVO.getPid())) {
                 result.addAll(getListTrees(treeVO, treeVOList));
@@ -95,12 +112,12 @@ public abstract class TreeUtil {
      * @param trees 树
      * @param <T>   泛型
      */
-    public static <T extends TreeBase<T>> void printTree(List<T> trees) {
+    public static <T, ID> void printTree(List<TreeBase<T, ID>> trees, ID top) {
         String bank = "";
         if (trees.size() > 0) {
-            Optional<T> any = trees.stream().filter(it -> it.getTreeList().size() > 0).findAny();
+            Optional<TreeBase<T, ID>> any = trees.stream().filter(it -> it.getTreeList().size() > 0).findAny();
             if (!any.isPresent()) {
-                List<T> treeList = getTree(trees);
+                List<TreeBase<T, ID>> treeList = getTree(trees, top);
                 printTree(bank + "\u0020\u0020", treeList);
                 return;
             }
@@ -108,10 +125,10 @@ public abstract class TreeUtil {
         printTree(bank + "\u0020\u0020", trees);
     }
 
-    private static <T extends TreeBase<T>> void printTree(String bank, List<T> trees) {
-        for (T it : trees) {
+    private static <T, ID> void printTree(String bank, List<TreeBase<T, ID>> trees) {
+        for (TreeBase<T, ID> it : trees) {
             System.out.print(bank);
-            System.out.println(it.getName());
+            System.out.println(it.getId());
             if (it.getTreeList().size() > 0) {
                 printTree(bank + "\u0020\u0020", it.getTreeList());
             }

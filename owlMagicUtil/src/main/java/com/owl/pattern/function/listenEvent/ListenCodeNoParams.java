@@ -1,6 +1,6 @@
-package com.owl.pattern.function;
+package com.owl.pattern.function.listenEvent;
 
-import com.owl.pattern.function.base.OwlListenCodeBase;
+import com.owl.pattern.function.listenEvent.base.OwlListenCodeBase;
 
 /**
  * 无参数待执行代码对象

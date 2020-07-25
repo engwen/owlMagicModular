@@ -2,8 +2,8 @@ package com.owl.mvc.service;
 
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
-import com.owl.mvc.function.CountListLamda;
-import com.owl.mvc.function.ListByPageLamda;
+import com.owl.mvc.function.page.CountListLamda;
+import com.owl.mvc.function.page.ListByPageLamda;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
@@ -103,6 +103,8 @@ public interface CellBaseService<T, ID> {
      */
     MsgResultVO<List<T>> listByExact(ModelDTO<T> modelDTO);
 
+    MsgResultVO<List<T>> listByExact();
+
     /**
      * 查詢指定集合
      * @param idListSO 内含汎型對象
@@ -118,7 +120,6 @@ public interface CellBaseService<T, ID> {
      * @return Boolean
      */
     MsgResultVO<?> isExist(T model);
-
 
     default <T, M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLamda<M> countList, ListByPageLamda<T, M> resultList) {
         PageVO<T> pageVO = new PageVO<>();

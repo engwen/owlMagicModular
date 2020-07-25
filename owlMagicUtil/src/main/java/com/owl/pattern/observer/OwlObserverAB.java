@@ -3,7 +3,7 @@ package com.owl.pattern.observer;
 
 import com.owl.factory.OwlThreadPool;
 import com.owl.model.OwlEvent;
-import com.owl.pattern.function.base.OwlListenCodeBase;
+import com.owl.pattern.function.listenEvent.base.OwlListenCodeBase;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

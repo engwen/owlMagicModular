@@ -13,7 +13,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="owlMagicFile" target="1.8" />
       <module name="owlMagicShiro" target="1.8" />
+      <module name="owlShiro" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
