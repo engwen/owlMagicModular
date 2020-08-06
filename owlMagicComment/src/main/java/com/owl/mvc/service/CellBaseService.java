@@ -40,16 +40,16 @@ public interface CellBaseService<T, ID> {
      * @param model 對象
      * @return 汎型對象
      */
-    MsgResultVO deleteRe(T model);
+    MsgResultVO<?> deleteRe(T model);
 
-    MsgResultVO deleteByIdRe(ID id);
+    MsgResultVO<?> deleteByIdRe(ID id);
 
     /**
      * 物理刪除
      * @param idList ID集合
      * @return 汎型對象
      */
-    MsgResultVO deleteByIdListRe(List<ID> idList);
+    MsgResultVO<?> deleteByIdListRe(List<ID> idList);
 
 
     /**
@@ -110,9 +110,9 @@ public interface CellBaseService<T, ID> {
      * @param idListSO 内含汎型對象
      * @return list
      */
-    MsgResultVO<List<T>> selectByIdList(IdListSO<ID> idListSO);
+    MsgResultVO<List<T>> listByIdList(IdListSO<ID> idListSO);
 
-    MsgResultVO<List<T>> selectByIdList(List<ID> idList);
+    MsgResultVO<List<T>> listByIdList(List<ID> idList);
 
     /**
      * 檢查数据是否存在

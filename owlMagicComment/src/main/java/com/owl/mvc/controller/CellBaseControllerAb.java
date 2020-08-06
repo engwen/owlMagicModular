@@ -1,7 +1,8 @@
 package com.owl.mvc.controller;
 
 import com.owl.comment.utils.AsLogUtil;
-import com.owl.mvc.dto.*;
+import com.owl.mvc.dto.ModelDTO;
+import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.service.CellBaseServiceAb;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
@@ -52,7 +53,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      * @return 结果
      */
     @Override
-    public MsgResultVO deleteRe(T model) {
+    public MsgResultVO<?> deleteRe(T model) {
         AsLogUtil.info("default real delete");
         return cellBaseServiceAb.deleteRe(model);
     }
@@ -63,7 +64,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      * @return 结果
      */
     @Override
-    public MsgResultVO deleteListRe(List<ID> idList) {
+    public MsgResultVO<?> deleteListRe(List<ID> idList) {
         AsLogUtil.info("default real delete");
         return cellBaseServiceAb.deleteByIdListRe(idList);
     }
@@ -119,7 +120,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      * @return 结果集合
      */
     @Override
-    public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO){
+    public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO) {
         AsLogUtil.info("default list");
         return cellBaseServiceAb.listByExact(modelDTO);
     }

@@ -18,7 +18,7 @@ public class BanListDTO<ID> {
      * */
     private Boolean hasBan;
 
-    public static <ID> BanListDTO getInstance(List<ID> idList, Boolean hasBan) {
+    public static <ID> BanListDTO<ID> getInstance(List<ID> idList, Boolean hasBan) {
         return new BanListDTO<>(idList, hasBan);
     }
 

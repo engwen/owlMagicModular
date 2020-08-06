@@ -18,7 +18,7 @@ public class DeleteDTO<ID> {
      * */
     private List<ID> idList;
 
-    public static <ID> DeleteDTO getInstance(ID id, List<ID> idList) {
+    public static <ID> DeleteDTO<ID> getInstance(ID id, List<ID> idList) {
         return new DeleteDTO<>(id, idList);
     }
 

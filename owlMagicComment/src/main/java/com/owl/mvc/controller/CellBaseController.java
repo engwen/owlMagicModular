@@ -1,6 +1,7 @@
 package com.owl.mvc.controller;
 
-import com.owl.mvc.dto.*;
+import com.owl.mvc.dto.ModelDTO;
+import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 
@@ -33,14 +34,14 @@ interface CellBaseController<T,ID> {
      * @param model 待删除的对象
      * @return 结果
      */
-    MsgResultVO deleteRe(T model);
+    MsgResultVO<?> deleteRe(T model);
 
     /**
      * 批量删除
      * @param deleteDTO 删除对象DTO
      * @return 结果
      */
-    MsgResultVO deleteListRe(List<ID> deleteDTO);
+    MsgResultVO<?> deleteListRe(List<ID> deleteDTO);
 
     /**
      * 全量更新

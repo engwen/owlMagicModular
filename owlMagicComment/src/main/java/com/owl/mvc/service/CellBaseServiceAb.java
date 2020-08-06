@@ -51,7 +51,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteRe(T model) {
+    public MsgResultVO<?> deleteRe(T model) {
         cellBaseDao.deleteBySelectiveRe(ModelSO.getInstance(model));
         return MsgResultVO.getInstanceSuccess();
     }
@@ -62,7 +62,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteByIdRe(ID id) {
+    public MsgResultVO<?> deleteByIdRe(ID id) {
         cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
         return MsgResultVO.getInstanceSuccess();
     }
@@ -73,7 +73,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return 基礎數據
      */
     @Override
-    public MsgResultVO deleteByIdListRe(List<ID> idList) {
+    public MsgResultVO<?> deleteByIdListRe(List<ID> idList) {
         IdListSO<ID> idListSO = new IdListSO<>(idList);
         cellBaseDao.deleteByPrimaryKeyListRe(idListSO);
         return MsgResultVO.getInstanceSuccess();
@@ -175,12 +175,12 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      * @return list
      */
     @Override
-    public MsgResultVO<List<T>> selectByIdList(IdListSO<ID> idListSO) {
+    public MsgResultVO<List<T>> listByIdList(IdListSO<ID> idListSO) {
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(idListSO));
     }
 
     @Override
-    public MsgResultVO<List<T>> selectByIdList(List<ID> idList) {
+    public MsgResultVO<List<T>> listByIdList(List<ID> idList) {
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(IdListSO.getInstance(idList)));
     }
 

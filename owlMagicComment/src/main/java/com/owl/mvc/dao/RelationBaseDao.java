@@ -1,6 +1,7 @@
 package com.owl.mvc.dao;
 
-import com.owl.mvc.dto.RelationDTO;
+import com.owl.mvc.so.IdListSO;
+import com.owl.mvc.so.IdSO;
 import com.owl.mvc.so.ModelListSO;
 import com.owl.mvc.so.ModelSO;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/10/10.
  */
-public interface RelationBaseDao<T, MainID, FollowerID> {
+public interface RelationBaseDao<T, ID> {
 
 
     /**
@@ -29,26 +30,32 @@ public interface RelationBaseDao<T, MainID, FollowerID> {
      */
     int insertList(ModelListSO<T> modelListSO);
 
-    int insertRelation(RelationDTO<MainID, FollowerID> relationDTO);
 
     /**
-     * 批量刪除或个别删除
-     * @param modelSO 内含汎型對象
+     * 物理 刪除
+     * @param idSO 泛型对象
      * @return int
      */
-    int delete(ModelSO<T> modelSO);
+    int deleteByPrimaryKeyRe(IdSO<ID> idSO);
 
     /**
-     * 批量刪除
-     * @param relationDTO 内含一對多
+     * 物理 批量刪除
+     * @param idListSO 内含id集合
      * @return int
      */
-    int deleteRelation(RelationDTO<MainID, FollowerID> relationDTO);
+    int deleteByPrimaryKeyListRe(IdListSO<ID> idListSO);
+
+    /**
+     * 物理 刪除
+     * @param modelSO 泛型对象
+     * @return int
+     */
+    int deleteBySelectiveRe(ModelSO<T> modelSO);
 
     /**
      * 查詢是否存在
      * @param modelSO 内含汎型對象
      * @return list
      */
-    List<T> selectBySelective(ModelSO<T> modelSO);
+    List<T> selectByExact(ModelSO<T> modelSO);
 }
