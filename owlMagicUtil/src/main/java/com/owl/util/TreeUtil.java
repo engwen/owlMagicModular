@@ -14,6 +14,16 @@ import java.util.Optional;
  */
 public abstract class TreeUtil {
 
+    /**
+     * 生成可以操作的树集合，树状结构第一步
+     * @param list    待变成树的集合
+     * @param getPid  获取上级id的方式
+     * @param getId   获取本级id的方式
+     * @param getName 获取本级名称的方式
+     * @param <T>     集合泛型
+     * @param <ID>    id类型
+     * @return 可操作的树集合
+     */
     public static <T, ID> List<TreeBase<T, ID>> buildTreeBaseList(List<T> list,
                                                                   TreeNodeGetInfoLamda<T, ID> getPid,
                                                                   TreeNodeGetInfoLamda<T, ID> getId,
@@ -42,7 +52,10 @@ public abstract class TreeUtil {
 
     /**
      * 获取对应的开始节点，并返回目标节点以及以下的树集合，当top为null时，默认查询整棵树
+     * @param top       顶级名称
      * @param treeBases 分樹的對象
+     * @param <T>       树类型
+     * @param <ID>      id类型
      * @return List
      */
     public static <T, ID> List<TreeBase<T, ID>> getTree(ID top, List<TreeBase<T, ID>> treeBases) {
@@ -68,6 +81,8 @@ public abstract class TreeUtil {
      * 获取子叶 為樹添加樹和子葉
      * @param root      根
      * @param treeBases 子葉
+     * @param <T>       树类型
+     * @param <ID>      id类型
      * @return TreeBase
      */
     private static <T, ID> TreeBase<T, ID> getTrees(TreeBase<T, ID> root, List<TreeBase<T, ID>> treeBases) {
@@ -83,6 +98,8 @@ public abstract class TreeUtil {
      * 获取对应的开始节点，并返回目标节点及以下的树id集合
      * @param aimID     目标节点
      * @param treeBases 所有的集合
+     * @param <T>       树类型
+     * @param <ID>      id类型
      * @return List
      */
     public static <T, ID> List<ID> getIdList(ID aimID, List<TreeBase<T, ID>> treeBases) {
@@ -95,6 +112,8 @@ public abstract class TreeUtil {
      * 获取对应的开始节点，并返回目标节点以下的树集合
      * @param aimID     目标节点
      * @param treeBases 所有的集合
+     * @param <T>       树类型
+     * @param <ID>      id类型
      * @return List
      */
     public static <T, ID> List<TreeBase<T, ID>> getTreeList(ID aimID, List<TreeBase<T, ID>> treeBases) {
@@ -114,6 +133,8 @@ public abstract class TreeUtil {
      * 获取节点以及以下
      * @param root       根
      * @param treeVOList 對象集合
+     * @param <T>        树类型
+     * @param <ID>       id类型
      * @return List
      */
     private static <T, ID> List<TreeBase<T, ID>> getListTrees(TreeBase<T, ID> root, List<TreeBase<T, ID>> treeVOList) {
@@ -131,6 +152,7 @@ public abstract class TreeUtil {
      * 打印树状结构
      * @param trees 树
      * @param <T>   泛型
+     * @param <ID>  id类型
      */
     public static <T, ID> void printTree(List<TreeBase<T, ID>> trees, ID top) {
         String bank = "";

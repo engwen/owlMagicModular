@@ -1,5 +1,6 @@
 package com.owl.mvc.service;
 
+import com.owl.mvc.dto.RelationDTO;
 import com.owl.mvc.vo.MsgResultVO;
 
 import java.util.List;
@@ -20,12 +21,20 @@ public interface RelationBaseService<T, ID> {
      */
     MsgResultVO<?> insert(T model);
 
+
     /**
-     * 批量插入
+     * 批量更新
+     * @param oldModel  汎型對象
      * @param modelList 汎型對象
      * @return 基礎數據
      */
-    MsgResultVO<?> insertList(List<T> modelList);
+    MsgResultVO<?> updateList(T oldModel, List<T> modelList);
+    /**
+     * 批量更新
+     * @param relationDTO  汎型對象
+     * @return 基礎數據
+     */
+    MsgResultVO<?> updateList(RelationDTO<T> relationDTO);
 
     /**
      * 刪除關係數據

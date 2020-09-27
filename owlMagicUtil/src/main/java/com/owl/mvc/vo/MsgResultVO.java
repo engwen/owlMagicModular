@@ -24,9 +24,9 @@ public class MsgResultVO<T> extends ModelPrototype {
     //儅以汎型數據仍不能滿足時，提供Map封裝參數
     private Map<String, Object> items;
 
-    public void setMsgConstant(MsgConstant msgConstant) {
+    public void setMsgConstant(MsgConstant msgConstant, String... args) {
         this.resultCode = msgConstant.getCode();
-        this.resultMsg = msgConstant.getMsg();
+        this.resultMsg = String.format(msgConstant.getMsg(), args);
     }
 
     /*----------------------------  提供构造函数  --------------------------------*/
@@ -50,8 +50,8 @@ public class MsgResultVO<T> extends ModelPrototype {
         return new MsgResultVO<T>().successResult(t);
     }
 
-    public static <T> MsgResultVO<T> getInstanceError(MsgConstant msgConstant) {
-        return new MsgResultVO<T>().errorResult(msgConstant);
+    public static <T> MsgResultVO<T> getInstanceError(MsgConstant msgConstant, String... args) {
+        return new MsgResultVO<T>().errorResult(msgConstant, args);
     }
 
     /*----------------------------  构造函数结束  --------------------------------*/
@@ -61,9 +61,9 @@ public class MsgResultVO<T> extends ModelPrototype {
      * @param msgConstant 枚举信息对象
      * @return 結果對象
      */
-    public MsgResultVO<T> errorResult(MsgConstant msgConstant) {
+    public MsgResultVO<T> errorResult(MsgConstant msgConstant, String... args) {
         this.result = false;
-        setMsgConstant(msgConstant);
+        setMsgConstant(msgConstant, args);
         return this;
     }
 

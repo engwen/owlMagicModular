@@ -23,10 +23,18 @@ public class ModelDTO<T> {
         return new ModelDTO<>(model, startTime, endTime);
     }
 
+    public static <T> ModelDTO<T> getInstance(T model) {
+        return new ModelDTO<>(model);
+    }
+
     private ModelDTO(T model, Date startTime, Date endTime) {
         this.model = model;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    private ModelDTO(T model) {
+        this.model = model;
     }
 
     public ModelDTO() {

@@ -8,7 +8,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * 2019/2/26.
  */
-public class DeleteDTO<ID> {
+public class IdAndIdListDTO<ID> {
     /*
      * id
      * */
@@ -18,24 +18,24 @@ public class DeleteDTO<ID> {
      * */
     private List<ID> idList;
 
-    public static <ID> DeleteDTO<ID> getInstance(ID id, List<ID> idList) {
-        return new DeleteDTO<>(id, idList);
+    public static <ID> IdAndIdListDTO<ID> getInstance(ID id, List<ID> idList) {
+        return new IdAndIdListDTO<>(id, idList);
     }
 
-    public DeleteDTO() {
+    public IdAndIdListDTO() {
     }
 
-    public DeleteDTO(ID id, List<ID> idList) {
+    public IdAndIdListDTO(ID id, List<ID> idList) {
         this.id = id;
         this.idList = idList;
     }
 
 
-    private DeleteDTO(ID id) {
+    private IdAndIdListDTO(ID id) {
         this.id = id;
     }
 
-    private DeleteDTO(List<ID> idList) {
+    private IdAndIdListDTO(List<ID> idList) {
         this.idList = idList;
     }
 

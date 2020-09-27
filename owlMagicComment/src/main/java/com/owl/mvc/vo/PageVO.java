@@ -172,8 +172,8 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
     }
 
     @Override
-    public PageVO<T> errorResult(MsgConstant msgConstant) {
-        super.errorResult(msgConstant);
+    public PageVO<T> errorResult(MsgConstant msgConstant, String... arg) {
+        super.errorResult(msgConstant, arg);
         return this;
     }
 
@@ -182,9 +182,9 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
         return result.successResult(msgConstant);
     }
 
-    public static <T> PageVO<T> getErrorInstance(MsgConstant msgConstant) {
+    public static <T> PageVO<T> getErrorInstance(MsgConstant msgConstant, String... arg) {
         PageVO<T> result = new PageVO<>();
-        return result.errorResult(msgConstant);
+        return result.errorResult(msgConstant, arg);
     }
 
 

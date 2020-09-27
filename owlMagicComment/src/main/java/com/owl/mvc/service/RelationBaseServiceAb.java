@@ -1,6 +1,7 @@
 package com.owl.mvc.service;
 
 import com.owl.mvc.dao.RelationBaseDao;
+import com.owl.mvc.dto.RelationDTO;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
@@ -9,6 +10,7 @@ import com.owl.mvc.so.ModelSO;
 import com.owl.mvc.vo.MsgResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.beans.Transient;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,22 +40,30 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T,
         }
     }
 
-    /**
-     * 批量插入
-     * @param modelList 汎型對象
-     * @return 基礎數據
-     */
     @Override
-    public MsgResultVO<?> insertList(List<T> modelList) {
-        List<T> collect = modelList
-                .stream()
-                .filter(it -> relationBaseDao.selectByExact(ModelSO.getInstance(it)).size() == 0)
-                .collect(Collectors.toList());
-        if (collect.size() > 0) {
-            relationBaseDao.insertList(ModelListSO.getInstance(collect));
+    @Transient
+    public MsgResultVO<?> updateList(RelationDTO<T> relationDTO) {
+        return this.updateList(relationDTO.getModel(), relationDTO.getModelList());
+    }
+
+    @Override
+    @Transient
+    public MsgResultVO<?> updateList(T oldModel, List<T> modelList) {
+        if (null != oldModel) {
+            relationBaseDao.deleteBySelectiveRe(ModelSO.getInstance(oldModel));
+        }
+        if (null != modelList && modelList.size() > 0) {
+            List<T> collect = modelList
+                    .stream()
+                    .filter(it -> relationBaseDao.selectByExact(ModelSO.getInstance(it)).size() == 0)
+                    .collect(Collectors.toList());
+            if (collect.size() > 0) {
+                relationBaseDao.insertList(ModelListSO.getInstance(collect));
+            }
         }
         return MsgResultVO.getInstanceSuccess();
     }
+
 
     /**
      * 刪除關係數據
