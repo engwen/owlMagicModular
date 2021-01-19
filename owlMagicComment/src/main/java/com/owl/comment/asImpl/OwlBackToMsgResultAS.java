@@ -55,7 +55,7 @@ public class OwlBackToMsgResultAS {
             annotation = AnnotationUtils.findAnnotation(methodSignature.getMethod().getDeclaringClass(), OwlBackToMsgResult.class);
         }
         if (null == annotation) {
-            AsLogUtil.error(joinPoint, "@OwlbackToMsgResult can`t all params are null");
+            AsLogUtil.error(joinPoint, "@OwlbackToMsgResult 不能接收全部参数为空的情况");
             return obj;
         }
         String codeName = annotation.code();
@@ -77,7 +77,7 @@ public class OwlBackToMsgResultAS {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            AsLogUtil.error(joinPoint, "Conversion error");
+            AsLogUtil.error(joinPoint, "转换失败");
             return obj;
         }
         return result;

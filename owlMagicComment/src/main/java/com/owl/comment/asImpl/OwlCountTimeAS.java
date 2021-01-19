@@ -35,6 +35,6 @@ public class OwlCountTimeAS {
     @After("countTimeCut()")
     public void logEndTime(JoinPoint joinPoint) {
         Double second = ((new Date()).getTime() - startTime.getTime()) / ONE_MINUTE;
-        AsLogUtil.info(joinPoint, String.format("method name: %s cost: %s seconds", joinPoint.getSignature().getName(), second));
+        AsLogUtil.info(joinPoint, String.format("方法名称: %s 花费时间: %s 秒", joinPoint.getSignature().getName(), second));
     }
 }

@@ -40,7 +40,7 @@ public class OwlBackToObjectAS {
             annotation = AnnotationUtils.findAnnotation(methodSignature.getMethod().getDeclaringClass(), OwlBackToObject.class);
         }
         if (null == annotation) {
-            AsLogUtil.error(joinPoint, "@OwlBackToObject can`t all params are null");
+            AsLogUtil.error(joinPoint, "@OwlBackToObject 参数不能全部为null");
             return obj;
         }
         String classPath = annotation.classPath();
@@ -54,7 +54,7 @@ public class OwlBackToObjectAS {
         String oldDataName = annotation.oldData();
         String oldResultName = annotation.oldResult();
         if (RegexUtil.isEmpty(classPath)) {
-            AsLogUtil.error(joinPoint, "no conversion object is specified");
+            AsLogUtil.error(joinPoint, "未查询到转换对象");
         } else {
             try {
                 result = Class.forName(classPath).newInstance();
@@ -86,11 +86,11 @@ public class OwlBackToObjectAS {
                         ObjectUtil.setProValue(resultName, ObjectUtil.getProValue(oldResultName, obj), result);
                     }
                 } else {
-                    AsLogUtil.error(joinPoint, "This note applies only to the conversion of MsgResultVO types to specified types,or when you set old key names");
+                    AsLogUtil.error(joinPoint, "这个注解仅仅用于将 MsgResultVO 转化成指定的对象");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                AsLogUtil.error(joinPoint, "Conversion error");
+                AsLogUtil.error(joinPoint, "转换失败");
             }
         }
         return result;

@@ -41,7 +41,7 @@ public class OwlLogInfoAS {
             AsLogUtil.info(joinPoint, owlLogInfo.value());
         } else {
 //          joinPoint.getSignature().getDeclaringTypeName(),
-            AsLogUtil.info(joinPoint, String.format("now in %s", joinPoint.getSignature().getName()));
+            AsLogUtil.info(joinPoint, String.format("当前方法 %s", joinPoint.getSignature().getName()));
         }
     }
 }

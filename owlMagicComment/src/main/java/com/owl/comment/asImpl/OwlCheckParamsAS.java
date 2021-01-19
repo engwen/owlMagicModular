@@ -4,7 +4,6 @@ import com.owl.comment.annotations.OwlCheckParams;
 import com.owl.comment.utils.AsLogUtil;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.vo.MsgResultVO;
-import com.owl.mvc.vo.PageVO;
 import com.owl.util.ClassTypeUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
@@ -71,18 +70,18 @@ public class OwlCheckParamsAS {
         } else { // @RequestBody
             Object[] args = joinPoint.getArgs();
             if (args.length > 1) {
-                AsLogUtil.error(joinPoint, "This annotation is limited to objects or Maps that receive parameters");
+                AsLogUtil.error(joinPoint, "此注解仅适配 Map 和 Object 对象");
                 return joinPoint.proceed(joinPoint.getArgs());
             }
             if (args.length == 0 && (notAllNull.length > 0 || notNull.length > 0)) {
-                AsLogUtil.error(joinPoint, "parameters can`t be null");
+                AsLogUtil.error(joinPoint, "请求参数不能为 null");
                 return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
             }
 //          从接收封装的对象
             Map<String, Object> paramsBodyMap = new HashMap<>();
             Object paramsVO = args[0];
             if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
-                AsLogUtil.error(joinPoint, "This annotation is limited to objects or Maps that receive parameters");
+                AsLogUtil.error(joinPoint, "这个注解只能接收 Map 或 Object 对象");
             } else {
                 if (paramsVO instanceof List) {
                     Optional any = ((List) paramsVO).stream().filter(it -> checkListParams(it, notNull, notAllNull)).findAny();
@@ -118,15 +117,15 @@ public class OwlCheckParamsAS {
             }
         }
         if (hasNull) {
-            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("request params %s can`t be null", paramsIsNull));
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能为null", paramsIsNull));
             AsLogUtil.error(joinPoint, result.getResultMsg());
             return result;
         } else if (notAllNull.length > 0 && allOrNull) {
-            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("request params %s can`t all be null", Arrays.asList(notAllNull)));
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(notAllNull)));
             AsLogUtil.error(joinPoint, result.getResultMsg());
             return result;
         } else {
-            AsLogUtil.info(joinPoint, "Successful Params Check");
+            AsLogUtil.info(joinPoint, "参数检查成功");
             return joinPoint.proceed(joinPoint.getArgs());
         }
     }
