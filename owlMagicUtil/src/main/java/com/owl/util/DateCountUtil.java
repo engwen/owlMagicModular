@@ -80,6 +80,17 @@ public abstract class DateCountUtil {
     }
 
     /**
+     * 获取指定的日期格式
+     * @param date 日期
+     * @param sdf  格式
+     * @return 日期字符串
+     */
+    public static String getDateFormSdfWithStr(String date, SimpleDateFormat sdf) {
+        Date temp = DateCountUtil.getDateFormSdf(date, sdf);
+        return DateCountUtil.getDateFormSdf(temp, sdf);
+    }
+
+    /**
      * 根据指定日期，返回英文格式的日期
      * @param dateYMD date
      * @return 日期
@@ -225,7 +236,7 @@ public abstract class DateCountUtil {
     }
 
     /**
-     * 在制定的时间上加或减去几小时-支持浮点数
+     * 在指定的时间上加或减去几小时-支持浮点数
      * @param date 旧的日期
      * @param hour 小時
      * @return Date

@@ -8,8 +8,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,15 +20,17 @@ public abstract class RegexUtil {
 
     private static final String is_empty = "(\\s)";
 
-    private static final String is_mobile = "^1[3456789]\\d{9}$";
+    private static final String is_mobile = "^(\\+86)?[- ]?1[3456789]\\d{9}$";
 
     private static final String is_email = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+
+//    private static final String is_phone = "(^\\(\\d{3}\\)|^\\d{3})-?$";
 
     private static final String is_date = "^\\d{4}[-/]\\d{1,2}[-/]\\d{1,2}$";
 
     private static final String is_postCodes = "^[1-9]\\d{5}$";
 
-    private static final String is_ip = "^([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
+    private static final String is_ip = "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])$";
 
     private static final String is_http = "^(http|https)\\://(\\w+\\.\\w+\\.\\w+|\\w+\\.\\w+)";
 

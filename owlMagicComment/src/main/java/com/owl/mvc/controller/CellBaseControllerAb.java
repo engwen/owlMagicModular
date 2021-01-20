@@ -22,7 +22,7 @@ import java.util.List;
 public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> implements CellBaseController<T, ID> {
 
     @Autowired
-    private M cellBaseServiceAb;
+    protected M cellBaseServiceAb;
 
     /**
      * 创建

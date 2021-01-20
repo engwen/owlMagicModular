@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T, ID>
         implements RelationBaseService<T, ID> {
     @Autowired
-    private M relationBaseDao;
+    protected M relationBaseDao;
 
     /**
      * 插入關係數據

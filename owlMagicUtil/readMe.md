@@ -2,7 +2,7 @@ owlMagicUtil工具介绍
 -------
 
 * Package name (包名)
-com.owl.magicUtil
+owlMagicUtil
 * The way of reference is (引用方式为)
 
 ```
@@ -12,7 +12,18 @@ com.owl.magicUtil
     <version>*.*.*</version>
 </dependency>
 ```
+
+------
+本jar提供以下对外直接执行接口
+  
+    获取文件MD5指令: java -classpath owlMagicUtil-3.0.4.jar com.owl.main.GetMD5 "文件绝对路径" 
+    获取指定目录下重复文件指令: java -classpath owlMagicUtil-3.0.4.jar com.owl.main.CheckRepeatFile "文件夹绝对路径" 
+    
+  
+
 #### *项目结构以及介绍如下*
+
+* **main**  对外提供接口
 
 * **model**  常用工具类集合
 

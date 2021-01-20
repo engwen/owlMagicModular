@@ -21,7 +21,7 @@ import java.util.List;
 public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> implements CellBaseService<T, ID> {
 
     @Autowired
-    private M cellBaseDao;
+    protected M cellBaseDao;
 
     /**
      * 創建

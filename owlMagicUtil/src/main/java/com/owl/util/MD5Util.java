@@ -49,16 +49,16 @@ public abstract class MD5Util {
                 messageDigest.update(buffer, 0, length);
             }
             BigInteger bigInt = new BigInteger(1, messageDigest.digest());
-            System.out.println("文件md5值：" + bigInt.toString(16));
+            LogPrintUtil.info("文件md5值：" + bigInt.toString(16));
             md5 = bigInt.toString(16);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         } finally {
             try {
                 if (null != fileInputStream) {
                     fileInputStream.close();
                 }
-            } catch (Exception e2) {
+            } catch (Exception ignored) {
 
             }
         }

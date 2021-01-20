@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  * 2019/7/4.
  */
 public class OwlThreadPool {
-    private static ExecutorService threadPool = Executors.newCachedThreadPool();
+    private static final ExecutorService threadPool = Executors.newCachedThreadPool();
 
     public static ExecutorService getThreadPool() {
         return threadPool;
