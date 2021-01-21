@@ -9,31 +9,30 @@ public class MsgConstant {
     private String code;
     private String msg;
 
-    public static MsgConstant REQUEST_SUCCESS = new MsgConstant("0000", "request success");
-    public static MsgConstant REQUEST_DEFAULT = new MsgConstant("0001", "default return data");
-    public static MsgConstant REQUEST_PARAMETER_ERROR = new MsgConstant("0002", "request parameter error");
-    public static MsgConstant REQUEST_NO_KNOW_ERROR = new MsgConstant("0003", "unknown error");
-    public static MsgConstant REQUEST_NOT_EXITS = new MsgConstant("0008", "No required data");
-    public static MsgConstant REQUEST_IS_EXITS = new MsgConstant("0009", "This data already exists");
-    public static MsgConstant REQUEST_METHOD_NOT_EXITS = new MsgConstant("0011", "This method (interface) does not exist. Please check the code.");
-    public static MsgConstant REQUEST_BACK_ARE_LIST = new MsgConstant("0013", "Qualified data are not unique");
+    public static MsgConstant REQUEST_SUCCESS = new MsgConstant("0000", "请求成功");
+    public static MsgConstant REQUEST_DEFAULT = new MsgConstant("0001", "默认返回数据");
+    public static MsgConstant REQUEST_PARAMETER_ERROR = new MsgConstant("0002", "请求参数错误");
+    public static MsgConstant REQUEST_NO_KNOW_ERROR = new MsgConstant("0003", "未定义错误");
+    public static MsgConstant REQUEST_NOT_EXITS = new MsgConstant("0008", "请求数据不存在");
+    public static MsgConstant REQUEST_IS_EXITS = new MsgConstant("0009", "数据已经存在");
+    public static MsgConstant REQUEST_METHOD_NOT_EXITS = new MsgConstant("0011", "接口不存在. 请检查代码.");
+    public static MsgConstant REQUEST_BACK_ARE_LIST = new MsgConstant("0013", "存在符合结果的数据集合");
 
-    public static MsgConstant STR_NOT_ARE_JSON = new MsgConstant("0030","The string can`t match JSON type");
-    public static MsgConstant NOT_FIND_PROPERTIES = new MsgConstant("0031","The properties not find");
+    public static MsgConstant STR_NOT_ARE_JSON = new MsgConstant("0030", "此字符串不是JSON格式");
+    public static MsgConstant NOT_FIND_PROPERTIES = new MsgConstant("0031", "The properties not find");
 
 
-
-    public static MsgConstant REQUEST_NO_SIGNUP = new MsgConstant("1002", "not find this account, if you first use, please signup");
-    public static MsgConstant REQUEST_NO_SIGNIN = new MsgConstant("1003", "your are not login,please signin");
-    public static MsgConstant REQUEST_ACCOUNT_OR_PASSWORD_ERROR = new MsgConstant("1004", "account or password error");
-    public static MsgConstant CONTROLLER_THROWABLE_ERROR = new MsgConstant("1005", "operation failed");
-    public static MsgConstant TRY_CATCH_THROWABLE_ERROR = new MsgConstant("1006", "There seems to be something wrong with the website.");
-    public static MsgConstant REQUEST_PERMISSION_DEFINED = new MsgConstant("1007", "permission defined");
-    public static MsgConstant PARAM_EMAIL_ERROR = new MsgConstant("1008", "email presentation error");
-    public static MsgConstant PARAM_MOBILE_ERROR = new MsgConstant("1009", "mobile presentation error");
-    public static MsgConstant PARAM_ACCOUNT_ERROR = new MsgConstant("1010", "account presentation error");
-    public static MsgConstant REQUEST_CANT_UPDATE_ADMIN = new MsgConstant("1011","can`t update admin");
-    public static MsgConstant REQUEST_CANT_UPDATE_STATUS = new MsgConstant("1012","can`t update status");
+    public static MsgConstant REQUEST_NO_SIGNUP = new MsgConstant("1002", "账号不存在, 请先注册");
+    public static MsgConstant REQUEST_NO_SIGNIN = new MsgConstant("1003", "请先登录");
+    public static MsgConstant REQUEST_ACCOUNT_OR_PASSWORD_ERROR = new MsgConstant("1004", "账号或密码错误");
+    public static MsgConstant CONTROLLER_THROWABLE_ERROR = new MsgConstant("1005", "操作失败");
+    public static MsgConstant TRY_CATCH_THROWABLE_ERROR = new MsgConstant("1006", " 这个网站好像有问题");
+    public static MsgConstant REQUEST_PERMISSION_DEFINED = new MsgConstant("1007", "权限拒绝");
+    public static MsgConstant PARAM_EMAIL_ERROR = new MsgConstant("1008", "email 格式错误");
+    public static MsgConstant PARAM_MOBILE_ERROR = new MsgConstant("1009", "手机格式错误");
+    public static MsgConstant PARAM_ACCOUNT_ERROR = new MsgConstant("1010", "账号格式错误");
+    public static MsgConstant REQUEST_CANT_UPDATE_ADMIN = new MsgConstant("1011", "admin账号不可更新");
+    public static MsgConstant REQUEST_CANT_UPDATE_STATUS = new MsgConstant("1012", "状态不可更新");
 
 
     public MsgConstant(String code, String msg) {
