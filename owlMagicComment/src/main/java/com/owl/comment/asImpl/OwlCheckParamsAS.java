@@ -38,7 +38,7 @@ public class OwlCheckParamsAS {
 
     @Around("checkParamsCut()")
     public Object checkParams(ProceedingJoinPoint joinPoint) throws Throwable {
-        MsgResultVO result = new MsgResultVO();
+        MsgResultVO<?> result = new MsgResultVO<>();
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 //        獲取被標記不能爲空的屬性集合
         String[] notNull = methodSignature.getMethod().getAnnotation(OwlCheckParams.class).notNull();
@@ -48,7 +48,6 @@ public class OwlCheckParamsAS {
         boolean allOrNull = true;
 //        存放含有空的屬性
         List<String> paramsIsNull = new ArrayList<>();
-
 
 //        此處從requestHead頭中獲取參數，@Param
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

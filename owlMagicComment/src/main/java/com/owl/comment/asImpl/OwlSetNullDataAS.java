@@ -2,6 +2,7 @@ package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlSetNullData;
 import com.owl.comment.utils.AsLogUtil;
+import com.owl.mvc.utils.SpringServletContextUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import com.owl.util.ClassTypeUtil;
@@ -35,7 +36,7 @@ import java.util.logging.Logger;
 @Component
 @Order(95)
 public class OwlSetNullDataAS {
-    private static Logger logger = Logger.getLogger(OwlSetNullDataAS.class.getName());
+    private static final Logger logger = Logger.getLogger(OwlSetNullDataAS.class.getName());
 
     @Pointcut("@annotation(com.owl.comment.annotations.OwlSetNullData)")
     public void setNullDataCut() {
@@ -48,13 +49,13 @@ public class OwlSetNullDataAS {
         String[] setNullDatas = methodSignature.getMethod().getAnnotation(OwlSetNullData.class).backValue();
         if (setNullParams.length > 0) {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            Map<String, String[]> paramsHeadMap = request.getParameterMap();
-            if (null != paramsHeadMap && paramsHeadMap.keySet().size() > 0) {
+            if (SpringServletContextUtil.isGetRequest(request)) {// get 请求
+                Map<String, String[]> paramsHeadMap = request.getParameterMap();
                 for (String param : setNullParams) {
                     paramsHeadMap.put(param, null);
                 }
-            } else {
-//          从对象中獲取參數
+            } else if (SpringServletContextUtil.isPostRequest(request)) {//post 请求
+                //从对象中獲取參數
                 Object paramsVO = joinPoint.getArgs()[0];
                 if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
                     AsLogUtil.error(joinPoint, "OwlSetNullDataAS 此注解仅接收 Map 或 Object 对象");
@@ -94,15 +95,15 @@ public class OwlSetNullDataAS {
         if (!RegexUtil.isEmpty(resultDataObj)) {
             if (ClassTypeUtil.isBaseClass(resultDataObj) || ClassTypeUtil.isPackClass(resultDataObj)) {
                 logger.warning("OwlSetNullDataAS 此注解不支持基本类型及其包装类");
-            } else if (resultDataObj instanceof MsgResultVO) {
-                MsgResultVO resultVO = (MsgResultVO) resultDataObj;
-                Object obj = resultVO.getResultData();
+            } else if (resultDataObj instanceof PageVO) {
+                PageVO<?> pageVO = (PageVO<?>) resultDataObj;
+                Object obj = pageVO.getResultData();
                 if (!RegexUtil.isEmpty(obj)) {
                     setNullByObject(setNullDatas, obj);
                 }
-            } else if (resultDataObj instanceof PageVO) {
-                PageVO pageVO = (PageVO) resultDataObj;
-                Object obj = pageVO.getResultData();
+            } else if (resultDataObj instanceof MsgResultVO) {
+                MsgResultVO<?> resultVO = (MsgResultVO<?>) resultDataObj;
+                Object obj = resultVO.getResultData();
                 if (!RegexUtil.isEmpty(obj)) {
                     setNullByObject(setNullDatas, obj);
                 }
@@ -126,7 +127,7 @@ public class OwlSetNullDataAS {
     }
 
     private static void setNullByList(String[] setNullDatas, Object resultDataObj, Field[] fields) throws Exception {
-        List temp = (List) resultDataObj;
+        List<?> temp = (List<?>) resultDataObj;
         for (Field field : fields) {
             for (String param : setNullDatas) {
                 if (param.equals(field.getName())) {

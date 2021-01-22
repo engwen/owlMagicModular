@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="BUILD_PROCESS_HEAP_SIZE" value="1024" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="owlMagicRedis" />
         <module name="owlMagicUtil" />
-        <module name="owlMagicComment" />
         <module name="owlMagicEmail" />
+        <module name="owlMagicRedis" />
+        <module name="owlMagicComment" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="owlMagicFile" target="1.8" />
-      <module name="owlMagicShiro" target="1.8" />
-      <module name="owlShiro" target="1.8" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="owlMagicFile" options="-parameters" />
-      <module name="owlMagicShiro" options="-parameters" />
-    </option>
+    <bytecodeTargetLevel target="1.8" />
   </component>
 </project>
