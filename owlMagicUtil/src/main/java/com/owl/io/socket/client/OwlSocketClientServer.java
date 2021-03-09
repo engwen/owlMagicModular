@@ -1,11 +1,12 @@
 package com.owl.io.socket.client;
 
 import com.owl.io.socket.model.SocketEvent;
-import com.owl.util.LogPrintUtil;
+import com.owl.util.ConsolePrintUtil;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.AsynchronousChannelGroup;
+import java.nio.channels.AsynchronousSocketChannel;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,7 +43,7 @@ public class OwlSocketClientServer {
             clientChannel.connect(new InetSocketAddress(this.host, this.port));
 //        socketChannel.finishConnect();
         } catch (Exception e) {
-            LogPrintUtil.error("connect error, information is  " + e);
+            ConsolePrintUtil.error("connect error, information is  " + e);
         }
     }
 
@@ -50,7 +51,7 @@ public class OwlSocketClientServer {
         try {
             this.clientChannel.close();
         } catch (Exception e) {
-            LogPrintUtil.error("disconnect error, information is  " + e);
+            ConsolePrintUtil.error("disconnect error, information is  " + e);
         }
     }
 
@@ -65,9 +66,9 @@ public class OwlSocketClientServer {
             buffer.clear();
             this.clientChannel.read(buffer).get();
             buffer.flip();
-            LogPrintUtil.info("get server back  " + new String(buffer.array()).trim());
+            ConsolePrintUtil.info("get server back  " + new String(buffer.array()).trim());
         } catch (Exception e) {
-            LogPrintUtil.error("emit msg is Error :" + e);
+            ConsolePrintUtil.error("emit msg is Error :" + e);
         }
     }
 }

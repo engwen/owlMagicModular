@@ -2,7 +2,7 @@ package com.owl.io.socket.server;
 
 import com.owl.io.socket.SocketDispatchEvent;
 import com.owl.io.socket.server.handler.AcceptCompleteHandler;
-import com.owl.util.LogPrintUtil;
+import com.owl.util.ConsolePrintUtil;
 import com.owl.util.RegexUtil;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class OwlSocketServer {
 
     public static OwlSocketServer getInstance(int port, SocketDispatch dispatch) {
         if (RegexUtil.isEmpty(dispatch)) {
-            LogPrintUtil.error("start socket error,dispatch can`t be null ");
+            ConsolePrintUtil.error("start socket error,dispatch can`t be null ");
             return null;
         }
         return new OwlSocketServer(port, dispatch);
@@ -42,7 +42,7 @@ public class OwlSocketServer {
         try {
             init();
         } catch (IOException e) {
-            LogPrintUtil.error("start socket error, information is " + e);
+            ConsolePrintUtil.error("start socket error, information is " + e);
         }
     }
 
@@ -61,7 +61,7 @@ public class OwlSocketServer {
             serverSocketChannel.close();
             SocketDispatchEvent.clear();
         } catch (IOException e) {
-            LogPrintUtil.error("stop socket error, information is " + e);
+            ConsolePrintUtil.error("stop socket error, information is " + e);
             return false;
         }
         return true;

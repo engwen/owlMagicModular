@@ -631,6 +631,16 @@ En details ,please click <url>https://github.com/engwen/owlMagicComment/blob/mas
 <div id="update"></div>
 
 -------
+ #####  3.0.4
+
+ -- 优化
+ 1. 命名修改
+    a. 控制台日志由 ConsolePrintUtil 变更为 ConsolePrintUtil ————请注意，为了防止和您之后的jar冲突，我没有引入新的日志处理系统。
+       ConsolePrintUtil 只是控制台的输出日志，并不会存储
+    b. 切片函数 OwlLogInfo 变更为 OwlConsolePrint，这个注解只是为了方便调试时加上快速定位接口，并没有实际意义（本来是想作为切面的日志管理的）
+ 2. 部分方法修改
+
+-------
  #####  3.0.0
 
  -- 优化

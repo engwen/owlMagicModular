@@ -1,7 +1,7 @@
 package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlBackToMsgResult;
-import com.owl.comment.utils.AsLogUtil;
+import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.util.ObjectUtil;
@@ -37,7 +37,7 @@ public class OwlBackToMsgResultAS {
         MsgResultVO<String> result = new MsgResultVO<>();
         result.errorResult(MsgConstant.CONTROLLER_THROWABLE_ERROR);
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        AsLogUtil.error(joinPoint, methodSignature.getMethod().getName() + "      " + ex);
+        AsConsoleConsoleUtil.error(joinPoint, methodSignature.getMethod().getName() + "      " + ex);
         return result;
     }
 
@@ -55,7 +55,7 @@ public class OwlBackToMsgResultAS {
             annotation = AnnotationUtils.findAnnotation(methodSignature.getMethod().getDeclaringClass(), OwlBackToMsgResult.class);
         }
         if (null == annotation) {
-            AsLogUtil.error(joinPoint, "@OwlbackToMsgResult 不能接收全部参数为空的情况");
+            AsConsoleConsoleUtil.error(joinPoint, "@OwlbackToMsgResult 不能接收全部参数为空的情况");
             return obj;
         }
         String codeName = annotation.code();
@@ -77,7 +77,7 @@ public class OwlBackToMsgResultAS {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            AsLogUtil.error(joinPoint, "转换失败");
+            AsConsoleConsoleUtil.error(joinPoint, "转换失败");
             return obj;
         }
         return result;

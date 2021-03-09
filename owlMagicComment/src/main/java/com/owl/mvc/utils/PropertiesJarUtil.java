@@ -1,11 +1,9 @@
 package com.owl.mvc.utils;
 
 import com.owl.mvc.model.MsgConstant;
-import com.owl.util.LogPrintUtil;
-import com.owl.util.PropertiesUtil;
+import com.owl.util.ConsolePrintUtil;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -27,7 +25,7 @@ public class PropertiesJarUtil {
             Properties properties = PropertiesLoaderUtils.loadAllProperties(fileName + ".properties");
             return properties.getProperty(key);
         } catch (Exception e) {
-            LogPrintUtil.error(MsgConstant.NOT_FIND_PROPERTIES.getMsg());
+            ConsolePrintUtil.error(MsgConstant.NOT_FIND_PROPERTIES.getMsg());
         }
         return null;
     }

@@ -1,7 +1,7 @@
 package com.owl.comment.utils;
 
+import com.owl.util.ConsolePrintUtil;
 import com.owl.util.DateCountUtil;
-import com.owl.util.LogPrintUtil;
 import org.aspectj.lang.JoinPoint;
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
  * email xiachanzou@outlook.com
  * 2019/6/25.
  */
-public class AsLogUtil extends LogPrintUtil {
+public class AsConsoleConsoleUtil extends ConsolePrintUtil {
 
     public static void info(JoinPoint joinPoint, String msg) {
         log(joinPoint, msg, "INFO");

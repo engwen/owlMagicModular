@@ -2,7 +2,7 @@ package com.owl.comment.asImpl;
 
 
 import com.owl.comment.annotations.OwlTry;
-import com.owl.comment.utils.AsLogUtil;
+import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.util.RegexUtil;
@@ -25,15 +25,15 @@ public class OwlTryAS {
     }
 
     @Around("setTryCut()")
-    public Object tryCut(ProceedingJoinPoint joinPoint) throws Throwable {
-        MsgResultVO result = new MsgResultVO();
+    public Object tryCut(ProceedingJoinPoint joinPoint) {
+        MsgResultVO<?> result = new MsgResultVO<>();
         try {
             return joinPoint.proceed();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
             String value = methodSignature.getMethod().getAnnotation(OwlTry.class).value();
             if (!RegexUtil.isEmpty(value)) {
-                AsLogUtil.error(joinPoint, value);
+                AsConsoleConsoleUtil.error(joinPoint, value);
             }
             result.errorResult(MsgConstant.TRY_CATCH_THROWABLE_ERROR);
             e.printStackTrace();

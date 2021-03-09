@@ -17,6 +17,7 @@ public class MsgConstant {
     public static MsgConstant REQUEST_IS_EXITS = new MsgConstant("0009", "数据已经存在");
     public static MsgConstant REQUEST_METHOD_NOT_EXITS = new MsgConstant("0011", "接口不存在. 请检查代码.");
     public static MsgConstant REQUEST_BACK_ARE_LIST = new MsgConstant("0013", "存在符合结果的数据集合");
+    public static MsgConstant REQUEST_ANNOTATIONS_PARAMS_ERROR = new MsgConstant("0014", "@OwlCheckParams 注解参数全部为空");
 
     public static MsgConstant STR_NOT_ARE_JSON = new MsgConstant("0030", "此字符串不是JSON格式");
     public static MsgConstant NOT_FIND_PROPERTIES = new MsgConstant("0031", "The properties not find");

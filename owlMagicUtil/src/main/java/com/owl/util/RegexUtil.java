@@ -89,12 +89,14 @@ public abstract class RegexUtil {
     }
 
     public static boolean hasEmpty(Object... others) {
-        for (Object input : others) {
-            if (null == input || (input instanceof String && isEmpty((String) input))
-                    || (input instanceof Collection && ((Collection) input).size() <= 0))
-                return true;
-        }
-        return false;
+//        for (Object input : others) {
+//            if (null == input || (input instanceof String && isEmpty((String) input))
+//                    || (input instanceof Collection && ((Collection) input).size() <= 0))
+//                return true;
+//        }
+//        return false;
+        return Arrays.stream(others).anyMatch(it -> null == it || (it instanceof String && isEmpty((String) it))
+                || (it instanceof Collection && ((Collection) it).size() <= 0));
     }
 
     /**
@@ -164,9 +166,20 @@ public abstract class RegexUtil {
      * @return 結果
      */
     public static boolean isParamsAllEmpty(Object... inputs) {
+        return Arrays.stream(inputs).allMatch(input -> null == input || (input instanceof String && !isEmpty((String) input))
+                || (input instanceof Collection && ((Collection) input).size() <= 0));
+    }
+
+    /**
+     * 檢測所有的參數是否爲空
+     * @param inputs 未定義長度數組
+     * @return 結果
+     */
+    public static boolean isParamsAllNotEmpty(Object... inputs) {
         return Arrays.stream(inputs).noneMatch(input -> null == input || (input instanceof String && !isEmpty((String) input))
                 || (input instanceof Collection && ((Collection) input).size() <= 0));
     }
+
 
     /**
      * 數組對象中是否含有爲空

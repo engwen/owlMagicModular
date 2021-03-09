@@ -203,8 +203,8 @@ public class ObjectUtil {
                     objectJSONValue(value, stringBuilder);
                     stringBuilder.append(",");
                 } catch (Exception e) {
-//                    LogPrintUtil.error("属性转化出错。name:" + (errorFiled == null ? "" : errorFiled.getName()));
-//                    LogPrintUtil.error("跳过该属性");
+//                    ConsolePrintUtil.error("属性转化出错。name:" + (errorFiled == null ? "" : errorFiled.getName()));
+//                    ConsolePrintUtil.error("跳过该属性");
 //                    e.printStackTrace();
                 }
             }

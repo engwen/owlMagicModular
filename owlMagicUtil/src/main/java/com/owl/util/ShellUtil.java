@@ -15,7 +15,7 @@ public abstract class ShellUtil {
             if (null != proc) {
                 proc.destroy();
             }
-            LogPrintUtil.error(e.toString());
+            ConsolePrintUtil.error(e.toString());
         } finally {
 
         }

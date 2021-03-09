@@ -1,6 +1,5 @@
 package com.owl.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -340,39 +339,146 @@ public abstract class DateCountUtil {
     }
 
     /**
-     * 本周的第一天和最後一天
+     * 获取日期所在周，礼拜一的日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getWeekStartDay(Date date) {
+        return DateCountUtil.getWeekStartDay(date, YMD4BAR);
+    }
+
+    /**
+     * 获取日期所在周，礼拜一的日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getWeekStartDay(Date date, SimpleDateFormat sdf) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTime(date);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // 获取本周一的日期
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * 获取日期所在周，礼拜天的日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getWeekEndDay(Date date) {
+        return DateCountUtil.getWeekEndDay(date, YMD4BAR);
+    }
+
+    /**
+     * 获取日期所在周，礼拜天的日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getWeekEndDay(Date date, SimpleDateFormat sdf) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTime(date);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); // 获取本周一的日期
+        // 增加一个星期，才是我们中国人理解的本周日的日期
+        cal.add(Calendar.WEEK_OF_YEAR, 1);
+        return sdf.format(cal.getTime());
+    }
+
+
+    /**
+     * 指定周的第一天和最後一天
      * @return map
      */
-    public static Map getWeekDay() {
+    public static Map<String, String> getWeekDay(Date date) {
+        return DateCountUtil.getWeekDay(date, YMD4BAR);
+    }
+
+    /**
+     * 指定周的第一天和最後一天
+     * @return map
+     */
+    public static Map<String, String> getWeekDay(Date oneDate, SimpleDateFormat sdf) {
         Map<String, String> map = new HashMap<>();
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        cal.setTime(oneDate);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // 获取本周一的日期
-        map.put("mon", df.format(cal.getTime()));
+        map.put("start", sdf.format(cal.getTime()));
         // 这种输出的是上个星期周日的日期，因为国外把周日当成第一天
         cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         // 增加一个星期，才是我们中国人理解的本周日的日期
         cal.add(Calendar.WEEK_OF_YEAR, 1);
-        map.put("sun", df.format(cal.getTime()));
+        map.put("end", sdf.format(cal.getTime()));
         return map;
     }
 
     /**
-     * 本月的第一天和最後一天
+     * 获取日期所在月第一天日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getMonthStartDay(Date date) {
+        return DateCountUtil.getMonthStartDay(date, YMD4BAR);
+    }
+
+    /**
+     * 获取日期所在月第一天日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getMonthStartDay(Date date, SimpleDateFormat sdf) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTime(date);
+        cal.set(Calendar.DATE, cal.getActualMinimum(Calendar.DATE)); // 获取本周一的日期
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * 获取日期所在月最后一天的日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getMonthEndDay(Date date) {
+        return DateCountUtil.getMonthEndDay(date, YMD4BAR);
+    }
+
+    /**
+     * 获取日期所在月最后一天的日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static String getMonthEndDay(Date date, SimpleDateFormat sdf) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTime(date);
+        cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE)); // 获取本周一的日期
+        return sdf.format(cal.getTime());
+    }
+
+
+    /**
+     * 指定月的第一天和最後一天
      * @return map
      */
-    public static Map getMonthDate() {
+    public static Map<String, String> getMonthDate(Date date) {
+        return DateCountUtil.getMonthDate(date, YMD4BAR);
+    }
+
+    /**
+     * 指定月的第一天和最後一天
+     * @return map
+     */
+    public static Map<String, String> getMonthDate(Date oneDate, SimpleDateFormat sdf) {
         Map<String, String> map = new HashMap<>();
         // 获取Calendar
         Calendar calendar = Calendar.getInstance();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         // 设置时间,当前时间不用设置
-        // calendar.setTime(new Date());
+        calendar.setTime(oneDate);
         calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DATE));
-        map.put("monthF", format.format(calendar.getTime()));
+        map.put("start", sdf.format(calendar.getTime()));
         // 设置日期为本月最大日期
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
-        map.put("monthL", format.format(calendar.getTime()));
+        map.put("end", sdf.format(calendar.getTime()));
         return map;
     }
 

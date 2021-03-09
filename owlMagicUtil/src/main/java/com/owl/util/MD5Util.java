@@ -3,6 +3,7 @@ package com.owl.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 /**
@@ -13,7 +14,7 @@ import java.security.MessageDigest;
  */
 public abstract class MD5Util {
     //16进制
-    private static char[] HEX = "0123456789abcdef".toCharArray();
+    private static final char[] HEX = "0123456789abcdef".toCharArray();
 
     /**
      * 获取md5
@@ -25,7 +26,7 @@ public abstract class MD5Util {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.reset();
-            backStr = bytes2Hex(messageDigest.digest(inputStr.getBytes("UTF-8")));
+            backStr = bytes2Hex(messageDigest.digest(inputStr.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception e) {
             return null;
         }
@@ -49,7 +50,7 @@ public abstract class MD5Util {
                 messageDigest.update(buffer, 0, length);
             }
             BigInteger bigInt = new BigInteger(1, messageDigest.digest());
-            LogPrintUtil.info("文件md5值：" + bigInt.toString(16));
+            ConsolePrintUtil.info("文件md5值：" + bigInt.toString(16));
             md5 = bigInt.toString(16);
         } catch (Exception ignored) {
 

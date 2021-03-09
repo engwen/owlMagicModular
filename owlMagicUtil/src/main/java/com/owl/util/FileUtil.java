@@ -106,7 +106,7 @@ public class FileUtil {
         File file1 = new File(filePath1);
         File file2 = new File(filePath2);
         if (file1.isDirectory() || file2.isDirectory()) {
-            LogPrintUtil.error("此方法不支持目录比较,请使用 getRepeatFileByPath");
+            ConsolePrintUtil.error("此方法不支持目录比较,请使用 getRepeatFileByPath");
         } else if (file1.exists() && file2.exists()) {
             String file1md5 = MD5Util.getMD5(file1);
             String file2md5 = MD5Util.getMD5(file2);
@@ -127,11 +127,11 @@ public class FileUtil {
         getFilePathMd5(fileMap, dir);
         fileMap.keySet().stream().filter(key -> fileMap.get(key).size() != 1).forEach(key -> {
             repeatFile.put(key, fileMap.get(key));
-            LogPrintUtil.info(String.format("MD5 %s 路径文件存在重复", key));
-            fileMap.get(key).forEach(it -> LogPrintUtil.info(it.getAbsolutePath()));
+            ConsolePrintUtil.info(String.format("MD5 %s 路径文件存在重复", key));
+            fileMap.get(key).forEach(it -> ConsolePrintUtil.info(it.getAbsolutePath()));
         });
         if (repeatFile.keySet().size() == 0) {
-            LogPrintUtil.info("该目录下文件不存在重复");
+            ConsolePrintUtil.info("该目录下文件不存在重复");
         }
         return repeatFile;
     }

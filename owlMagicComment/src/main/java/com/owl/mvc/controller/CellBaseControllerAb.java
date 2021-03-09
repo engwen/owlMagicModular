@@ -1,6 +1,6 @@
 package com.owl.mvc.controller;
 
-import com.owl.comment.utils.AsLogUtil;
+import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.service.CellBaseServiceAb;
@@ -31,7 +31,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<T> create(T model) {
-        AsLogUtil.info("default create");
+        AsConsoleConsoleUtil.info("default create");
         return cellBaseServiceAb.create(model);
     }
 
@@ -42,7 +42,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> createList(List<T> list) {
-        AsLogUtil.info("default createList");
+        AsConsoleConsoleUtil.info("default createList");
         return cellBaseServiceAb.createList(list);
     }
 
@@ -54,7 +54,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> deleteRe(T model) {
-        AsLogUtil.info("default real delete");
+        AsConsoleConsoleUtil.info("default real delete");
         return cellBaseServiceAb.deleteRe(model);
     }
 
@@ -65,7 +65,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> deleteListRe(List<ID> idList) {
-        AsLogUtil.info("default real delete");
+        AsConsoleConsoleUtil.info("default real delete");
         return cellBaseServiceAb.deleteByIdListRe(idList);
     }
 
@@ -76,7 +76,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> update(T model) {
-        AsLogUtil.info("default update");
+        AsConsoleConsoleUtil.info("default update");
         return cellBaseServiceAb.update(model);
     }
 
@@ -87,7 +87,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
-        AsLogUtil.info("default update");
+        AsConsoleConsoleUtil.info("default update");
         return cellBaseServiceAb.updateByNotNull(model);
     }
 
@@ -99,7 +99,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<T> details(T model) {
-        AsLogUtil.info("default details");
+        AsConsoleConsoleUtil.info("default details");
         return cellBaseServiceAb.details(model);
     }
 
@@ -110,7 +110,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        AsLogUtil.info("default list");
+        AsConsoleConsoleUtil.info("default list");
         return cellBaseServiceAb.list(pageDTO);
     }
 
@@ -121,7 +121,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO) {
-        AsLogUtil.info("default list");
+        AsConsoleConsoleUtil.info("default list");
         return cellBaseServiceAb.listByExact(modelDTO);
     }
 
@@ -132,7 +132,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> i
      */
     @Override
     public MsgResultVO<?> isExist(T model) {
-        AsLogUtil.info("default isExist");
+        AsConsoleConsoleUtil.info("default isExist");
         return cellBaseServiceAb.isExist(model);
     }
 }

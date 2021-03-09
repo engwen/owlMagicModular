@@ -6,6 +6,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 /**
  * 获取 request 对象
@@ -18,11 +19,11 @@ public class SpringServletContextUtil {
     public static final String POST_METHOD = "POST";
 
     public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
     public static HttpServletResponse gerResponse() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
     }
 
     public static boolean isGetRequest() {
@@ -38,7 +39,7 @@ public class SpringServletContextUtil {
     }
 
     public static boolean isPostRequest(HttpServletRequest request) {
-        return GET_METHOD.equals(request.getMethod());
+        return POST_METHOD.equals(request.getMethod());
     }
 
     public static HttpSession getSession() {

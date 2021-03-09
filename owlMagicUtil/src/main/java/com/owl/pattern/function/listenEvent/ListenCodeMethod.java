@@ -2,7 +2,7 @@ package com.owl.pattern.function.listenEvent;
 
 import com.owl.pattern.function.listenEvent.base.OwlListenCodeBase;
 import com.owl.pattern.observer.OwlObserved;
-import com.owl.util.LogPrintUtil;
+import com.owl.util.ConsolePrintUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,10 +29,10 @@ public class ListenCodeMethod implements OwlListenCodeBase {
                         method.invoke(owlObserved, params);
                         break;
                     } catch (IllegalAccessException e) {
-                        LogPrintUtil.error("params is error. More...");
+                        ConsolePrintUtil.error("params is error. More...");
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
-                        LogPrintUtil.error("listen method is error. More...");
+                        ConsolePrintUtil.error("listen method is error. More...");
                         e.printStackTrace();
                     }
                 }
@@ -40,7 +40,7 @@ public class ListenCodeMethod implements OwlListenCodeBase {
                 throw new NoSuchMethodException();
             }
         } catch (NoSuchMethodException e) {
-            LogPrintUtil.error("not find method " + methodName + " in this class,please check it. More...");
+            ConsolePrintUtil.error("not find method " + methodName + " in this class,please check it. More...");
             e.printStackTrace();
         }
     }

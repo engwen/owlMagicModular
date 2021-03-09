@@ -1,7 +1,7 @@
 package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlSetNullData;
-import com.owl.comment.utils.AsLogUtil;
+import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.utils.SpringServletContextUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
@@ -15,8 +15,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
@@ -48,7 +46,7 @@ public class OwlSetNullDataAS {
         String[] setNullParams = methodSignature.getMethod().getAnnotation(OwlSetNullData.class).paramsValue();
         String[] setNullDatas = methodSignature.getMethod().getAnnotation(OwlSetNullData.class).backValue();
         if (setNullParams.length > 0) {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            HttpServletRequest request = SpringServletContextUtil.getRequest();
             if (SpringServletContextUtil.isGetRequest(request)) {// get 请求
                 Map<String, String[]> paramsHeadMap = request.getParameterMap();
                 for (String param : setNullParams) {
@@ -58,7 +56,7 @@ public class OwlSetNullDataAS {
                 //从对象中獲取參數
                 Object paramsVO = joinPoint.getArgs()[0];
                 if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
-                    AsLogUtil.error(joinPoint, "OwlSetNullDataAS 此注解仅接收 Map 或 Object 对象");
+                    AsConsoleConsoleUtil.error(joinPoint, "OwlSetNullDataAS 此注解仅接收 Map 或 Object 对象");
                 } else {
 //                使用Map接收参数
                     if (paramsVO instanceof Map) {
@@ -74,7 +72,7 @@ public class OwlSetNullDataAS {
                                 if (field.getName().equals(param)) {
                                     field.setAccessible(true);
                                     String methodName = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-                                    Method method = paramsVO.getClass().getDeclaredMethod(methodName, field.getType());
+                                    Method method = paramsVO.getClass().getMethod(methodName, field.getType());
                                     setNullByField(method, paramsVO, field.getType());
                                 }
                             }
@@ -85,12 +83,12 @@ public class OwlSetNullDataAS {
         }
         Object obj = joinPoint.proceed();
         if (setNullDatas.length > 0) {
-            setNullByObject(setNullDatas, obj);
+            setBackNullByObject(setNullDatas, obj);
         }
         return obj;
     }
 
-    private static void setNullByObject(String[] setNullDatas, Object resultDataObj) throws Exception {
+    private static void setBackNullByObject(String[] setNullDatas, Object resultDataObj) throws Exception {
         Field[] fields = ObjectUtil.getSupperClassProperties(resultDataObj, new Field[0]);
         if (!RegexUtil.isEmpty(resultDataObj)) {
             if (ClassTypeUtil.isBaseClass(resultDataObj) || ClassTypeUtil.isPackClass(resultDataObj)) {
@@ -99,16 +97,16 @@ public class OwlSetNullDataAS {
                 PageVO<?> pageVO = (PageVO<?>) resultDataObj;
                 Object obj = pageVO.getResultData();
                 if (!RegexUtil.isEmpty(obj)) {
-                    setNullByObject(setNullDatas, obj);
+                    setBackNullByObject(setNullDatas, obj);
                 }
             } else if (resultDataObj instanceof MsgResultVO) {
                 MsgResultVO<?> resultVO = (MsgResultVO<?>) resultDataObj;
                 Object obj = resultVO.getResultData();
                 if (!RegexUtil.isEmpty(obj)) {
-                    setNullByObject(setNullDatas, obj);
+                    setBackNullByObject(setNullDatas, obj);
                 }
             } else if (resultDataObj instanceof Collection) {
-                setNullByList(setNullDatas, resultDataObj, fields);
+                setNullByList(setNullDatas, resultDataObj);
             } else if (resultDataObj instanceof Map) {
                 setNullByMap(setNullDatas, resultDataObj);
             } else {
@@ -117,7 +115,7 @@ public class OwlSetNullDataAS {
                         if (param.equals(field.getName())) {
                             field.setAccessible(true);
                             String methodName = "set" + param.substring(0, 1).toUpperCase() + param.substring(1);
-                            Method method = resultDataObj.getClass().getDeclaredMethod(methodName, field.getType());
+                            Method method = resultDataObj.getClass().getMethod(methodName, field.getType());
                             setNullByField(method, resultDataObj, field.getType());
                         }
                     }
@@ -126,15 +124,16 @@ public class OwlSetNullDataAS {
         }
     }
 
-    private static void setNullByList(String[] setNullDatas, Object resultDataObj, Field[] fields) throws Exception {
+    private static void setNullByList(String[] setNullDatas, Object resultDataObj) throws Exception {
         List<?> temp = (List<?>) resultDataObj;
+        Field[] fields = ObjectUtil.getSupperClassProperties(temp.get(0), new Field[0]);
         for (Field field : fields) {
             for (String param : setNullDatas) {
                 if (param.equals(field.getName())) {
                     field.setAccessible(true);
                     for (Object objTemp : temp) {
                         String methodName = "set" + param.substring(0, 1).toUpperCase() + param.substring(1);
-                        Method method = resultDataObj.getClass().getDeclaredMethod(methodName, field.getType());
+                        Method method = temp.get(0).getClass().getMethod(methodName, field.getType());
                         setNullByField(method, objTemp, field.getType());
                     }
                 }

@@ -9,7 +9,7 @@ import java.util.Date;
  * email xiachanzou@outlook.com
  * 2019/6/25.
  */
-public abstract class LogPrintUtil {
+public abstract class ConsolePrintUtil {
 
     public static void info(String msg) {
         log("\033[0;35m", msg, "INFO");
@@ -25,6 +25,6 @@ public abstract class LogPrintUtil {
 
     private static void log(String code, String msg, String level) {
         System.out.println(code + "[" + level + "][" + DateCountUtil.getDateFormSdf(new Date(), DateCountUtil.YMDHMS4BAR) +
-                "][" + Thread.currentThread().getStackTrace()[3].getClassName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "] " + msg);
+                "][" + Thread.currentThread().getStackTrace()[3].getClassName() + "." + Thread.currentThread().getStackTrace()[3].getMethodName() + "] " + msg);
     }
 }

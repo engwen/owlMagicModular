@@ -1,11 +1,11 @@
 package com.owl.email;
 
-import com.owl.util.LogPrintUtil;
+import com.owl.util.ConsolePrintUtil;
 import com.owl.util.RegexUtil;
 
-import javax.mail.Session;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -92,7 +92,7 @@ public class EmailBase {
             if (transport.isConnected()) {
                 transport.close();
             }
-            LogPrintUtil.info("Sent message successfully....");
+            ConsolePrintUtil.info("Sent message successfully....");
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
@@ -101,35 +101,35 @@ public class EmailBase {
     private boolean sendReady() {
         boolean result = true;
         if (!RegexUtil.isEmail(this.from)) {
-            LogPrintUtil.error("发件人邮箱格式非法");
+            ConsolePrintUtil.error("发件人邮箱格式非法");
             result = false;
         }
         if (RegexUtil.isEmpty(this.password)) {
-            LogPrintUtil.error("发件人密码不能为空");
+            ConsolePrintUtil.error("发件人密码不能为空");
             result = false;
         }
         if (RegexUtil.isEmpty(this.to)) {
-            LogPrintUtil.error("收件人不能为空");
+            ConsolePrintUtil.error("收件人不能为空");
             result = false;
         }
         if (RegexUtil.isEmpty(this.subject)) {
-            LogPrintUtil.error("邮件主题不能为空");
+            ConsolePrintUtil.error("邮件主题不能为空");
             result = false;
         }
         if (RegexUtil.isEmpty(this.context)) {
-            LogPrintUtil.error("邮件内容不能为空");
+            ConsolePrintUtil.error("邮件内容不能为空");
             result = false;
         }
         if (RegexUtil.isEmpty(this.host)) {
-            LogPrintUtil.error("邮件服务器不能为空");
+            ConsolePrintUtil.error("邮件服务器不能为空");
             result = false;
         }
         if (RegexUtil.isEmpty(this.port)) {
-            LogPrintUtil.error("发送端口不能为空");
+            ConsolePrintUtil.error("发送端口不能为空");
             result = false;
         }
         if (RegexUtil.isEmpty(this.smtpType)) {
-            LogPrintUtil.error("邮件服务器类型不能为空");
+            ConsolePrintUtil.error("邮件服务器类型不能为空");
             result = false;
         }
         return result;

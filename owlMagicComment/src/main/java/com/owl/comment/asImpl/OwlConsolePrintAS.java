@@ -1,7 +1,7 @@
 package com.owl.comment.asImpl;
 
-import com.owl.comment.annotations.OwlLogInfo;
-import com.owl.comment.utils.AsLogUtil;
+import com.owl.comment.annotations.OwlConsolePrint;
+import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,26 +22,26 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Order(90)
-public class OwlLogInfoAS {
+public class OwlConsolePrintAS {
 
-    @Pointcut("@within(com.owl.comment.annotations.OwlLogInfo) || @annotation(com.owl.comment.annotations.OwlLogInfo)")
+    @Pointcut("@within(com.owl.comment.annotations.OwlConsolePrint) || @annotation(com.owl.comment.annotations.OwlConsolePrint)")
     public void logCut() {
     }
 
     @Before("logCut()")
     public void logInfo(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        OwlLogInfo owlLogInfo = methodSignature.getMethod().getAnnotation(OwlLogInfo.class);
+        OwlConsolePrint owlConsolePrint = methodSignature.getMethod().getAnnotation(OwlConsolePrint.class);
 
-        if (null == owlLogInfo) {
-            owlLogInfo = AnnotationUtils.findAnnotation(methodSignature.getMethod().getDeclaringClass(), OwlLogInfo.class);
+        if (null == owlConsolePrint) {
+            owlConsolePrint = AnnotationUtils.findAnnotation(methodSignature.getMethod().getDeclaringClass(), OwlConsolePrint.class);
         }
         //方法注解
-        if (null != owlLogInfo && !RegexUtil.isEmpty(owlLogInfo.value())) {
-            AsLogUtil.info(joinPoint, owlLogInfo.value());
+        if (null != owlConsolePrint && !RegexUtil.isEmpty(owlConsolePrint.value())) {
+            AsConsoleConsoleUtil.info(joinPoint, owlConsolePrint.value());
         } else {
 //          joinPoint.getSignature().getDeclaringTypeName(),
-            AsLogUtil.info(joinPoint, String.format("当前方法 %s", joinPoint.getSignature().getName()));
+            AsConsoleConsoleUtil.info(joinPoint, String.format("当前方法 %s", joinPoint.getSignature().getName()));
         }
     }
 }

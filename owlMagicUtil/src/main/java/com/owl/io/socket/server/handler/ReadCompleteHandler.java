@@ -2,7 +2,7 @@ package com.owl.io.socket.server.handler;
 
 import com.owl.io.socket.model.SocketEvent;
 import com.owl.io.socket.server.SocketDispatch;
-import com.owl.util.LogPrintUtil;
+import com.owl.util.ConsolePrintUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
 
@@ -41,7 +41,7 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
         } else {
             return;
         }
-        LogPrintUtil.info("read success. msg is " + msg);
+        ConsolePrintUtil.info("read success. msg is " + msg);
         attachment.clear();
         attachment.put(ObjectUtil.toJSON(SocketEvent.SERVER_REQUEST_SUCCESS).getBytes());
         attachment.flip();
@@ -57,12 +57,12 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
      */
     @Override
     public void failed(Throwable exc, ByteBuffer attachment) {
-        LogPrintUtil.error("read error. Information is " + exc);
+        ConsolePrintUtil.error("read error. Information is " + exc);
         try {
-            LogPrintUtil.info("close socket success. " + socketChannel.getRemoteAddress());
+            ConsolePrintUtil.info("close socket success. " + socketChannel.getRemoteAddress());
             socketChannel.close();
         } catch (IOException e) {
-            LogPrintUtil.error("close socket error. Information is " + e);
+            ConsolePrintUtil.error("close socket error. Information is " + e);
             e.printStackTrace();
         }
     }

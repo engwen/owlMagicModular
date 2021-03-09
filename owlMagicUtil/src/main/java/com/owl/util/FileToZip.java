@@ -71,13 +71,13 @@ public abstract class FileToZip {
         ZipOutputStream zos = null;
 
         if (!sourceFile.exists()) {
-            LogPrintUtil.error("待压缩的文件目录：" + sourceFilePath + "不存在.");
+            ConsolePrintUtil.error("待压缩的文件目录：" + sourceFilePath + "不存在.");
         } else {
             try {
                 File zipFile = new File(zipFilePath + File.separator + fileName + ".zip");
                 if (zipFile.exists()) {
                     zipFile.delete();
-                    LogPrintUtil.error(zipFilePath + "目录下存在名字为:" + fileName + ".zip" + "打包文件.已将其删除");
+                    ConsolePrintUtil.error(zipFilePath + "目录下存在名字为:" + fileName + ".zip" + "打包文件.已将其删除");
                 }
                 fos = new FileOutputStream(zipFile);
                 zos = new ZipOutputStream(new BufferedOutputStream(fos));
@@ -104,7 +104,7 @@ public abstract class FileToZip {
         if (filePath.isDirectory()) {
             File[] sourceFiles = filePath.listFiles();
             if (null == sourceFiles || sourceFiles.length < 1) {
-                LogPrintUtil.error("待压缩的文件目录：" + sourceFilePath + "里面不存在文件，无需压缩.");
+                ConsolePrintUtil.error("待压缩的文件目录：" + sourceFilePath + "里面不存在文件，无需压缩.");
             } else {
                 for (File file : sourceFiles) {
                     addZip(sourceFilePath, file, fis, bis, zos);

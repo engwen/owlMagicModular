@@ -21,11 +21,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.engwen</groupId>
-            <artifactId>owlMagicUtil</artifactId>
-            <version>3.0.3</version>
-        </dependency>
-        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>8.0.1</version>
@@ -37,6 +32,12 @@
             <version>${junit.version}</version>
             <!-- 指定范围，在测试时才会加载 -->
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.engwen</groupId>
+            <artifactId>owlMagicUtil</artifactId>
+            <version>3.0.4</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
