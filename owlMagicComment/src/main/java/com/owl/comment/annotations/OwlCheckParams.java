@@ -12,10 +12,21 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface OwlCheckParams {
+    //requestParams中不全为空
+    String[] paramsNotAllNull() default {};
 
-    String[] notAllNull() default {};
+    //requestParams中不为空
+    String[] paramsNotNull() default {};
 
-    String[] notNull() default {};
+    //requestParams中可以为空，一般可以不使用
+    String[] paramsCanNull() default {};
 
-    String[] canNull() default {};
+    //requestBody中不全部为空
+    String[] bodyNotAllNull() default {};
+
+    //requestBody中不能为空
+    String[] bodyNotNull() default {};
+
+    //requestBody中可以为空，一般可以不使用
+    String[] bodyCanNull() default {};
 }

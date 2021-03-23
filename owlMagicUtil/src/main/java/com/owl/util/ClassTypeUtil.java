@@ -10,8 +10,8 @@ import java.util.Arrays;
  */
 public abstract class ClassTypeUtil {
 
-    private static Class[] classTypeBase = new Class[]{char.class, int.class, long.class, short.class, float.class, double.class, boolean.class};
-    private static Class[] classTypePack = new Class[]{String.class, Integer.class, Long.class, Short.class, Float.class, Double.class, Boolean.class};
+    private static final Class[] classTypeBase = new Class[]{char.class, int.class, long.class, short.class, float.class, double.class, boolean.class};
+    private static final Class[] classTypePack = new Class[]{String.class, Integer.class, Long.class, Short.class, Float.class, Double.class, Boolean.class};
 
 
     private static boolean isContain(Class[] classType, Object obj) {

@@ -88,17 +88,6 @@ public abstract class RegexUtil {
         return null == input || (input instanceof String && isEmpty((String) input)) || (input instanceof Collection && ((Collection) input).size() <= 0);
     }
 
-    public static boolean hasEmpty(Object... others) {
-//        for (Object input : others) {
-//            if (null == input || (input instanceof String && isEmpty((String) input))
-//                    || (input instanceof Collection && ((Collection) input).size() <= 0))
-//                return true;
-//        }
-//        return false;
-        return Arrays.stream(others).anyMatch(it -> null == it || (it instanceof String && isEmpty((String) it))
-                || (it instanceof Collection && ((Collection) it).size() <= 0));
-    }
-
     /**
      * 手机号码验证,11位，不知道详细的手机号码段，只是验证开头必须是1和位数
      * @param input 字符串

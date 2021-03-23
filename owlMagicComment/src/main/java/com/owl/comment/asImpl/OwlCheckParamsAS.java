@@ -1,6 +1,7 @@
 package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlCheckParams;
+import com.owl.comment.asModel.ParamsCheckStatus;
 import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.utils.SpringServletContextUtil;
@@ -15,9 +16,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -39,104 +43,129 @@ public class OwlCheckParamsAS {
     public Object checkParams(ProceedingJoinPoint joinPoint) throws Throwable {
         MsgResultVO<?> result = new MsgResultVO<>();
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-//        獲取被標記不能爲空的屬性集合
-        String[] notNull = methodSignature.getMethod().getAnnotation(OwlCheckParams.class).notNull();
-        String[] notAllNull = methodSignature.getMethod().getAnnotation(OwlCheckParams.class).notAllNull();
+        ParamsCheckStatus checkStatus = new ParamsCheckStatus();
+        //獲取被標記不能爲空的屬性集合
+        checkStatus.setParamsNotNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).paramsNotNull());
+        checkStatus.setParamsNotAllNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).paramsNotAllNull());
+        checkStatus.setBodyNotNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).bodyNotNull());
+        checkStatus.setBodyNotAllNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).bodyNotAllNull());
         //該注解沒有指定參數
-        if (notNull.length == 0 && notAllNull.length == 0) {
+        if (checkStatus.getParamsNotNull().length == 0 && checkStatus.getParamsNotAllNull().length == 0 && checkStatus.getBodyNotNull().length == 0 && checkStatus.getBodyNotAllNull().length == 0) {
             AsConsoleConsoleUtil.info(joinPoint, MsgConstant.REQUEST_ANNOTATIONS_PARAMS_ERROR.getCode());
             return joinPoint.proceed(joinPoint.getArgs());
         }
-//        其中是否存在空，默認不存在
-        boolean hasNull = false;
-        boolean allOrNull = true;
-//        存放含有空的屬性
-        List<String> paramsIsNull = new ArrayList<>();
-//        此處從requestHead頭中獲取參數，@Param
-        HttpServletRequest request = SpringServletContextUtil.getRequest();
-//如果是GET請求
-        if (SpringServletContextUtil.isGetRequest(request)) {
-            Map<String, String[]> paramsHeadMap = request.getParameterMap();
-            if (null != paramsHeadMap && paramsHeadMap.keySet().size() > 0) {
-                for (String param : notNull) {
-                    if (null == paramsHeadMap.get(param) || paramsHeadMap.get(param).length == 0) {
-                        paramsIsNull.add(param);
-                        hasNull = true;
-                    }
-                }
-                for (String param : notAllNull) {
-                    if (null != paramsHeadMap.get(param) && paramsHeadMap.get(param).length > 0) {
-                        allOrNull = false;
-                        break;
-                    }
-                }
-            } else {
-                AsConsoleConsoleUtil.error(joinPoint, " Get 方法，没有拦截到请求参数，请求将会被放行");
-            }
-        } else if (SpringServletContextUtil.isPostRequest(request)) {
-//  如果是POST請求
-            Object[] args = joinPoint.getArgs();
-            if (args.length > 1) {
-                AsConsoleConsoleUtil.error(joinPoint, "此注解 RequestBody 仅适配 Map 和 Object 对象, 当接收参数超过1个时，请使用Get方法。此次请求将会被直接放行");
-                return joinPoint.proceed(joinPoint.getArgs());
-            }
-            if (args.length == 0) {
-                AsConsoleConsoleUtil.error(joinPoint, "接收参数不能为空");
-                return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
-            }
-//          从接收封装的对象
-            Map<String, Object> paramsBodyMap = new HashMap<>();
-            Object paramsVO = args[0];
-            if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
-                AsConsoleConsoleUtil.error(joinPoint, "此注解只接收 Map 或 Object 对象");
-            } else {
-                if (paramsVO instanceof List<?>) {
-                    Optional<?> any = ((List<?>) paramsVO).stream().filter(it -> checkListParams(it, notNull, notAllNull)).findAny();
-                    if (any.isPresent()) {
-                        return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
-                    } else {
-                        return joinPoint.proceed(joinPoint.getArgs());
-                    }
-                }
-//                使用Map接收参数
-                if (paramsVO instanceof Map) {
-                    paramsBodyMap = (Map<String, Object>) paramsVO;
-                } else {
-//                  使用对象接收参数
-                    Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
-                    for (Field field : fields) {
-                        field.setAccessible(true);
-                        paramsBodyMap.put(field.getName(), field.get(paramsVO));
-                    }
-                }
-                for (String param : notNull) {
-                    if (RegexUtil.isEmpty(paramsBodyMap.get(param))) {
-                        paramsIsNull.add(param);
-                        hasNull = true;
-                    }
-                }
-                for (String param : notAllNull) {
-                    if (!RegexUtil.isEmpty(paramsBodyMap.get(param))) {
-                        allOrNull = false;
-                        break;
-                    }
-                }
-            }
+        //检查requestParams
+        checkRequestParams(joinPoint, checkStatus);
+        //检查requestBody
+        checkRequestBody(joinPoint, checkStatus);
+        if (checkStatus.isParamsHasNull()) {
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能为null", checkStatus.getRequestParamsIsNull()));
+            AsConsoleConsoleUtil.error(joinPoint, "requestParams " + result.getResultMsg());
+            return result;
+        } else if (checkStatus.getParamsNotAllNull().length > 0 && checkStatus.isParamsAllOrNull()) {
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getParamsNotAllNull())));
+            AsConsoleConsoleUtil.error(joinPoint, "requestParams " + result.getResultMsg());
+            return result;
+        } else if (checkStatus.isBodyHasNull()) {
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getParamsNotAllNull())));
+            AsConsoleConsoleUtil.error(joinPoint, "requestBody " + result.getResultMsg());
+            return result;
+        } else if (checkStatus.getBodyNotAllNull().length > 0 && checkStatus.isBodyAllOrNull()) {
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getParamsNotAllNull())));
+            AsConsoleConsoleUtil.error(joinPoint, "requestBody " + result.getResultMsg());
+            return result;
         } else {
-            AsConsoleConsoleUtil.error(joinPoint, "此注解仅适配 Get 和 Post 方法，此次请求将会被放行");
+            AsConsoleConsoleUtil.info(joinPoint, "参数检查通过");
             return joinPoint.proceed(joinPoint.getArgs());
         }
-        if (hasNull) {
-            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能为null", paramsIsNull));
-            AsConsoleConsoleUtil.error(joinPoint, result.getResultMsg());
-            return result;
-        } else if (notAllNull.length > 0 && allOrNull) {
-            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(notAllNull)));
-            AsConsoleConsoleUtil.error(joinPoint, result.getResultMsg());
-            return result;
-        } else {
-            AsConsoleConsoleUtil.info(joinPoint, "参数检查成功");
-            return joinPoint.proceed(joinPoint.getArgs());
+    }
+
+    /**
+     * 检查 get 参数
+     * @param joinPoint   切面
+     * @param checkStatus 检查状态
+     */
+    private static void checkRequestParams(ProceedingJoinPoint joinPoint, ParamsCheckStatus checkStatus) {
+        //此處從requestHead頭中獲取參數，@Param
+        HttpServletRequest request = SpringServletContextUtil.getRequest();
+        //检查requestParam
+        Map<String, String[]> paramsHeadMap = request.getParameterMap();
+        if (null != paramsHeadMap && paramsHeadMap.keySet().size() > 0) {
+            Optional<Boolean> any = Arrays.stream(checkStatus.getParamsNotNull()).filter(param -> null == paramsHeadMap.get(param) || paramsHeadMap.get(param).length == 0).map(checkStatus::addNullParams).findAny();
+            checkStatus.setParamsHasNull(any.isPresent());
+            Optional<String> first = Arrays.stream(checkStatus.getParamsNotAllNull()).filter(param -> null != paramsHeadMap.get(param) && paramsHeadMap.get(param).length > 0).findFirst();
+            checkStatus.setParamsAllOrNull(!first.isPresent());
+        } else if (checkStatus.getParamsNotNull().length > 0 || checkStatus.getParamsNotAllNull().length > 0) {
+            AsConsoleConsoleUtil.error(joinPoint, " 没有找到 @RequestParam 注解字段");
+        }
+    }
+
+    /**
+     * 检查 Post 参数
+     * @param joinPoint   切面
+     * @param checkStatus 检查状态
+     * @throws IllegalAccessException 异常
+     */
+    private static void checkRequestBody(ProceedingJoinPoint joinPoint, ParamsCheckStatus checkStatus) throws IllegalAccessException {
+        //检查requestBody
+        Object[] args = joinPoint.getArgs();
+        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        //参数注解，1维是参数，2维是注解
+        Annotation[][] annotations = method.getParameterAnnotations();
+        //是否处理完成
+        boolean hasDone = false;
+        //开始处理参数
+        for (int i = 0; i < annotations.length; i++) {
+            Object paramsVO = args[i];
+            //获取注解数组
+            Annotation[] paramAnn = annotations[i];
+            //参数为空，直接下一个参数
+            if (paramsVO == null || paramAnn.length == 0) {
+                continue;
+            }
+            for (Annotation annotation : paramAnn) {
+                if (annotation.annotationType().equals(RequestBody.class)) {
+                    //从接收封装的对象
+                    Map<String, Object> paramsBodyMap = new HashMap<>();
+                    if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
+                        AsConsoleConsoleUtil.error(joinPoint, "此注解只接收 Map 或 Object 对象");
+                        return;
+                    } else {
+                        if (paramsVO instanceof List<?> && ((List<?>) paramsVO).size() > 0) {
+                            AsConsoleConsoleUtil.info(joinPoint, "list集合不为空");
+                            return;
+                        }
+                        // 使用Map接收参数
+                        if (paramsVO instanceof Map) {
+                            paramsBodyMap = (Map<String, Object>) paramsVO;
+                        } else {
+                            //使用对象接收参数,获取对象的全部属性
+                            Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
+                            for (Field field : fields) {
+                                field.setAccessible(true);
+                                paramsBodyMap.put(field.getName(), field.get(paramsVO));
+                            }
+                        }
+                        //遍历Body集合
+                        for (String paramName : checkStatus.getBodyNotNull()) {
+                            if (RegexUtil.isEmpty(paramsBodyMap.get(paramName))) {
+                                checkStatus.addNullBody(paramName);
+                                checkStatus.setBodyHasNull(true);
+                            }
+                        }
+                        for (String paramName : checkStatus.getBodyNotAllNull()) {
+                            if (!RegexUtil.isEmpty(paramsBodyMap.get(paramName))) {
+                                checkStatus.setBodyAllOrNull(false);
+                                break;
+                            }
+                        }
+                    }
+                    hasDone = true;
+                }
+            }
+            if (hasDone) {
+                break;
+            }
         }
     }
 
@@ -147,7 +176,7 @@ public class OwlCheckParamsAS {
      * @param arr 集合
      * @return 字符串
      */
-    private static String backStr(String str, List arr) {
+    private static String backStr(String str, List<String> arr) {
         String temp = arr.toString();
         return String.format(str, temp.substring(1, temp.length() - 1));
     }

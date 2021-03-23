@@ -20,6 +20,7 @@ public abstract class DateCountUtil {
     public static final SimpleDateFormat YMDH4BAR = new SimpleDateFormat("yyyy-MM-dd HH");
     public static final SimpleDateFormat YMD4BAR = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat YMD4EN = new SimpleDateFormat("MMM.dd, yyyy", Locale.UK);
+    public static final SimpleDateFormat YM4BAR = new SimpleDateFormat("yyyy-MM");
 
     public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
     public static final SimpleDateFormat MM = new SimpleDateFormat("mm");
