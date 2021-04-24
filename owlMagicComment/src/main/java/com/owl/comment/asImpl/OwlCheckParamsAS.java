@@ -49,6 +49,20 @@ public class OwlCheckParamsAS {
         checkStatus.setParamsNotAllNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).paramsNotAllNull());
         checkStatus.setBodyNotNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).bodyNotNull());
         checkStatus.setBodyNotAllNull(methodSignature.getMethod().getAnnotation(OwlCheckParams.class).bodyNotAllNull());
+        //獲取未設置為Post或Get，不能爲空和不能全部爲空
+        String[] notNull = methodSignature.getMethod().getAnnotation(OwlCheckParams.class).notNull();
+        String[] notAllNull = methodSignature.getMethod().getAnnotation(OwlCheckParams.class).notAllNull();
+        if (notNull.length != 0 || notAllNull.length != 0) {
+            //get方法
+            if (SpringServletContextUtil.isGetRequest()) {
+                checkStatus.setParamsNotNull(notNull);
+                checkStatus.setParamsNotAllNull(notAllNull);
+                //post方法
+            } else if (SpringServletContextUtil.isPostRequest()) {
+                checkStatus.setBodyNotNull(notNull);
+                checkStatus.setBodyNotAllNull(notAllNull);
+            }//其他方法暫時不考慮
+        }
         //該注解沒有指定參數
         if (checkStatus.getParamsNotNull().length == 0 && checkStatus.getParamsNotAllNull().length == 0 && checkStatus.getBodyNotNull().length == 0 && checkStatus.getBodyNotAllNull().length == 0) {
             AsConsoleConsoleUtil.info(joinPoint, MsgConstant.REQUEST_ANNOTATIONS_PARAMS_ERROR.getCode());

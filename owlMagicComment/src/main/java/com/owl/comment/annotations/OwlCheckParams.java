@@ -29,4 +29,13 @@ public @interface OwlCheckParams {
 
     //requestBody中可以为空，一般可以不使用
     String[] bodyCanNull() default {};
+
+    //请求中不全为空，程序判断POST或者get
+    String[] notAllNull() default {};
+
+    //请求中不空，程序判断POST或者get
+    String[] notNull() default {};
+
+    //请求中可以为空，一般可以不使用，程序判断POST或者get
+    String[] canNull() default {};
 }
