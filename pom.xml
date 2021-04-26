@@ -10,8 +10,8 @@
     <version>3.0.0</version>
 
     <modules>
-        <module>owlMagicComment</module>
         <module>owlMagicUtil</module>
+        <module>owlMagicComment</module>
         <module>owlMagicRedis</module>
         <module>owlMagicEmail</module>
     </modules>
