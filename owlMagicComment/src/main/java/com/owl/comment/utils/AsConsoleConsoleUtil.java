@@ -18,6 +18,10 @@ public class AsConsoleConsoleUtil extends ConsolePrintUtil {
         log(joinPoint, msg, "INFO");
     }
 
+    public static void warning(JoinPoint joinPoint, String msg) {
+        log(joinPoint, msg, "WARNING");
+    }
+
     public static void error(JoinPoint joinPoint, String msg) {
         log(joinPoint, msg, "ERROR");
     }

@@ -3,7 +3,10 @@ package com.owl.util;
 import com.owl.io.file.FileIO;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 文件處理信息
@@ -11,17 +14,44 @@ import java.util.*;
  * email xiachanzou@outlook.com
  * 2019/5/23.
  */
-public class FileUtil {
+public abstract class FileUtil {
 
     /**
      * 创建目录
      * @param dir 文件夹路径
-     * @return 是否成功
      */
-    public static boolean createDirectory(String dir) {
+    public static void createDirectory(String dir) {
         File dirFile = new File(dir);
-        return dirFile.mkdirs();
+        if (!dirFile.exists()) {
+            try {
+                LoggerUtil.info("创建文件夹：" + dirFile);
+                Files.createDirectory(dirFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LoggerUtil.info("目录已存在：" + dirFile);
+        }
     }
+
+    /**
+     * 创建目录
+     * @param dir 文件夹路径
+     */
+    public static void createDirectories(String dir) {
+        File dirFile = new File(dir);
+        if (!dirFile.exists()) {
+            try {
+                LoggerUtil.info("创建文件夹：" + dirFile);
+                Files.createDirectories(dirFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LoggerUtil.info("目录已存在：" + dirFile);
+        }
+    }
+
 
     /**
      * 写入文件
@@ -124,7 +154,7 @@ public class FileUtil {
         Map<String, List<File>> repeatFile = new HashMap<>();
         Map<String, List<File>> fileMap = new HashMap<>();
         File dir = new File(dirPath);
-        getFilePathMd5(fileMap, dir);
+        FileUtil.getFilePathMd5(fileMap, dir);
         fileMap.keySet().stream().filter(key -> fileMap.get(key).size() != 1).forEach(key -> {
             repeatFile.put(key, fileMap.get(key));
             ConsolePrintUtil.info(String.format("MD5 %s 路径文件存在重复", key));
@@ -146,7 +176,7 @@ public class FileUtil {
             File[] files = file.listFiles();
             if (files != null) {
                 for (File oneFile : files) {
-                    getFilePathMd5(fileMap, oneFile);
+                    FileUtil.getFilePathMd5(fileMap, oneFile);
                 }
             }
         } else {
@@ -158,5 +188,103 @@ public class FileUtil {
             }
             fileMap.get(key).add(file);
         }
+    }
+
+    /**
+     * 获取指定文件的绝对路径，支持文件夹
+     * @param file 文件
+     * @return 文件集合
+     */
+    public static List<File> getFilePath(File file) {
+        List<File> fileList = new ArrayList<>();
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File oneFile : files) {
+                    fileList.addAll(FileUtil.getFilePath(oneFile));
+                }
+            }
+        } else {
+            fileList.add(file);
+        }
+        return fileList;
+    }
+
+    /**
+     * 拷贝源文件到指定目录，并
+     * @param sourceDir         源文件位置初级路径
+     * @param targetDir         目标位置初级路径
+     * @param needMkdirFilePath 需要开始拷贝的路径+文件名
+     */
+    public static void copyFile(String sourceDir, String targetDir, String needMkdirFilePath) {
+        //目标位置初级路径
+        String sourceFilePath = sourceDir + File.separatorChar + needMkdirFilePath;
+        String tagPath = targetDir + File.separatorChar + needMkdirFilePath;
+        File file = new File(tagPath);
+        File parentFile = file.getParentFile();
+        try {
+            if (!parentFile.exists()) {
+                Files.createDirectories(parentFile.toPath());
+            }
+            Files.copy(new File(sourceFilePath).toPath(), file.toPath());
+        } catch (IOException e) {
+            ConsolePrintUtil.error("拷贝失败：" + sourceFilePath + "=>" + tagPath);
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 拷贝指定文件夹下的指定名称的文件
+     * @param sourceDir 源文件所在文件夹
+     * @param targetDir 目标目录
+     * @param names     文件名集合
+     * @throws IOException io异常
+     */
+    public static void copyFile(String sourceDir, String targetDir, List<String> names) throws IOException {
+        FileUtil.createDirectories(targetDir);
+        for (String fileName : names) {
+            File temp = new File(targetDir + File.separatorChar + fileName);
+            File source = new File(sourceDir + fileName);
+            if (source.exists()) {
+                InputStream resourceAsStream = new FileInputStream(source);
+                Files.copy(resourceAsStream, temp.toPath());
+            } else {
+                ConsolePrintUtil.error("未找到源文件：" + source.getAbsolutePath());
+            }
+        }
+        ConsolePrintUtil.info(sourceDir + "：目录下文件拷贝完成");
+    }
+
+    /**
+     * 按照目录结构完整的拷贝目录下文件
+     * @param sourceDir 源文件目录
+     * @param targetDir 要拷贝到的目录
+     * @param filter    文件名过滤器
+     */
+    public static void copyFileFormation(String sourceDir, String targetDir, String filter) {
+        File dir = new File(sourceDir);
+        List<File> filePath = getFilePath(dir);
+        List<File> collect;
+        if (null != filter && !filter.equals("")) {
+            collect = filePath.stream().filter(it -> it.getName().contains(filter)).collect(Collectors.toList());
+        } else {
+            collect = filePath;
+        }
+        collect.forEach(it -> {
+            String newFile = it.getAbsolutePath().replace(sourceDir, targetDir);
+            File source = new File(newFile);
+            ConsolePrintUtil.info(it.getAbsolutePath() + "=====>" + source.getAbsolutePath());
+            try {
+                File parentFile = source.getParentFile();
+                if (!parentFile.exists()) {
+                    Files.createDirectories(parentFile.toPath());
+                }
+                Files.copy(it.toPath(), source.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                ConsolePrintUtil.error("拷贝失败");
+                e.printStackTrace();
+            }
+        });
     }
 }

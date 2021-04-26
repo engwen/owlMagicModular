@@ -1,14 +1,13 @@
 package com.owl.util;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * author engwen
  * email xiachanzou@outlook.com
  * 2020/5/14.
  */
-public class NumberUtil {
+public abstract class NumberUtil {
 
     /**
      * 不带千分位

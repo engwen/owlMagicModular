@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
- * 讀取配置文件工具類（根目錄下）,本方法仅仅适用于war
+ * 讀取配置文件工具類（根目錄下）
  * author engwen
  * email xiachanzou@outlook.com
  * 2017/4/7.
@@ -39,7 +39,7 @@ public abstract class PropertiesUtil {
 
 
     /**
-     * 向指定文件写入新的属性
+     * 向指定文件写入新的属性,仅支持war
      * @param propertiesName 文件名
      * @param key            键
      * @param nameHasPath    名称中是否包含位置信息
@@ -57,7 +57,7 @@ public abstract class PropertiesUtil {
     }
 
     /**
-     * 想默认配置文件中写入属性
+     * 想默认配置文件中写入属性,本方法仅仅适用于war
      * @param key   键
      * @param value 值
      * @throws Exception ex

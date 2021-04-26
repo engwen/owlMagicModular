@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * email xiachanzou@outlook.com
  * 2019/2/28.
  */
-public class ObjectUtil {
+public abstract class ObjectUtil {
     private static Logger logger = Logger.getLogger(ObjectUtil.class.getName());
 
     /**

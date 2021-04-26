@@ -15,7 +15,7 @@ public abstract class ConsolePrintUtil {
         log("\033[0;35m", msg, "INFO");
     }
 
-    public static void info(Object msg) {
+    public static void warning(Object msg) {
         log("\033[0;35m", ObjectUtil.toJSON(msg), "INFO");
     }
 

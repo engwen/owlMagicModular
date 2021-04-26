@@ -126,8 +126,6 @@ public class OwlCheckParamsAS {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         //参数注解，1维是参数，2维是注解
         Annotation[][] annotations = method.getParameterAnnotations();
-        //是否处理完成
-        boolean hasDone = false;
         //开始处理参数
         for (int i = 0; i < annotations.length; i++) {
             Object paramsVO = args[i];
@@ -137,47 +135,43 @@ public class OwlCheckParamsAS {
             if (paramsVO == null || paramAnn.length == 0) {
                 continue;
             }
-            for (Annotation annotation : paramAnn) {
-                if (annotation.annotationType().equals(RequestBody.class)) {
-                    //从接收封装的对象
-                    Map<String, Object> paramsBodyMap = new HashMap<>();
-                    if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
-                        AsConsoleConsoleUtil.error(joinPoint, "此注解只接收 Map 或 Object 对象");
+            boolean isBodyOb = Arrays.stream(paramAnn).anyMatch(it -> it.annotationType().equals(RequestBody.class));
+            if (isBodyOb) {
+                //从接收封装的对象
+                Map<String, Object> paramsBodyMap = new HashMap<>();
+                if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
+                    AsConsoleConsoleUtil.error(joinPoint, "此注解只接收 Map 或 Object 对象");
+                    return;
+                } else {
+                    if (paramsVO instanceof List<?> && ((List<?>) paramsVO).size() > 0) {
+                        AsConsoleConsoleUtil.info(joinPoint, "list集合不为空");
                         return;
+                    }
+                    // 使用Map接收参数
+                    if (paramsVO instanceof Map) {
+                        paramsBodyMap = (Map<String, Object>) paramsVO;
                     } else {
-                        if (paramsVO instanceof List<?> && ((List<?>) paramsVO).size() > 0) {
-                            AsConsoleConsoleUtil.info(joinPoint, "list集合不为空");
-                            return;
-                        }
-                        // 使用Map接收参数
-                        if (paramsVO instanceof Map) {
-                            paramsBodyMap = (Map<String, Object>) paramsVO;
-                        } else {
-                            //使用对象接收参数,获取对象的全部属性
-                            Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
-                            for (Field field : fields) {
-                                field.setAccessible(true);
-                                paramsBodyMap.put(field.getName(), field.get(paramsVO));
-                            }
-                        }
-                        //遍历Body集合
-                        for (String paramName : checkStatus.getBodyNotNull()) {
-                            if (RegexUtil.isEmpty(paramsBodyMap.get(paramName))) {
-                                checkStatus.addNullBody(paramName);
-                                checkStatus.setBodyHasNull(true);
-                            }
-                        }
-                        for (String paramName : checkStatus.getBodyNotAllNull()) {
-                            if (!RegexUtil.isEmpty(paramsBodyMap.get(paramName))) {
-                                checkStatus.setBodyAllOrNull(false);
-                                break;
-                            }
+                        //使用对象接收参数,获取对象的全部属性
+                        Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
+                        for (Field field : fields) {
+                            field.setAccessible(true);
+                            paramsBodyMap.put(field.getName(), field.get(paramsVO));
                         }
                     }
-                    hasDone = true;
+                    //遍历Body集合
+                    for (String paramName : checkStatus.getBodyNotNull()) {
+                        if (RegexUtil.isEmpty(paramsBodyMap.get(paramName))) {
+                            checkStatus.addNullBody(paramName);
+                            checkStatus.setBodyHasNull(true);
+                        }
+                    }
+                    for (String paramName : checkStatus.getBodyNotAllNull()) {
+                        if (!RegexUtil.isEmpty(paramsBodyMap.get(paramName))) {
+                            checkStatus.setBodyAllOrNull(false);
+                            break;
+                        }
+                    }
                 }
-            }
-            if (hasDone) {
                 break;
             }
         }

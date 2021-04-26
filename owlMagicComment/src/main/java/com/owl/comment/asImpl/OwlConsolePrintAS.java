@@ -4,6 +4,7 @@ import com.owl.comment.annotations.OwlConsolePrint;
 import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -43,5 +44,10 @@ public class OwlConsolePrintAS {
 //          joinPoint.getSignature().getDeclaringTypeName(),
             AsConsoleConsoleUtil.info(joinPoint, String.format("当前方法 %s", joinPoint.getSignature().getName()));
         }
+    }
+
+    @After("logCut()")
+    public void logEndTime(JoinPoint joinPoint) {
+        AsConsoleConsoleUtil.info(joinPoint, joinPoint.getSignature().getName() + "方法执行结束");
     }
 }
