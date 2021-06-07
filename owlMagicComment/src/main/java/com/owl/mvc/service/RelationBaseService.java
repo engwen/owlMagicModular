@@ -1,6 +1,7 @@
 package com.owl.mvc.service;
 
 import com.owl.mvc.dto.RelationDTO;
+import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.vo.MsgResultVO;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/01/25.
  */
-public interface RelationBaseService<T, ID> {
+public interface RelationBaseService<T extends ModelBase<ID>, ID> {
 
     /**
      * 插入關係數據

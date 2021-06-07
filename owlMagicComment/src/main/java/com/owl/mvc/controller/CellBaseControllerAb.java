@@ -3,6 +3,7 @@ package com.owl.mvc.controller;
 import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.service.CellBaseServiceAb;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
@@ -18,8 +19,7 @@ import java.util.List;
  * time 2018/07/16.
  */
 @RestController
-@SuppressWarnings("unchecked")
-public abstract class CellBaseControllerAb<M extends CellBaseServiceAb, T, ID> implements CellBaseController<T, ID> {
+public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>, T extends ModelBase<ID>, ID> implements CellBaseController<T, ID> {
 
     @Autowired
     protected M cellBaseServiceAb;

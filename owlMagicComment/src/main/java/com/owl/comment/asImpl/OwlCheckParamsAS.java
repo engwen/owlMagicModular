@@ -120,6 +120,7 @@ public class OwlCheckParamsAS {
      * @param checkStatus 检查状态
      * @throws IllegalAccessException 异常
      */
+    @SuppressWarnings("unchecked")
     private static void checkRequestBody(ProceedingJoinPoint joinPoint, ParamsCheckStatus checkStatus) throws IllegalAccessException {
         //检查requestBody
         Object[] args = joinPoint.getArgs();
@@ -199,6 +200,7 @@ public class OwlCheckParamsAS {
      * @return
      * @throws Throwable
      */
+    @SuppressWarnings("unchecked")
     private static <T> boolean checkListParams(T paramsVO, String[] notNull, String[] notAllNull) {
         Map<String, Object> paramsBodyMap = new HashMap<>();
         boolean allOrNull = true;

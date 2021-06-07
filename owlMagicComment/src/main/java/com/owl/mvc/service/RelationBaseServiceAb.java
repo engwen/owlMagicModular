@@ -2,15 +2,19 @@ package com.owl.mvc.service;
 
 import com.owl.mvc.dao.RelationBaseDao;
 import com.owl.mvc.dto.RelationDTO;
+import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
 import com.owl.mvc.so.ModelListSO;
 import com.owl.mvc.so.ModelSO;
 import com.owl.mvc.vo.MsgResultVO;
+import com.owl.util.RandomUtil;
+import com.owl.util.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.beans.Transient;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +23,7 @@ import java.util.stream.Collectors;
  * email xiachanzou@outlook.com
  * time 2018/04/22.
  */
-public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T, ID>
+public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T extends ModelBase<ID>, ID>
         implements RelationBaseService<T, ID> {
     @Autowired
     protected M relationBaseDao;
@@ -35,6 +39,11 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T,
         if (list.size() > 0) {
             return MsgResultVO.getInstanceError(MsgConstant.REQUEST_IS_EXITS);
         } else {
+            if (RegexUtil.isEmpty(model.getId())) {
+                model.setId(RandomUtil.ssid());
+            }
+            model.setCreateTime(new Date());
+            model.setUpdateTime(new Date());
             relationBaseDao.insert(model);
             return MsgResultVO.getInstanceSuccess();
         }

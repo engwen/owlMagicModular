@@ -1,6 +1,7 @@
 package com.owl.util;
 
 
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -19,13 +20,13 @@ public abstract class RandomUtil {
      * @param max max
      * @return int
      */
-    public static int getRandonNum(int min, int max) {
+    public static int getRandomNum(int min, int max) {
         Random r = new Random();
         return r.nextInt(max - min + 1) + min;
     }
 
     /**
-     * 生成制定范围内的随机数
+     * 生成指定范围内的随机数
      * @param scopeMin 最小
      * @param scoeMax  最大
      * @return 結果
@@ -54,7 +55,7 @@ public abstract class RandomUtil {
      * @param length 随机字符串长度
      * @return 随机字符串
      */
-    public static String String(int length) {
+    public static String string(int length) {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < length; i++) {
@@ -184,6 +185,32 @@ public abstract class RandomUtil {
      */
     public static String UUID() {
         return uuid().toUpperCase();
+    }
+
+
+    /**
+     * 毫秒数id
+     * @return String
+     */
+    @SuppressWarnings("unchecked")
+    public static <ID> ID ssid() {
+        ID id = null;
+        if (id instanceof String) {
+            return (ID) ssid(16);
+        } else {
+            return (ID) Long.valueOf(ssid(16));
+        }
+    }
+
+    public static String ssid(Integer max) {
+        //睡一毫秒，保证id唯一
+        StringBuilder suf = new StringBuilder(String.valueOf(new Date().getTime()));
+        if (null != max && max > 16) {
+            suf.append(RandomUtil.number(max - 15));
+        } else {
+            suf.append(RandomUtil.number(3));
+        }
+        return suf.toString();
     }
 
 }

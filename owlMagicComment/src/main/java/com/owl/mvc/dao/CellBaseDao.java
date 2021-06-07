@@ -1,10 +1,7 @@
 package com.owl.mvc.dao;
 
-import com.owl.mvc.so.IdListSO;
-import com.owl.mvc.so.IdSO;
-import com.owl.mvc.so.ModelListSO;
-import com.owl.mvc.so.ModelSO;
-import com.owl.mvc.so.SelectLikeSO;
+import com.owl.mvc.model.ModelBase;
+import com.owl.mvc.so.*;
 
 import java.util.List;
 
@@ -14,7 +11,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/08/22.
  */
-public interface CellBaseDao<T, ID> {
+public interface CellBaseDao<T extends ModelBase<ID>, ID> {
 
     /**
      * 直接插入

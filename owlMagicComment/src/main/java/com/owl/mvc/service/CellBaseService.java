@@ -4,6 +4,7 @@ import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.function.page.CountListLamda;
 import com.owl.mvc.function.page.ListByPageLamda;
+import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
@@ -20,7 +21,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/01/22.
  */
-public interface CellBaseService<T, ID> {
+public interface CellBaseService<T extends ModelBase<ID>, ID> {
     /**
      * 創建
      * @param model 汎型對象

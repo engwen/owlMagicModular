@@ -3,13 +3,17 @@ package com.owl.mvc.service;
 import com.owl.mvc.dao.CellBaseDao;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
+import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.*;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
+import com.owl.util.RandomUtil;
+import com.owl.util.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,7 +22,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/04/22.
  */
-public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> implements CellBaseService<T, ID> {
+public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends ModelBase<ID>, ID> implements CellBaseService<T, ID> {
 
     @Autowired
     protected M cellBaseDao;
@@ -30,6 +34,11 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<T> create(T model) {
+        if (RegexUtil.isEmpty(model.getId())) {
+            model.setId(RandomUtil.ssid());
+        }
+        model.setCreateTime(new Date());
+        model.setUpdateTime(new Date());
         cellBaseDao.insert(model);
         return MsgResultVO.getInstanceSuccess(model);
     }
@@ -41,6 +50,13 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> createList(List<T> modelList) {
+        modelList.forEach(it -> {
+            if (RegexUtil.isEmpty(it.getId())) {
+                it.setId(RandomUtil.ssid());
+            }
+            it.setCreateTime(new Date());
+            it.setUpdateTime(new Date());
+        });
         cellBaseDao.insertList(ModelListSO.getInstance(modelList));
         return MsgResultVO.getInstanceSuccess();
     }
@@ -86,6 +102,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
      */
     @Override
     public MsgResultVO<?> update(T model) {
+        model.setUpdateTime(new Date());
         cellBaseDao.updateByPrimaryKey(model);
         return MsgResultVO.getInstanceSuccess();
     }
@@ -98,6 +115,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID> imp
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
         MsgResultVO<T> resultVO = new MsgResultVO<>();
+        model.setUpdateTime(new Date());
         cellBaseDao.updateByPrimaryKeySelective(model);
         resultVO.successResult();
         return resultVO;

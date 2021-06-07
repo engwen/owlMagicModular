@@ -1,5 +1,6 @@
 package com.owl.mvc.dao;
 
+import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.so.IdListSO;
 import com.owl.mvc.so.IdSO;
 import com.owl.mvc.so.ModelListSO;
@@ -13,7 +14,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/10/10.
  */
-public interface RelationBaseDao<T, ID> {
+public interface RelationBaseDao<T extends ModelBase<ID>, ID> {
 
 
     /**

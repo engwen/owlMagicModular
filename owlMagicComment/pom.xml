@@ -7,7 +7,7 @@
 
     <groupId>com.github.engwen</groupId>
     <artifactId>owlMagicComment</artifactId>
-    <version>3.0.4</version>
+    <version>3.0.5</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,7 +16,7 @@
         <maven.test.skip>true</maven.test.skip>
 
         <!-- 工具包版本 -->
-        <owlMagicUtil.version>3.0.4</owlMagicUtil.version>
+        <owlMagicUtil.version>3.0.5</owlMagicUtil.version>
         <springboot-aop.version>2.4.3</springboot-aop.version>
 
         <junit.version>4.13.1</junit.version>
