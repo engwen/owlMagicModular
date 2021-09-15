@@ -2,8 +2,6 @@ package com.owl.util;
 
 import com.owl.util.model.OwlLogFormatter;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -16,7 +14,6 @@ import java.util.logging.Logger;
  * 2021/4/21.
  */
 public abstract class LoggerUtil {
-    private static final Map<String, Logger> lgMap = new HashMap<>();
     private static FileHandler fileHandler = null;
 
     public static FileHandler getFileHandler() {
@@ -41,17 +38,13 @@ public abstract class LoggerUtil {
 
     private static void log(String msg, Level level) {
         String className = Thread.currentThread().getStackTrace()[3].getClassName();
-        Logger logger = lgMap.get(className);
-        if (null == logger) {
-            logger = Logger.getLogger(className);
-            lgMap.put(className, logger);
-            ConsoleHandler consoleHandler = new ConsoleHandler();
-            consoleHandler.setFormatter(new OwlLogFormatter());
-            if (null != fileHandler) {
-                logger.addHandler(fileHandler);
-            }
-            logger.addHandler(consoleHandler);
+        Logger logger = Logger.getLogger(className);
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new OwlLogFormatter());
+        if (null != fileHandler) {
+            logger.addHandler(fileHandler);
         }
+        logger.addHandler(consoleHandler);
         logger.log(level, msg);
     }
 }

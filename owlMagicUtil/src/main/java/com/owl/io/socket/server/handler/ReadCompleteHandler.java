@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -37,13 +38,21 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
         String msg = new String(attachment.array());
         if (!RegexUtil.isEmpty(msg)) {
             Map<String, Object> resultMsg = ObjectUtil.StringToMap(new String(attachment.array()));
-            dispatch.dispatchEvent(socketChannel, resultMsg);
+            if (null == resultMsg) {
+                return;
+            }
+            Map<String, String> resultM = new HashMap<>();
+            resultMsg.forEach((key, value) -> {
+                resultM.put(key, value.toString());
+            });
+            dispatch.dispatchEvent(socketChannel, resultM);
         } else {
             return;
         }
         ConsolePrintUtil.info("read success. msg is " + msg);
         attachment.clear();
-        attachment.put(ObjectUtil.toJSON(SocketEvent.SERVER_REQUEST_SUCCESS).getBytes());
+        attachment.put(SocketEvent.SERVER_REQUEST_SUCCESS.toString().getBytes());
+        ConsolePrintUtil.info("return msg " + SocketEvent.SERVER_REQUEST_SUCCESS);
         attachment.flip();
         socketChannel.write(attachment);
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);

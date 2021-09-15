@@ -1,8 +1,8 @@
 package com.owl.io.socket.server.handler;
 
 import com.owl.io.socket.model.SocketEvent;
-import com.owl.io.socket.server.OwlSocketServer;
 import com.owl.io.socket.server.SocketDispatch;
+import com.owl.io.socket.server.SocketServer;
 import com.owl.util.ConsolePrintUtil;
 
 import java.nio.ByteBuffer;
@@ -15,7 +15,7 @@ import java.nio.channels.CompletionHandler;
  * email xiachanzou@outlook.com
  * 2019/11/12.
  */
-public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSocketChannel, OwlSocketServer> {
+public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSocketChannel, SocketServer> {
     private AsynchronousServerSocketChannel serverSocketChannel;
     private SocketDispatch dispatch;
 
@@ -30,7 +30,7 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
      * @param attachment OwlSocketServer
      */
     @Override
-    public void completed(AsynchronousSocketChannel result, OwlSocketServer attachment) {
+    public void completed(AsynchronousSocketChannel result, SocketServer attachment) {
         // 继续接收其他的客户端连接
         serverSocketChannel.accept(null, this);
         ConsolePrintUtil.info("connect success");
@@ -46,7 +46,7 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
      * @param attachment OwlSocketServer
      */
     @Override
-    public void failed(Throwable exc, OwlSocketServer attachment) {
+    public void failed(Throwable exc, SocketServer attachment) {
         ConsolePrintUtil.error("connect error");
     }
 }

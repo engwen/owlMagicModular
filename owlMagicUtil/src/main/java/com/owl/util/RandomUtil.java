@@ -121,8 +121,7 @@ public abstract class RandomUtil {
         if (fixdlenth - strNum.length() >= 0) {
             sb.append(ZeroString(fixdlenth - strNum.length()));
         } else {
-            throw new RuntimeException("将数字" +
-                    num + "转化为长度为" + fixdlenth + "的字符串发生异常！");
+            throw new RuntimeException("将数字" + num + "转化为长度为" + fixdlenth + "的字符串发生异常！");
         }
         sb.append(strNum);
         return sb.toString();
@@ -187,18 +186,25 @@ public abstract class RandomUtil {
         return uuid().toUpperCase();
     }
 
-
+    private static final Object syncRoot = new Object();
     /**
      * 毫秒数id
      * @return String
      */
     @SuppressWarnings("unchecked")
     public static <ID> ID ssid() {
-        ID id = null;
-        if (id instanceof String) {
-            return (ID) ssid(16);
-        } else {
-            return (ID) Long.valueOf(ssid(16));
+        synchronized (syncRoot) {
+            try {
+                Thread.sleep(1L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ID id = null;
+            if (id instanceof String) {
+                return (ID) ssid(16);
+            } else {
+                return (ID) Long.valueOf(ssid(16));
+            }
         }
     }
 

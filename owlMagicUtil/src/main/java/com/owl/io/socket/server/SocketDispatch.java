@@ -12,7 +12,10 @@ import java.util.Map;
  * 2019/12/5.
  */
 public interface SocketDispatch {
-    void dispatchEvent(AsynchronousSocketChannel dispatcher, Map<String, Object> msg);
+    void dispatchEvent(AsynchronousSocketChannel dispatcher, Map<String, String> msg);
 
     void dispatchEvent(AsynchronousSocketChannel dispatcher, SocketEvent msg);
+
+    void clear();
+
 }

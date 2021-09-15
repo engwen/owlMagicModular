@@ -559,29 +559,26 @@ En details ,please click <url>https://github.com/engwen/owlMagicComment/blob/mas
 
 ##### 4. service
 
-   我提供了完整的 [CellBaseService<T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/CellBaseService.java)
-    和 [RelationBaseService<T, MainID, FollowerID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/RelationBaseService.java)
-   接口，为了便于你的使用，我提供了很多看似无用的方法，比如查询条件为id和model，这本可以将条件设置为一个model，
-   但是考虑到那样你需要自己 new 一个 model 并塞入id再去查询，因此我直接提供了封装。
-   
-   你还可以自己实现这个接口，但是我推荐你使用继承，因为只要你的 dao 和 xml 都已经实现，那么继承并不需要重写便已经足够常规使用。
-   Service层继承 [CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/CellBaseServiceAb.java)
-   或者 [RelationBaseServiceAb<M extends RelationBaseDao<T, MainID, FollowerID>, T, MainID, FollowerID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/service/RelationBaseServiceAb.java)
-     
-   请不要因为它们的长度而感到恐惧，这样编写的目标是为了帮助你快速为它的默认实现注入dao
-   基础的增删改查已经由我帮助你实现，是时候彻底的离开基础代码的编写工作，把重心完全
-   放在业务上面了
+我提供了完整的 [CellBaseService<T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/test.mvc/service/CellBaseService.java)
+和 [RelationBaseService<T, MainID, FollowerID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/test.mvc/service/RelationBaseService.java)
+接口，为了便于你的使用，我提供了很多看似无用的方法，比如查询条件为id和model，这本可以将条件设置为一个model， 但是考虑到那样你需要自己 new 一个 model 并塞入id再去查询，因此我直接提供了封装。
+
+你还可以自己实现这个接口，但是我推荐你使用继承，因为只要你的 dao 和 xml 都已经实现，那么继承并不需要重写便已经足够常规使用。
+Service层继承 [CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/test.mvc/service/CellBaseServiceAb.java)
+或者 [RelationBaseServiceAb<M extends RelationBaseDao<T, MainID, FollowerID>, T, MainID, FollowerID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/test.mvc/service/RelationBaseServiceAb.java)
+
+请不要因为它们的长度而感到恐惧，这样编写的目标是为了帮助你快速为它的默认实现注入dao 基础的增删改查已经由我帮助你实现，是时候彻底的离开基础代码的编写工作，把重心完全 放在业务上面了
     
          
    PS: 你可以重写本类中的方法以使它按照你的方式进行业务处理。
 
 ##### 5. Controller
-    
-   [CellBaseController<T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/controller/CellBaseController.java)
-   类定义了基础的增删改查
-    
-   继承 [CellBaseControllerAb<M extends CellBaseServiceAb, T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/mvc/controller/CellBaseControllerAb.java) 后，你便可以快速调用接口中定义的各个方法。我不会提供给你关系类型的controller，因为那是需要依托于
-   你的业务做的工作，你需要重写 service，然后自己去实现那些业务。当然，service的默认实现
+
+[CellBaseController<T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/test.mvc/controller/CellBaseController.java)
+类定义了基础的增删改查
+
+继承 [CellBaseControllerAb<M extends CellBaseServiceAb, T, ID>](https://github.com/engwen/owlMagicComment/blob/master/src/main/java/com/owl/test.mvc/controller/CellBaseControllerAb.java)
+后，你便可以快速调用接口中定义的各个方法。我不会提供给你关系类型的controller，因为那是需要依托于 你的业务做的工作，你需要重写 service，然后自己去实现那些业务。当然，service的默认实现
 
      
            
@@ -922,7 +919,7 @@ com.owl.comment.annotations
 
 本包依赖于我的另一个项目OwlMagicUtil包， 请参考 https://github.com/engwen/owlMagicUtil
 
-spring springMVC 项目需要在  spring mvc servlet 的配置文件中添加以下配置
+spring springMVC 项目需要在 spring test.mvc servlet 的配置文件中添加以下配置
 
      <context:component-scan base-package="com.owl"/>
      <aop:aspectj-autoproxy/>

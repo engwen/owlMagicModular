@@ -2,6 +2,7 @@ package com.owl.io.socket;
 
 import com.owl.io.socket.model.SocketEvent;
 import com.owl.io.socket.model.SocketMsg;
+import com.owl.io.socket.server.SocketDispatch;
 import com.owl.util.ConsolePrintUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RandomUtil;
@@ -14,19 +15,19 @@ import java.util.*;
  * email xiachanzou@outlook.com
  * 2019/11/19.
  */
-public class SocketDispatchEvent {
+public class SocketDispatchJavaServer implements SocketDispatch {
 
     //this channel have room list
-    private static List<SocketRoom> socketRoomList = new ArrayList<>();
+    private List<SocketRoom> socketRoomList = new ArrayList<>();
     //this channel have client list
-    private static Set<SocketClient> socketClientSet = new HashSet<>();
+    private Set<SocketClient> socketClientSet = new HashSet<>();
 
     /*
      * 判斷是否是第一次鏈接
      * @param socketChannel
      * @return
      */
-    private static SocketMsg addToSocketClientSet(AsynchronousSocketChannel socketChannel) {
+    private SocketMsg addToSocketClientSet(AsynchronousSocketChannel socketChannel) {
         SocketMsg socketMsg = SocketMsg.getInstance();
         Optional<SocketClient> clientOptional = socketClientSet.stream().filter(it -> it.getSocketChannel().equals(socketChannel)).findAny();
         if (clientOptional.isPresent()) {
@@ -48,7 +49,7 @@ public class SocketDispatchEvent {
         return socketMsg;
     }
 
-    public static void dispatchEvent(AsynchronousSocketChannel socketChannel, Map<String, String> msg) {
+    public void dispatchEvent(AsynchronousSocketChannel socketChannel, Map<String, String> msg) {
         SocketMsg model = addToSocketClientSet(socketChannel);
         if (null != msg && null != msg.get("event")) {
             model.setEvent(new SocketEvent(msg));
@@ -56,14 +57,14 @@ public class SocketDispatchEvent {
         ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
     }
 
-    public static void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketEvent event) {
+    public void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketEvent event) {
         SocketMsg model = addToSocketClientSet(socketChannel);
         model.setEvent(event);
         ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
     }
 
 
-    public static void addRoom(String roomId) {
+    public void addRoom(String roomId) {
         Optional<SocketRoom> any = socketRoomList.stream().filter(it -> it.getRoomId().equals(roomId)).findAny();
         if (!any.isPresent()) {
             SocketRoom socketRoom = new SocketRoom(roomId);
@@ -71,7 +72,7 @@ public class SocketDispatchEvent {
         }
     }
 
-    public static void removeRoom(String roomId) {
+    public void removeRoom(String roomId) {
         Optional<SocketRoom> any = socketRoomList.stream().filter(it -> it.getRoomId().equals(roomId)).findAny();
         any.ifPresent(socketRoom -> {
             socketRoomList.remove(socketRoom);
@@ -79,19 +80,19 @@ public class SocketDispatchEvent {
         });
     }
 
-    public static void addClient(SocketClient client) {
+    public void addClient(SocketClient client) {
         Optional<SocketClient> any = socketClientSet.stream().filter(it -> it.getUuid().equals(client.getUuid())).findAny();
         if (!any.isPresent()) {
             socketClientSet.add(client);
         }
     }
 
-    public static void removeClient(SocketClient client) {
+    public void removeClient(SocketClient client) {
         Optional<SocketClient> any = socketClientSet.stream().filter(it -> it.getUuid().equals(client.getUuid())).findAny();
         any.ifPresent(it -> socketClientSet.remove(client));
     }
 
-    public static void clear() {
+    public void clear() {
         socketRoomList = null;
         socketClientSet = null;
     }

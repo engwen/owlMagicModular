@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  * email xiachanzou@outlook.com
  * 2019/11/13.
  */
-public class OwlSocketServer {
+public class SocketServer {
     //記錄服務器channel
     private AsynchronousServerSocketChannel serverSocketChannel;
     //group
@@ -28,21 +28,26 @@ public class OwlSocketServer {
     private SocketDispatch dispatch;
 
 
-    public static OwlSocketServer getInstance(int port, SocketDispatch dispatch) {
+    public static SocketServer getInstance(int port, SocketDispatch dispatch) {
         if (RegexUtil.isEmpty(dispatch)) {
             ConsolePrintUtil.error("start socket error,dispatch can`t be null ");
             return null;
         }
-        return new OwlSocketServer(port, dispatch);
+        return new SocketServer(port, dispatch);
     }
 
-    private OwlSocketServer(int port, SocketDispatch dispatch) {
+    private SocketServer(int port, SocketDispatch dispatch) {
         this.port = port;
         this.dispatch = dispatch;
+
+    }
+
+    public void start() {
         try {
             init();
+            ConsolePrintUtil.info("socket server is start ");
         } catch (IOException e) {
-            ConsolePrintUtil.error("start socket error, information is " + e);
+            ConsolePrintUtil.error("start server socket error, information is " + e);
         }
     }
 
@@ -60,8 +65,9 @@ public class OwlSocketServer {
             channelGroup.shutdown();
             serverSocketChannel.close();
             SocketDispatchEvent.clear();
+            ConsolePrintUtil.info("system stop socket server now ");
         } catch (IOException e) {
-            ConsolePrintUtil.error("stop socket error, information is " + e);
+            ConsolePrintUtil.error("stop socket server error, information is " + e);
             return false;
         }
         return true;

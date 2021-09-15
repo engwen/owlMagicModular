@@ -16,19 +16,19 @@ import java.util.concurrent.Executors;
  * email xiachanzou@outlook.com
  * 2019/11/13.
  */
-public class OwlSocketClientServer {
+public class SocketClientServer {
     private String host;
     private int port;
     private AsynchronousSocketChannel clientChannel;
 
-    private OwlSocketClientServer(String host, int port) {
+    private SocketClientServer(String host, int port) {
         this.host = host;
         this.port = port;
         this.connect();
     }
 
-    public static OwlSocketClientServer getInstance(String host, int port) {
-        return new OwlSocketClientServer(host, port);
+    public static SocketClientServer getInstance(String host, int port) {
+        return new SocketClientServer(host, port);
     }
 
     private void connect() {
@@ -55,7 +55,7 @@ public class OwlSocketClientServer {
         }
     }
 
-    public void emit(String event, Map msg) {
+    public void emit(String event, Map<String, String> msg) {
         SocketEvent model = new SocketEvent(event, msg);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(model.toString().getBytes());
