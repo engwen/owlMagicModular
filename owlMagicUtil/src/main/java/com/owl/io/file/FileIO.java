@@ -104,8 +104,8 @@ public class FileIO {
         FileChannel inChannel = null;
         FileChannel outChannel = null;
         try {
-            fi = new FileInputStream(new File(sourcePath));
-            fo = new FileOutputStream(new File(destinationPath));
+            fi = new FileInputStream(sourcePath);
+            fo = new FileOutputStream(destinationPath);
             inChannel = fi.getChannel();
             outChannel = fo.getChannel();
             ByteBuffer buffer = ByteBuffer.allocate(1024);

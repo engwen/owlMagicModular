@@ -73,6 +73,9 @@ public class SocketServer {
         return true;
     }
 
+    public AsynchronousServerSocketChannel getServerSocketChannel() {
+        return serverSocketChannel;
+    }
 }
 
 

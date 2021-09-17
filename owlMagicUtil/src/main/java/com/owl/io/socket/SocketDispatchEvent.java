@@ -1,6 +1,5 @@
 package com.owl.io.socket;
 
-import com.owl.io.socket.model.SocketEvent;
 import com.owl.io.socket.model.SocketMsg;
 import com.owl.util.ConsolePrintUtil;
 import com.owl.util.ObjectUtil;
@@ -51,14 +50,8 @@ public class SocketDispatchEvent {
     public static void dispatchEvent(AsynchronousSocketChannel socketChannel, Map<String, String> msg) {
         SocketMsg model = addToSocketClientSet(socketChannel);
         if (null != msg && null != msg.get("event")) {
-            model.setEvent(new SocketEvent(msg));
+            model.setMsg(msg);
         }
-        ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
-    }
-
-    public static void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketEvent event) {
-        SocketMsg model = addToSocketClientSet(socketChannel);
-        model.setEvent(event);
         ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
     }
 

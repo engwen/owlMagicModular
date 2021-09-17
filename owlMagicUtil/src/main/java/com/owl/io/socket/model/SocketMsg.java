@@ -2,27 +2,31 @@ package com.owl.io.socket.model;
 
 import com.owl.model.ModelPrototype;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * author engwen
  * email xiachanzou@outlook.com
  * 2019/11/19.
  */
 public class SocketMsg extends ModelPrototype {
-    private SocketEvent event;
+    //消息數據
+    private Map<String, String> msg;
+    //发送人id
     private String senderId;
-    private String accepterId;
-    private String roomId;
+    //收件人
+    private List<String> accepterIds;
+    //是否需要回執
+    private boolean needBack;
+    //消息類型.請求為1,答復為0
+    private int msgType;
 
     public static SocketMsg getInstance() {
-        return new SocketMsg();
-    }
-
-    public SocketEvent getEvent() {
-        return event;
-    }
-
-    public void setEvent(SocketEvent event) {
-        this.event = event;
+        SocketMsg socketMsg = new SocketMsg();
+        socketMsg.msg = new HashMap<>();
+        return socketMsg;
     }
 
     public String getSenderId() {
@@ -33,19 +37,35 @@ public class SocketMsg extends ModelPrototype {
         this.senderId = senderId;
     }
 
-    public String getAccepterId() {
-        return accepterId;
+    public List<String> getAccepterIds() {
+        return accepterIds;
     }
 
-    public void setAccepterId(String accepterId) {
-        this.accepterId = accepterId;
+    public void setAccepterIds(List<String> accepterIds) {
+        this.accepterIds = accepterIds;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public boolean isNeedBack() {
+        return needBack;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setNeedBack(boolean needBack) {
+        this.needBack = needBack;
+    }
+
+    public int getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(int msgType) {
+        this.msgType = msgType;
+    }
+
+    public Map<String, String> getMsg() {
+        return msg;
+    }
+
+    public void setMsg(Map<String, String> msg) {
+        this.msg = msg;
     }
 }

@@ -1,9 +1,8 @@
 package com.owl.io.socket.server;
 
-import com.owl.io.socket.model.SocketEvent;
+import com.owl.io.socket.model.SocketMsg;
 
 import java.nio.channels.AsynchronousSocketChannel;
-import java.util.Map;
 
 /**
  * 發送訂閲的消息
@@ -12,9 +11,7 @@ import java.util.Map;
  * 2019/12/5.
  */
 public interface SocketDispatch {
-    void dispatchEvent(AsynchronousSocketChannel dispatcher, Map<String, String> msg);
-
-    void dispatchEvent(AsynchronousSocketChannel dispatcher, SocketEvent msg);
+    void dispatchEvent(AsynchronousSocketChannel dispatcher, SocketMsg socketMsg);
 
     void clear();
 

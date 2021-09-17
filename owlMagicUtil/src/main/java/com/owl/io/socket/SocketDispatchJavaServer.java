@@ -1,12 +1,11 @@
 package com.owl.io.socket;
 
-import com.owl.io.socket.model.SocketEvent;
 import com.owl.io.socket.model.SocketMsg;
 import com.owl.io.socket.server.SocketDispatch;
 import com.owl.util.ConsolePrintUtil;
 import com.owl.util.ObjectUtil;
-import com.owl.util.RandomUtil;
 
+import java.io.IOException;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.*;
 
@@ -22,45 +21,40 @@ public class SocketDispatchJavaServer implements SocketDispatch {
     //this channel have client list
     private Set<SocketClient> socketClientSet = new HashSet<>();
 
+    public List<SocketRoom> getSocketRoomList() {
+        return socketRoomList;
+    }
+
+    public Set<SocketClient> getSocketClientSet() {
+        return socketClientSet;
+    }
+
+
     /*
      * 判斷是否是第一次鏈接
      * @param socketChannel
      * @return
      */
-    private SocketMsg addToSocketClientSet(AsynchronousSocketChannel socketChannel) {
-        SocketMsg socketMsg = SocketMsg.getInstance();
+    private void addToSocketClientSet(AsynchronousSocketChannel socketChannel) {
+        String uuid = "";
+        try {
+            uuid = socketChannel.getRemoteAddress().toString().replace("/", "")
+                    .replace(".", "").replace(":", "");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Optional<SocketClient> clientOptional = socketClientSet.stream().filter(it -> it.getSocketChannel().equals(socketChannel)).findAny();
-        if (clientOptional.isPresent()) {
-            socketMsg.setSenderId(clientOptional.get().getUuid());
-        } else {
+        if (!clientOptional.isPresent()) {
             SocketClient socketClient = new SocketClient();
             socketClient.setSocketChannel(socketChannel);
-            while (true) {
-                String uuid = RandomUtil.uuid();
-                Optional<SocketClient> any = socketClientSet.stream().filter(it -> it.getUuid().equals(uuid)).findAny();
-                if (!any.isPresent()) {
-                    socketClient.setUuid(uuid);
-                    break;
-                }
-            }
+            socketClient.setUuid(uuid);
             socketClientSet.add(socketClient);
-            socketMsg.setSenderId(socketClient.getUuid());
         }
-        return socketMsg;
     }
 
-    public void dispatchEvent(AsynchronousSocketChannel socketChannel, Map<String, String> msg) {
-        SocketMsg model = addToSocketClientSet(socketChannel);
-        if (null != msg && null != msg.get("event")) {
-            model.setEvent(new SocketEvent(msg));
-        }
-        ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
-    }
-
-    public void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketEvent event) {
-        SocketMsg model = addToSocketClientSet(socketChannel);
-        model.setEvent(event);
-        ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
+    public void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketMsg msg) {
+        addToSocketClientSet(socketChannel);
+        ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(msg));
     }
 
 

@@ -1,14 +1,17 @@
 package com.owl.io.socket.server.handler;
 
-import com.owl.io.socket.model.SocketEvent;
+import com.owl.io.socket.model.SocketMsg;
 import com.owl.io.socket.server.SocketDispatch;
 import com.owl.io.socket.server.SocketServer;
+import com.owl.io.socket.util.SocketUtils;
 import com.owl.util.ConsolePrintUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author engwen
@@ -34,7 +37,15 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
         // 继续接收其他的客户端连接
         serverSocketChannel.accept(null, this);
         ConsolePrintUtil.info("connect success");
-        dispatch.dispatchEvent(result, SocketEvent.SERVER_CONNECT_SUCCESS);
+        SocketMsg backMsg = SocketMsg.getInstance();
+        List<String> accepterIds = new ArrayList<>();
+        accepterIds.add(SocketUtils.getUuid(result));
+        backMsg.setMsgType(0);
+        backMsg.setNeedBack(false);
+        backMsg.setSenderId("000000000001");
+        backMsg.setAccepterIds(accepterIds);
+        backMsg.getMsg().put("to:client:type", "success");
+        dispatch.dispatchEvent(result, backMsg);
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         //关闭处理完的socket，并重新调用accept等待新的连接
         result.read(byteBuffer, byteBuffer, new ReadCompleteHandler(result, dispatch));

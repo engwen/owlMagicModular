@@ -1,13 +1,12 @@
 package com.owl.io.socket.client;
 
-import com.owl.io.socket.model.SocketEvent;
+import com.owl.io.socket.model.SocketMsg;
 import com.owl.util.ConsolePrintUtil;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousChannelGroup;
 import java.nio.channels.AsynchronousSocketChannel;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,7 +18,16 @@ import java.util.concurrent.Executors;
 public class SocketClientServer {
     private String host;
     private int port;
+    private String uuid;
     private AsynchronousSocketChannel clientChannel;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     private SocketClientServer(String host, int port) {
         this.host = host;
@@ -55,10 +63,9 @@ public class SocketClientServer {
         }
     }
 
-    public void emit(String event, Map<String, String> msg) {
-        SocketEvent model = new SocketEvent(event, msg);
+    public void emit(SocketMsg msg) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        buffer.put(model.toString().getBytes());
+        buffer.put(msg.toString().getBytes());
         buffer.flip();
         try {
             this.clientChannel.write(buffer).get();
@@ -70,5 +77,9 @@ public class SocketClientServer {
         } catch (Exception e) {
             ConsolePrintUtil.error("emit msg is Error :" + e);
         }
+    }
+
+    public void on() {
+
     }
 }

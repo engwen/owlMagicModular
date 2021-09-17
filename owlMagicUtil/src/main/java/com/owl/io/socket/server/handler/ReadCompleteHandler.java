@@ -1,7 +1,8 @@
 package com.owl.io.socket.server.handler;
 
-import com.owl.io.socket.model.SocketEvent;
+import com.owl.io.socket.model.SocketMsg;
 import com.owl.io.socket.server.SocketDispatch;
+import com.owl.io.socket.util.SocketUtils;
 import com.owl.util.ConsolePrintUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
@@ -10,7 +11,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,17 +46,26 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
                 return;
             }
             Map<String, String> resultM = new HashMap<>();
+
             resultMsg.forEach((key, value) -> {
                 resultM.put(key, value.toString());
             });
-            dispatch.dispatchEvent(socketChannel, resultM);
+//            dispatch.dispatchEvent(socketChannel, resultM);
         } else {
             return;
         }
         ConsolePrintUtil.info("read success. msg is " + msg);
         attachment.clear();
-        attachment.put(SocketEvent.SERVER_REQUEST_SUCCESS.toString().getBytes());
-        ConsolePrintUtil.info("return msg " + SocketEvent.SERVER_REQUEST_SUCCESS);
+        SocketMsg backMsg = SocketMsg.getInstance();
+        List<String> accepterIds = new ArrayList<>();
+        accepterIds.add(SocketUtils.getUuid(socketChannel));
+        backMsg.setMsgType(0);
+        backMsg.setNeedBack(false);
+        backMsg.setSenderId("000000000001");
+        backMsg.setAccepterIds(accepterIds);
+        backMsg.getMsg().put("to:client:type", "success");
+        attachment.put(backMsg.toString().getBytes(StandardCharsets.UTF_8));
+        ConsolePrintUtil.info("return msg " + backMsg);
         attachment.flip();
         socketChannel.write(attachment);
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
