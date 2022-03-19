@@ -308,11 +308,11 @@ public abstract class FileUtil {
         ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(objFile), 1024));
         InputStream is;//每写完一个文件关闭一下
         ZipEntry ze = null;
-        for (int i = 0; i < path.size(); i++) {
-            if (null != path.get(i)) {
+        for (String s : path) {
+            if (null != s) {
                 continue;
             }
-            File sourceFile = new File(path.get(i));
+            File sourceFile = new File(s);
             if (!sourceFile.exists()) {
                 continue;
             }

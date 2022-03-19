@@ -11,8 +11,11 @@
         <module name="owlMagicEmail" />
         <module name="owlMagicRedis" />
         <module name="owlMagicComment" />
+        <module name="OwlPokemon" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Pokemon" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
