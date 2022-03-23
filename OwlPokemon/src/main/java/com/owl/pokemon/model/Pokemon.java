@@ -7,7 +7,7 @@ import com.owl.pokemon.PokemonEnum;
  * email xiachanzou@outlook.com
  * 2022/3/18.
  */
-public class PokemonModel {
+public class Pokemon {
     private Integer bloodBar; //= 200 + power * 20
     private Integer magicBar; //= 100 + intellect * 18
     private Double armor; //= agile * 0.15
@@ -24,7 +24,7 @@ public class PokemonModel {
     private PokemonEnum.Type type;//属性2
 
 
-    public PokemonModel(Integer armor, Integer intellect, Integer power, Integer agile, PokemonEnum.PokemonAttr pokemonAttr, Integer raceValue, Integer effortValue, PokemonEnum.Attribute attribute, PokemonEnum.Type type) {
+    public Pokemon(Integer armor, Integer intellect, Integer power, Integer agile, PokemonEnum.PokemonAttr pokemonAttr, Integer raceValue, Integer effortValue, PokemonEnum.Attribute attribute, PokemonEnum.Type type) {
         this.bloodBar = 200 + power * 20;
         this.magicBar = 100 + intellect * 18;
         this.armor = agile * 0.15;
@@ -47,7 +47,7 @@ public class PokemonModel {
         }
     }
 
-    public Integer attackPokemon(PokemonModel beatener) {//攻击宝可梦
+    public Integer attackPokemon(Pokemon beatener) {//攻击宝可梦
         return 0;
     }
 

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * 2019/2/28.
  */
 public abstract class ObjectUtil {
-    private static Logger logger = Logger.getLogger(ObjectUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(ObjectUtil.class.getName());
 
     /**
      * 將一个对象的所有属性赋值给另一个对象的对应属性，以旧的属性为主体
