@@ -17,7 +17,7 @@
 
         <!-- 工具包版本 -->
         <owlMagicUtil.version>3.0.5</owlMagicUtil.version>
-        <springboot-aop.version>2.4.3</springboot-aop.version>
+        <springboot-aop.version>2.5.12</springboot-aop.version>
 
         <junit.version>4.13.1</junit.version>
         <javax-javaee-api.version>8.0.1</javax-javaee-api.version>
