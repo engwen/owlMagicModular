@@ -199,12 +199,7 @@ public abstract class RandomUtil {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            ID id = null;
-            if (id instanceof String) {
-                return (ID) ssid(16);
-            } else {
-                return (ID) Long.valueOf(ssid(16));
-            }
+            return (ID) Long.valueOf(ssid(16));
         }
     }
 

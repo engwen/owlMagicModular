@@ -18,20 +18,17 @@ public abstract class ModelBase<ID> extends ModelPrototype {
         this.id = RandomUtil.ssid();
     }
 
-    private ID id;
-
-    //最后操作人
-    private String lastOperName;
+    protected ID id;
 
     //数据创建时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    protected Date createTime;
 
     //最后更新时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateTime;
+    protected Date updateTime;
 
     public ID getId() {
         return id;
@@ -57,11 +54,4 @@ public abstract class ModelBase<ID> extends ModelPrototype {
         this.updateTime = updateTime;
     }
 
-    public String getLastOperName() {
-        return lastOperName;
-    }
-
-    public void setLastOperName(String lastOperName) {
-        this.lastOperName = lastOperName;
-    }
 }
