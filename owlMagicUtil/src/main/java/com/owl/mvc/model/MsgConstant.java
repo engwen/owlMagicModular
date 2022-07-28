@@ -35,6 +35,8 @@ public class MsgConstant {
     public static MsgConstant REQUEST_CANT_UPDATE_ADMIN = new MsgConstant("1011", "admin账号不可更新");
     public static MsgConstant REQUEST_CANT_UPDATE_STATUS = new MsgConstant("1012", "状态不可更新");
 
+    public static MsgConstant CONFIG_PATH_IS_NOT_FIND = new MsgConstant("3001", "未查询到配置地址");
+    public static MsgConstant CONFIG_VALUE_IS_NOT_FIND = new MsgConstant("3002", "未查询到配置值");
 
     public MsgConstant(String code, String msg) {
         this.code = code;
