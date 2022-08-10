@@ -16,6 +16,8 @@ import java.util.Date;
 public abstract class ModelBase<ID> extends ModelPrototype {
     public ModelBase() {
         this.id = RandomUtil.ssid();
+        this.createTime = new Date();
+        this.updateTime = new Date();
     }
 
     protected ID id;
