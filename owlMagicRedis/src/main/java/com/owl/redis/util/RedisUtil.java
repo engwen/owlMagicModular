@@ -94,13 +94,14 @@ public class RedisUtil {
         return GetRedis.commit(redisCommitLamda);
     }
 
-    public static JedisPool getPool() {
-        return GetRedis.getPool();
+    public static JedisPool getPool(String host, String port) {
+        return GetRedis.getPool(host, port);
     }
 
 
     private static class GetRedis {
-
+        private static String host;
+        private static String port;
         private static JedisPool pool;
 
         private synchronized static void initPool() {
@@ -113,10 +114,10 @@ public class RedisUtil {
                 config.setTestOnBorrow(false);
                 config.setTestOnReturn(false);
 
-                String host = PropertiesUtil.readConfigProperties("redis.host");
-                int port = Integer.parseInt(PropertiesUtil.readConfigProperties("redis.port"));
+//                String host = PropertiesUtil.readConfigProperties("redis.host");
+//                int port = Integer.parseInt(PropertiesUtil.readConfigProperties("redis.port"));
 
-                pool = new JedisPool(config, host, port, 3000);
+                pool = new JedisPool(config, host, Integer.parseInt(port), 3000);
             }
         }
 
@@ -133,7 +134,9 @@ public class RedisUtil {
             }
         }
 
-        private static JedisPool getPool() {
+        private static JedisPool getPool(String host, String port) {
+            GetRedis.host = host;
+            GetRedis.port = port;
             return pool;
         }
 
