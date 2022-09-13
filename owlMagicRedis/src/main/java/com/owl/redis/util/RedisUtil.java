@@ -1,7 +1,6 @@
 package com.owl.redis.util;
 
 import com.owl.redis.function.RedisCommitLamda;
-import com.owl.util.PropertiesUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -68,21 +67,21 @@ public class RedisUtil {
         GetRedis.commit((jedis) -> jedis.del(key));
     }
 
-    /*
-     * 设置用户登录信息过期时间
-     * @param key
-     */
-    public static void setOverTime(String key) {
-        GetRedis.commit((jedis) -> jedis.expire(key, Integer.parseInt(PropertiesUtil.readConfigProperties("redis.login.over.time"))));
-    }
-
-    /*
-     * 设置token过期时间
-     * @param key
-     */
-    public static void setOverTime(byte[] key) {
-        GetRedis.commit((jedis) -> jedis.expire(key, Integer.parseInt(PropertiesUtil.readConfigProperties("redis.login.over.time"))));
-    }
+//    /*
+//     * 设置用户登录信息过期时间
+//     * @param key
+//     */
+//    public static void setOverTime(String key) {
+//        GetRedis.commit((jedis) -> jedis.expire(key, Integer.parseInt(PropertiesUtil.readConfigProperties("redis.login.over.time"))));
+//    }
+//
+//    /*
+//     * 设置token过期时间
+//     * @param key
+//     */
+//    public static void setOverTime(byte[] key) {
+//        GetRedis.commit((jedis) -> jedis.expire(key, Integer.parseInt(PropertiesUtil.readConfigProperties("redis.login.over.time"))));
+//    }
 
     /**
      * 终极杀器
