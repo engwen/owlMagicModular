@@ -57,7 +57,9 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
             it.setCreateTime(new Date());
             it.setUpdateTime(new Date());
         });
-        cellBaseDao.insertList(ModelListSO.getInstance(modelList));
+        if (modelList.size() > 0) {
+            cellBaseDao.insertList(ModelListSO.getInstance(modelList));
+        }
         return MsgResultVO.getInstanceSuccess();
     }
 
@@ -183,7 +185,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     public PageVO<T> list(Boolean getAll, Integer requestPage, Integer rows, T model) {
         PageVO<T> pageVO = new PageVO<>();
         pageVO.initPageVO(cellBaseDao.countSumByCondition(SelectLikeSO.getInstance(model)), requestPage, rows, getAll);
-        pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getRows())));
+        pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getDownLimit(), pageVO.getRows())));
         return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
     }
 

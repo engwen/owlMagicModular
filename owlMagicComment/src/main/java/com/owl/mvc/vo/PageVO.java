@@ -51,7 +51,7 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
     /*
      * 塞入總數，請求頁數，每頁數量,是否获取所有
      */
-    public void initPageVO(Integer sum, PageDTO model) {
+    public void initPageVO(Integer sum, PageDTO<T> model) {
         if (model.getGetAll()) {
             initPageVO(sum);
         } else {

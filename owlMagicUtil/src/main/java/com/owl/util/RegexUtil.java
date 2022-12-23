@@ -155,7 +155,7 @@ public abstract class RegexUtil {
      * @return 結果
      */
     public static boolean isParamsAllEmpty(Object... inputs) {
-        return Arrays.stream(inputs).allMatch(input -> null == input || (input instanceof String && !isEmpty((String) input))
+        return Arrays.stream(inputs).allMatch(input -> null == input || (input instanceof String && isEmpty((String) input))
                 || (input instanceof Collection && ((Collection) input).size() <= 0));
     }
 
@@ -165,7 +165,7 @@ public abstract class RegexUtil {
      * @return 結果
      */
     public static boolean isParamsAllNotEmpty(Object... inputs) {
-        return Arrays.stream(inputs).noneMatch(input -> null == input || (input instanceof String && !isEmpty((String) input))
+        return Arrays.stream(inputs).noneMatch(input -> null == input || (input instanceof String && isEmpty((String) input))
                 || (input instanceof Collection && ((Collection) input).size() <= 0));
     }
 
@@ -176,7 +176,7 @@ public abstract class RegexUtil {
      * @return boolean
      */
     public static boolean isParamsHaveEmpty(Object... inputs) {
-        return Arrays.stream(inputs).anyMatch(input -> null == input || (input instanceof String && !isEmpty((String) input))
+        return Arrays.stream(inputs).anyMatch(input -> null == input || (input instanceof String && isEmpty((String) input))
                 || (input instanceof Collection && ((Collection) input).size() <= 0));
     }
 

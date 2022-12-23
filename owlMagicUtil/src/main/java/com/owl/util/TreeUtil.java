@@ -13,6 +13,20 @@ import java.util.Optional;
  * 2020/7/3.
  */
 public abstract class TreeUtil {
+    /**
+     * 生成可以操作的树集合，树状结构第一步
+     * @param list   待变成树的集合
+     * @param getPid 获取上级id的方式
+     * @param getId  获取本级id的方式
+     * @param <T>    集合泛型
+     * @param <ID>   id类型
+     * @return 可操作的树集合
+     */
+    public static <T, ID> List<TreeBase<T, ID>> buildTreeBaseList(List<T> list,
+                                                                  TreeNodeGetInfoLamda<T, ID> getPid,
+                                                                  TreeNodeGetInfoLamda<T, ID> getId) {
+        return TreeUtil.buildTreeBaseList(list, getPid, getId, null);
+    }
 
     /**
      * 生成可以操作的树集合，树状结构第一步

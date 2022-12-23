@@ -16,6 +16,7 @@ import java.util.Date;
 public class SelectLikeSO<T> {
     private T model;
     private Integer upLimit;
+    private Integer downLimit;
     private Integer rows;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -49,17 +50,18 @@ public class SelectLikeSO<T> {
         return selectLikeSO;
     }
 
-    public static <T> SelectLikeSO<T> getInstance(T model, Integer upLimit, Integer rows) {
-        return new SelectLikeSO<>(model, upLimit, rows);
+    public static <T> SelectLikeSO<T> getInstance(T model, Integer upLimit, Integer downLimit, Integer rows) {
+        return new SelectLikeSO<>(model, upLimit, downLimit, rows);
     }
 
     private SelectLikeSO(T model) {
         this.model = model;
     }
 
-    private SelectLikeSO(T model, Integer upLimit, Integer rows) {
+    private SelectLikeSO(T model, Integer upLimit, Integer downLimit, Integer rows) {
         this.model = model;
         this.upLimit = upLimit;
+        this.downLimit = downLimit;
         this.rows = rows;
     }
 
@@ -106,5 +108,13 @@ public class SelectLikeSO<T> {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getDownLimit() {
+        return downLimit;
+    }
+
+    public void setDownLimit(Integer downLimit) {
+        this.downLimit = downLimit;
     }
 }

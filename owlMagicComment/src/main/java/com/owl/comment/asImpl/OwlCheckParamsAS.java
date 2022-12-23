@@ -156,6 +156,10 @@ public class OwlCheckParamsAS {
                         Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
                         for (Field field : fields) {
                             field.setAccessible(true);
+                            if (null != paramsBodyMap.get(field.getName())) {
+                                //继承的类数据可能存在覆盖可能
+                                continue;
+                            }
                             paramsBodyMap.put(field.getName(), field.get(paramsVO));
                         }
                     }
@@ -213,6 +217,10 @@ public class OwlCheckParamsAS {
             for (Field field : fields) {
                 field.setAccessible(true);
                 try {
+                    if (null != paramsBodyMap.get(field.getName())) {
+                        //继承的类数据可能存在覆盖可能
+                        continue;
+                    }
                     paramsBodyMap.put(field.getName(), field.get(paramsVO));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

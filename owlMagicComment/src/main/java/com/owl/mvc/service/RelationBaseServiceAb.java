@@ -65,6 +65,10 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
             List<T> collect = modelList
                     .stream()
                     .filter(it -> relationBaseDao.selectByExact(ModelSO.getInstance(it)).size() == 0)
+                    .peek(it -> {
+                        it.setId(RandomUtil.ssid());
+                        it.setCreateTime(new Date());
+                    })
                     .collect(Collectors.toList());
             if (collect.size() > 0) {
                 relationBaseDao.insertList(ModelListSO.getInstance(collect));

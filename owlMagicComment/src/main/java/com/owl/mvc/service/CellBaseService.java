@@ -122,12 +122,13 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      */
     MsgResultVO<?> isExist(T model);
 
-    default <T, M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLamda<M> countList, ListByPageLamda<T, M> resultList) {
+    default <M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLamda<M> countList, ListByPageLamda<T, M> resultList) {
         PageVO<T> pageVO = new PageVO<>();
         SelectLikeSO<M> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
         pageVO.initPageVO(countList.countSumList(selectLikeSO), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getGetAll());
         selectLikeSO.setRows(pageVO.getRows());
         selectLikeSO.setUpLimit(pageVO.getUpLimit());
+        selectLikeSO.setDownLimit(pageVO.getDownLimit());
         pageVO.setResultData(resultList.selectPageList(selectLikeSO));
         return pageVO.successResult(MsgConstant.REQUEST_SUCCESS);
     }

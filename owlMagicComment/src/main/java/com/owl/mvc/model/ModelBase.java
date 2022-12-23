@@ -2,7 +2,6 @@ package com.owl.mvc.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owl.model.ModelPrototype;
-import com.owl.util.RandomUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -14,12 +13,6 @@ import java.util.Date;
  * 2021/6/5.
  */
 public abstract class ModelBase<ID> extends ModelPrototype {
-    public ModelBase() {
-        this.id = RandomUtil.ssid();
-        this.createTime = new Date();
-        this.updateTime = new Date();
-    }
-
     protected ID id;
 
     //数据创建时间
