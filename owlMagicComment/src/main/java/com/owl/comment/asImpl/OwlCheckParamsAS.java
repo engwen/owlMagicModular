@@ -81,11 +81,11 @@ public class OwlCheckParamsAS {
             AsConsoleConsoleUtil.error(joinPoint, "requestParams " + result.getResultMsg());
             return result;
         } else if (checkStatus.isBodyHasNull()) {
-            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getParamsNotAllNull())));
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能为null", checkStatus.getRequestBodyIsNull()));
             AsConsoleConsoleUtil.error(joinPoint, "requestBody " + result.getResultMsg());
             return result;
         } else if (checkStatus.getBodyNotAllNull().length > 0 && checkStatus.isBodyAllOrNull()) {
-            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getParamsNotAllNull())));
+            result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getBodyNotAllNull())));
             AsConsoleConsoleUtil.error(joinPoint, "requestBody " + result.getResultMsg());
             return result;
         } else {
