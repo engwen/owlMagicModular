@@ -1,6 +1,5 @@
 package com.owl.main;
 
-import com.owl.util.ConsolePrintUtil;
 import com.owl.util.MD5Util;
 
 /**
@@ -11,9 +10,9 @@ import com.owl.util.MD5Util;
 public class GetMD5 {
     public static void main(String[] args) {
         if (args.length == 1) {
-            ConsolePrintUtil.info(MD5Util.getMD5(args[0]));
+            System.out.println(MD5Util.getMD5(args[0]));
         } else {
-            ConsolePrintUtil.error("参数错误");
+            System.out.println("参数错误");
         }
     }
 }

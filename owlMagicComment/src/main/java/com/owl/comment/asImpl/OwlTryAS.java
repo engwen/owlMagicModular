@@ -2,9 +2,9 @@ package com.owl.comment.asImpl;
 
 
 import com.owl.comment.annotations.OwlTry;
-import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.vo.MsgResultVO;
+import com.owl.util.LogUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,7 +33,7 @@ public class OwlTryAS {
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
             String value = methodSignature.getMethod().getAnnotation(OwlTry.class).value();
             if (!RegexUtil.isEmpty(value)) {
-                AsConsoleConsoleUtil.error(joinPoint, value);
+                LogUtil.error(value);
             }
             result.errorResult(MsgConstant.TRY_CATCH_THROWABLE_ERROR);
             e.printStackTrace();

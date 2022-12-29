@@ -1,7 +1,7 @@
 package com.owl.io.socket.client;
 
 import com.owl.io.socket.model.SocketMsg;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -51,7 +51,7 @@ public class SocketClientServer {
             clientChannel.connect(new InetSocketAddress(this.host, this.port));
 //        socketChannel.finishConnect();
         } catch (Exception e) {
-            ConsolePrintUtil.error("connect error, information is  " + e);
+            LogUtil.error("connect error, information is  " + e);
         }
     }
 
@@ -59,7 +59,7 @@ public class SocketClientServer {
         try {
             this.clientChannel.close();
         } catch (Exception e) {
-            ConsolePrintUtil.error("disconnect error, information is  " + e);
+            LogUtil.error("disconnect error, information is  " + e);
         }
     }
 
@@ -73,9 +73,9 @@ public class SocketClientServer {
             buffer.clear();
             this.clientChannel.read(buffer).get();
             buffer.flip();
-            ConsolePrintUtil.info("get server back  " + new String(buffer.array()).trim());
+            LogUtil.info("get server back  " + new String(buffer.array()).trim());
         } catch (Exception e) {
-            ConsolePrintUtil.error("emit msg is Error :" + e);
+            LogUtil.error("emit msg is Error :" + e);
         }
     }
 

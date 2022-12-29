@@ -2,7 +2,7 @@ package com.owl.io.socket.server;
 
 import com.owl.io.socket.SocketDispatchEvent;
 import com.owl.io.socket.server.handler.AcceptCompleteHandler;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 import com.owl.util.RegexUtil;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class SocketServer {
 
     public static SocketServer getInstance(int port, SocketDispatch dispatch) {
         if (RegexUtil.isEmpty(dispatch)) {
-            ConsolePrintUtil.error("start socket error,dispatch can`t be null ");
+            LogUtil.error("start socket error,dispatch can`t be null ");
             return null;
         }
         return new SocketServer(port, dispatch);
@@ -45,9 +45,9 @@ public class SocketServer {
     public void start() {
         try {
             init();
-            ConsolePrintUtil.info("socket server is start ");
+            LogUtil.info("socket server is start ");
         } catch (IOException e) {
-            ConsolePrintUtil.error("start server socket error, information is " + e);
+            LogUtil.error("start server socket error, information is " + e);
         }
     }
 
@@ -65,9 +65,9 @@ public class SocketServer {
             channelGroup.shutdown();
             serverSocketChannel.close();
             SocketDispatchEvent.clear();
-            ConsolePrintUtil.info("system stop socket server now ");
+            LogUtil.info("system stop socket server now ");
         } catch (IOException e) {
-            ConsolePrintUtil.error("stop socket server error, information is " + e);
+            LogUtil.error("stop socket server error, information is " + e);
             return false;
         }
         return true;

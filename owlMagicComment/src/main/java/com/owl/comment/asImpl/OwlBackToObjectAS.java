@@ -1,7 +1,6 @@
 package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlBackToObject;
-import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
@@ -10,6 +9,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(96)
 public class OwlBackToObjectAS {
+    private final Logger logger = LoggerFactory.getLogger(OwlBackToObjectAS.class);
 
     @Pointcut("@within(com.owl.comment.annotations.OwlBackToObject) || @annotation(com.owl.comment.annotations.OwlBackToObject)")
     public void changeBackClassCut() {
@@ -40,7 +42,7 @@ public class OwlBackToObjectAS {
             annotation = AnnotationUtils.findAnnotation(methodSignature.getMethod().getDeclaringClass(), OwlBackToObject.class);
         }
         if (null == annotation) {
-            AsConsoleConsoleUtil.error(joinPoint, "@OwlBackToObject 参数不能全部为null");
+            logger.error("@OwlBackToObject 参数不能全部为null");
             return obj;
         }
         String classPath = annotation.classPath();
@@ -54,7 +56,7 @@ public class OwlBackToObjectAS {
         String oldDataName = annotation.oldData();
         String oldResultName = annotation.oldResult();
         if (RegexUtil.isEmpty(classPath)) {
-            AsConsoleConsoleUtil.error(joinPoint, "未查询到转换对象");
+            logger.error("未查询到转换对象");
         } else {
             try {
                 result = Class.forName(classPath).newInstance();
@@ -86,11 +88,11 @@ public class OwlBackToObjectAS {
                         ObjectUtil.setProValue(resultName, ObjectUtil.getProValue(oldResultName, obj), result);
                     }
                 } else {
-                    AsConsoleConsoleUtil.error(joinPoint, "这个注解仅仅用于将 MsgResultVO 转化成指定的对象");
+                    logger.error("这个注解仅仅用于将 MsgResultVO 转化成指定的对象");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                AsConsoleConsoleUtil.error(joinPoint, "转换失败");
+                logger.error("转换失败");
             }
         }
         return result;

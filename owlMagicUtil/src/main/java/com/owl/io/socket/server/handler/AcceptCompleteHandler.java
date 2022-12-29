@@ -4,7 +4,7 @@ import com.owl.io.socket.model.SocketMsg;
 import com.owl.io.socket.server.SocketDispatch;
 import com.owl.io.socket.server.SocketServer;
 import com.owl.io.socket.util.SocketUtils;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
@@ -36,7 +36,7 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
     public void completed(AsynchronousSocketChannel result, SocketServer attachment) {
         // 继续接收其他的客户端连接
         serverSocketChannel.accept(null, this);
-        ConsolePrintUtil.info("connect success");
+        LogUtil.info("connect success");
         SocketMsg backMsg = SocketMsg.getInstance();
         List<String> accepterIds = new ArrayList<>();
         accepterIds.add(SocketUtils.getUuid(result));
@@ -58,6 +58,6 @@ public class AcceptCompleteHandler implements CompletionHandler<AsynchronousSock
      */
     @Override
     public void failed(Throwable exc, SocketServer attachment) {
-        ConsolePrintUtil.error("connect error");
+        LogUtil.error("connect error");
     }
 }

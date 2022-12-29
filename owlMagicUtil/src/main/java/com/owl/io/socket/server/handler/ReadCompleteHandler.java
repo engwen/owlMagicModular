@@ -3,7 +3,7 @@ package com.owl.io.socket.server.handler;
 import com.owl.io.socket.model.SocketMsg;
 import com.owl.io.socket.server.SocketDispatch;
 import com.owl.io.socket.util.SocketUtils;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
 
@@ -54,7 +54,7 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
         } else {
             return;
         }
-        ConsolePrintUtil.info("read success. msg is " + msg);
+        LogUtil.info("read success. msg is " + msg);
         attachment.clear();
         SocketMsg backMsg = SocketMsg.getInstance();
         List<String> accepterIds = new ArrayList<>();
@@ -65,7 +65,7 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
         backMsg.setAccepterIds(accepterIds);
         backMsg.getMsg().put("to:client:type", "success");
         attachment.put(backMsg.toString().getBytes(StandardCharsets.UTF_8));
-        ConsolePrintUtil.info("return msg " + backMsg);
+        LogUtil.info("return msg " + backMsg);
         attachment.flip();
         socketChannel.write(attachment);
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
@@ -79,12 +79,12 @@ public class ReadCompleteHandler implements CompletionHandler<Integer, ByteBuffe
      */
     @Override
     public void failed(Throwable exc, ByteBuffer attachment) {
-        ConsolePrintUtil.error("read error. Information is " + exc);
+        LogUtil.error("read error. Information is " + exc);
         try {
-            ConsolePrintUtil.info("close socket success. " + socketChannel.getRemoteAddress());
+            LogUtil.info("close socket success. " + socketChannel.getRemoteAddress());
             socketChannel.close();
         } catch (IOException e) {
-            ConsolePrintUtil.error("close socket error. Information is " + e);
+            LogUtil.error("close socket error. Information is " + e);
             e.printStackTrace();
         }
     }

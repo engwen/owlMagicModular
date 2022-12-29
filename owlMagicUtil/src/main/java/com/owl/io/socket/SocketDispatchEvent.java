@@ -1,7 +1,7 @@
 package com.owl.io.socket;
 
 import com.owl.io.socket.model.SocketMsg;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RandomUtil;
 
@@ -52,7 +52,7 @@ public class SocketDispatchEvent {
         if (null != msg && null != msg.get("event")) {
             model.setMsg(msg);
         }
-        ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
+        LogUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(model));
     }
 
 

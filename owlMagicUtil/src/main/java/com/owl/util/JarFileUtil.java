@@ -44,6 +44,5 @@ public abstract class JarFileUtil {
                 Files.copy(resourceAsStream, temp.toPath());
             }
         }
-        ConsolePrintUtil.info(sourceDir + "：目录下文件拷贝完成");
     }
 }

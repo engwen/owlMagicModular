@@ -1,6 +1,7 @@
 package com.owl.mvc;
 
-import com.owl.util.ConsolePrintUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OwlCommentInit implements InitializingBean {
+    private final Logger logger = LoggerFactory.getLogger(OwlCommentInit.class);
     @Override
     public void afterPropertiesSet() throws Exception {
-        ConsolePrintUtil.info("owlMagicComment`s AOP init success");
+        logger.info("owlMagicComment`s AOP init success");
     }
 }

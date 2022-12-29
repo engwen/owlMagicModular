@@ -1,6 +1,8 @@
 package com.owl.util;
 
 import com.owl.io.file.FileIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -17,6 +19,7 @@ import java.util.zip.ZipOutputStream;
  * 2019/5/23.
  */
 public abstract class FileUtil {
+    private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * 创建目录
@@ -26,13 +29,13 @@ public abstract class FileUtil {
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
             try {
-                LoggerUtil.info("创建文件夹：" + dirFile);
+                logger.info("创建文件夹：" + dirFile);
                 Files.createDirectory(dirFile.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            LoggerUtil.info("目录已存在：" + dirFile);
+            logger.info("目录已存在：" + dirFile);
         }
     }
 
@@ -44,13 +47,13 @@ public abstract class FileUtil {
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
             try {
-                LoggerUtil.info("创建文件夹：" + dirFile);
+                logger.info("创建文件夹：" + dirFile);
                 Files.createDirectories(dirFile.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            LoggerUtil.info("目录已存在：" + dirFile);
+            logger.info("目录已存在：" + dirFile);
         }
     }
 
@@ -138,7 +141,7 @@ public abstract class FileUtil {
         File file1 = new File(filePath1);
         File file2 = new File(filePath2);
         if (file1.isDirectory() || file2.isDirectory()) {
-            ConsolePrintUtil.error("此方法不支持目录比较,请使用 getRepeatFileByPath");
+            logger.error("此方法不支持目录比较,请使用 getRepeatFileByPath");
         } else if (file1.exists() && file2.exists()) {
             String file1md5 = MD5Util.getMD5(file1);
             String file2md5 = MD5Util.getMD5(file2);
@@ -159,11 +162,11 @@ public abstract class FileUtil {
         FileUtil.getFilePathMd5(fileMap, dir);
         fileMap.keySet().stream().filter(key -> fileMap.get(key).size() != 1).forEach(key -> {
             repeatFile.put(key, fileMap.get(key));
-            ConsolePrintUtil.info(String.format("MD5 %s 路径文件存在重复", key));
-            fileMap.get(key).forEach(it -> ConsolePrintUtil.info(it.getAbsolutePath()));
+            logger.info(String.format("MD5 %s 路径文件存在重复", key));
+            fileMap.get(key).forEach(it -> logger.info(it.getAbsolutePath()));
         });
         if (repeatFile.keySet().size() == 0) {
-            ConsolePrintUtil.info("该目录下文件不存在重复");
+            logger.info("该目录下文件不存在重复");
         }
         return repeatFile;
     }
@@ -230,7 +233,7 @@ public abstract class FileUtil {
             }
             Files.copy(new File(sourceFilePath).toPath(), file.toPath());
         } catch (IOException e) {
-            ConsolePrintUtil.error("拷贝失败：" + sourceFilePath + "=>" + tagPath);
+            logger.error("拷贝失败：" + sourceFilePath + "=>" + tagPath);
             e.printStackTrace();
         }
     }
@@ -252,10 +255,10 @@ public abstract class FileUtil {
                 InputStream resourceAsStream = new FileInputStream(source);
                 Files.copy(resourceAsStream, temp.toPath());
             } else {
-                ConsolePrintUtil.error("未找到源文件：" + source.getAbsolutePath());
+                logger.error("未找到源文件：" + source.getAbsolutePath());
             }
         }
-        ConsolePrintUtil.info(sourceDir + "：目录下文件拷贝完成");
+        logger.info(sourceDir + "：目录下文件拷贝完成");
     }
 
     /**
@@ -276,7 +279,7 @@ public abstract class FileUtil {
         collect.forEach(it -> {
             String newFile = it.getAbsolutePath().replace(sourceDir, targetDir);
             File source = new File(newFile);
-            ConsolePrintUtil.info(it.getAbsolutePath() + "=====>" + source.getAbsolutePath());
+            logger.info(it.getAbsolutePath() + "=====>" + source.getAbsolutePath());
             try {
                 File parentFile = source.getParentFile();
                 if (!parentFile.exists()) {
@@ -284,7 +287,7 @@ public abstract class FileUtil {
                 }
                 Files.copy(it.toPath(), source.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                ConsolePrintUtil.error("拷贝失败");
+                logger.error("拷贝失败");
                 e.printStackTrace();
             }
         });
@@ -351,13 +354,13 @@ public abstract class FileUtil {
         ZipOutputStream zos = null;
 
         if (!sourceFile.exists()) {
-            ConsolePrintUtil.error("待压缩的文件目录：" + sourceFilePath + "不存在.");
+            logger.error("待压缩的文件目录：" + sourceFilePath + "不存在.");
         } else {
             try {
                 File zipFile = new File(zipFilePath + File.separator + fileName + ".zip");
                 if (zipFile.exists()) {
                     zipFile.delete();
-                    ConsolePrintUtil.error(zipFilePath + "目录下存在名字为:" + fileName + ".zip" + "打包文件.已将其删除");
+                    logger.error(zipFilePath + "目录下存在名字为:" + fileName + ".zip" + "打包文件.已将其删除");
                 }
                 fos = new FileOutputStream(zipFile);
                 zos = new ZipOutputStream(new BufferedOutputStream(fos));
@@ -384,7 +387,7 @@ public abstract class FileUtil {
         if (filePath.isDirectory()) {
             File[] sourceFiles = filePath.listFiles();
             if (null == sourceFiles || sourceFiles.length < 1) {
-                ConsolePrintUtil.error("待压缩的文件目录：" + sourceFilePath + "里面不存在文件，无需压缩.");
+                logger.error("待压缩的文件目录：" + sourceFilePath + "里面不存在文件，无需压缩.");
             } else {
                 for (File file : sourceFiles) {
                     addZip(sourceFilePath, file, fis, bis, zos);

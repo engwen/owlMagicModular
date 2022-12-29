@@ -1,11 +1,11 @@
 package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlSetNullData;
-import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.utils.SpringServletContextUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import com.owl.util.ClassTypeUtil;
+import com.owl.util.LogUtil;
 import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -70,8 +70,8 @@ public class OwlSetNullDataAS {
 
     /**
      * 设置 body 请求参数为空
-     * @param joinPoint
-     * @throws IllegalAccessException
+     * @param joinPoint 切面
+     * @throws IllegalAccessException 异常
      */
     private static void setBodyParamsNull(ProceedingJoinPoint joinPoint, String[] setNullParams) throws Throwable {
         //检查requestBody
@@ -92,7 +92,7 @@ public class OwlSetNullDataAS {
             if (isBodyOb) {
                 //从接收封装的对象
                 if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
-                    AsConsoleConsoleUtil.error(joinPoint, "OwlSetNullDataAS 此注解仅接收 Map 或 Object 对象");
+                    LogUtil.error("OwlSetNullDataAS 此注解仅接收 Map 或 Object 对象");
                 } else {
 //                使用Map接收参数
                     if (paramsVO instanceof Map) {

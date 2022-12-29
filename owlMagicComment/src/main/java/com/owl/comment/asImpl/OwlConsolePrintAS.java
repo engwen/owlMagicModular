@@ -1,7 +1,6 @@
 package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlConsolePrint;
-import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -9,6 +8,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(90)
 public class OwlConsolePrintAS {
+    private final Logger logger = LoggerFactory.getLogger(OwlConsolePrintAS.class);
 
     @Pointcut("@within(com.owl.comment.annotations.OwlConsolePrint) || @annotation(com.owl.comment.annotations.OwlConsolePrint)")
     public void logCut() {
@@ -39,15 +41,15 @@ public class OwlConsolePrintAS {
         }
         //方法注解
         if (null != owlConsolePrint && !RegexUtil.isEmpty(owlConsolePrint.value())) {
-            AsConsoleConsoleUtil.info(joinPoint, owlConsolePrint.value());
+            logger.info(owlConsolePrint.value());
         } else {
 //          joinPoint.getSignature().getDeclaringTypeName(),
-            AsConsoleConsoleUtil.info(joinPoint, String.format("当前方法 %s", joinPoint.getSignature().getName()));
+            logger.info(String.format("当前方法 %s", joinPoint.getSignature().getName()));
         }
     }
 
     @After("logCut()")
     public void logEndTime(JoinPoint joinPoint) {
-        AsConsoleConsoleUtil.info(joinPoint, joinPoint.getSignature().getName() + "方法执行结束");
+        logger.info(joinPoint.getSignature().getName() + " 方法执行结束");
     }
 }

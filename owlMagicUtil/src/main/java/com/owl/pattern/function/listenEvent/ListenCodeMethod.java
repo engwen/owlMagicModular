@@ -2,7 +2,8 @@ package com.owl.pattern.function.listenEvent;
 
 import com.owl.pattern.function.listenEvent.base.OwlListenCodeBase;
 import com.owl.pattern.observer.OwlObserved;
-import com.owl.util.ConsolePrintUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
  * 2019/10/30.
  */
 public class ListenCodeMethod implements OwlListenCodeBase {
+    private final Logger logger = LoggerFactory.getLogger(ListenCodeMethod.class);
+
     private OwlObserved owlObserved;
     private String methodName;
 
@@ -29,10 +32,10 @@ public class ListenCodeMethod implements OwlListenCodeBase {
                         method.invoke(owlObserved, params);
                         break;
                     } catch (IllegalAccessException e) {
-                        ConsolePrintUtil.error("params is error. More...");
+                        logger.error("params is error. More...");
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
-                        ConsolePrintUtil.error("listen method is error. More...");
+                        logger.error("listen method is error. More...");
                         e.printStackTrace();
                     }
                 }
@@ -40,7 +43,7 @@ public class ListenCodeMethod implements OwlListenCodeBase {
                 throw new NoSuchMethodException();
             }
         } catch (NoSuchMethodException e) {
-            ConsolePrintUtil.error("not find method " + methodName + " in this class,please check it. More...");
+            logger.error("not find method " + methodName + " in this class,please check it. More...");
             e.printStackTrace();
         }
     }

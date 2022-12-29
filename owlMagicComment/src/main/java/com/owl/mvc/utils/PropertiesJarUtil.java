@@ -1,7 +1,7 @@
 package com.owl.mvc.utils;
 
 import com.owl.mvc.model.MsgConstant;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.util.Properties;
@@ -17,7 +17,8 @@ public class PropertiesJarUtil {
 
     /**
      * 讀取指定配置文件信息
-     * @param key key
+     * @param fileName 文件名称
+     * @param key      key
      * @return str
      */
     public static String readProperties(String fileName, String key) {
@@ -25,7 +26,7 @@ public class PropertiesJarUtil {
             Properties properties = PropertiesLoaderUtils.loadAllProperties(fileName + ".properties");
             return properties.getProperty(key);
         } catch (Exception e) {
-            ConsolePrintUtil.error(MsgConstant.NOT_FIND_PROPERTIES.getMsg());
+            LogUtil.error(MsgConstant.NOT_FIND_PROPERTIES.getMsg());
         }
         return null;
     }

@@ -2,7 +2,6 @@ package com.owl.comment.asImpl;
 
 import com.owl.comment.annotations.OwlCheckParams;
 import com.owl.comment.asModel.ParamsCheckStatus;
-import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.utils.SpringServletContextUtil;
 import com.owl.mvc.vo.MsgResultVO;
@@ -14,6 +13,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ import java.util.*;
 @Component
 @Order(91)
 public class OwlCheckParamsAS {
+    private static final Logger logger = LoggerFactory.getLogger(OwlCheckParamsAS.class);
 
     @Pointcut("@annotation(com.owl.comment.annotations.OwlCheckParams)")
     public void checkParamsCut() {
@@ -65,7 +67,7 @@ public class OwlCheckParamsAS {
         }
         //該注解沒有指定參數
         if (checkStatus.getParamsNotNull().length == 0 && checkStatus.getParamsNotAllNull().length == 0 && checkStatus.getBodyNotNull().length == 0 && checkStatus.getBodyNotAllNull().length == 0) {
-            AsConsoleConsoleUtil.info(joinPoint, MsgConstant.REQUEST_ANNOTATIONS_PARAMS_ERROR.getCode());
+            logger.info(MsgConstant.REQUEST_ANNOTATIONS_PARAMS_ERROR.getCode());
             return joinPoint.proceed(joinPoint.getArgs());
         }
         //检查requestParams
@@ -74,22 +76,22 @@ public class OwlCheckParamsAS {
         checkRequestBody(joinPoint, checkStatus);
         if (checkStatus.isParamsHasNull()) {
             result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能为null", checkStatus.getRequestParamsIsNull()));
-            AsConsoleConsoleUtil.error(joinPoint, "requestParams " + result.getResultMsg());
+            logger.error("requestParams " + result.getResultMsg());
             return result;
         } else if (checkStatus.getParamsNotAllNull().length > 0 && checkStatus.isParamsAllOrNull()) {
             result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getParamsNotAllNull())));
-            AsConsoleConsoleUtil.error(joinPoint, "requestParams " + result.getResultMsg());
+            logger.error("requestParams " + result.getResultMsg());
             return result;
         } else if (checkStatus.isBodyHasNull()) {
             result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能为null", checkStatus.getRequestBodyIsNull()));
-            AsConsoleConsoleUtil.error(joinPoint, "requestBody " + result.getResultMsg());
+            logger.error("requestBody " + result.getResultMsg());
             return result;
         } else if (checkStatus.getBodyNotAllNull().length > 0 && checkStatus.isBodyAllOrNull()) {
             result.errorResult(MsgConstant.REQUEST_PARAMETER_ERROR.getCode(), backStr("请求参数 %s 不能全部为null", Arrays.asList(checkStatus.getBodyNotAllNull())));
-            AsConsoleConsoleUtil.error(joinPoint, "requestBody " + result.getResultMsg());
+            logger.error("requestBody " + result.getResultMsg());
             return result;
         } else {
-            AsConsoleConsoleUtil.info(joinPoint, "参数检查通过");
+            logger.info("参数检查通过");
             return joinPoint.proceed(joinPoint.getArgs());
         }
     }
@@ -110,7 +112,7 @@ public class OwlCheckParamsAS {
             Optional<String> first = Arrays.stream(checkStatus.getParamsNotAllNull()).filter(param -> null != paramsHeadMap.get(param) && paramsHeadMap.get(param).length > 0).findFirst();
             checkStatus.setParamsAllOrNull(!first.isPresent());
         } else if (checkStatus.getParamsNotNull().length > 0 || checkStatus.getParamsNotAllNull().length > 0) {
-            AsConsoleConsoleUtil.error(joinPoint, " 没有找到 @RequestParam 注解字段");
+            logger.error(" 没有找到 @RequestParam 注解字段");
         }
     }
 
@@ -141,11 +143,11 @@ public class OwlCheckParamsAS {
                 //从接收封装的对象
                 Map<String, Object> paramsBodyMap = new HashMap<>();
                 if (ClassTypeUtil.isPackClass(paramsVO) || ClassTypeUtil.isBaseClass(paramsVO)) {
-                    AsConsoleConsoleUtil.error(joinPoint, "此注解只接收 Map 或 Object 对象");
+                    logger.error("此注解只接收 Map 或 Object 对象");
                     return;
                 } else {
                     if (paramsVO instanceof List<?> && ((List<?>) paramsVO).size() > 0) {
-                        AsConsoleConsoleUtil.info(joinPoint, "list集合不为空");
+                        logger.info("list集合不为空");
                         return;
                     }
                     // 使用Map接收参数

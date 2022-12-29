@@ -1,5 +1,8 @@
 package com.owl.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -9,6 +12,8 @@ import java.io.InputStreamReader;
  * 2020/6/13.
  */
 public abstract class ShellUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(ShellUtil.class);
 
     public static void start(String command) {
         Process proc = null;
@@ -21,7 +26,7 @@ public abstract class ShellUtil {
             if (null != proc) {
                 proc.destroy();
             }
-            ConsolePrintUtil.error(e.toString());
+            logger.error(e.toString());
         } finally {
 
         }

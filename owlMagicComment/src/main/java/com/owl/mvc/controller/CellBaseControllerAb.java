@@ -1,12 +1,13 @@
 package com.owl.mvc.controller;
 
-import com.owl.comment.utils.AsConsoleConsoleUtil;
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.service.CellBaseServiceAb;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @RestController
 public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>, T extends ModelBase<ID>, ID> implements CellBaseController<T, ID> {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     protected M cellBaseServiceAb;
@@ -31,7 +33,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<T> create(T model) {
-        AsConsoleConsoleUtil.info("default create");
+        logger.info("default create");
         return cellBaseServiceAb.create(model);
     }
 
@@ -42,7 +44,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<?> createList(List<T> list) {
-        AsConsoleConsoleUtil.info("default createList");
+        logger.info("default createList");
         return cellBaseServiceAb.createList(list);
     }
 
@@ -54,7 +56,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<?> deleteRe(T model) {
-        AsConsoleConsoleUtil.info("default real delete");
+        logger.info("default real delete");
         return cellBaseServiceAb.deleteRe(model);
     }
 
@@ -65,7 +67,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<?> deleteListRe(List<ID> idList) {
-        AsConsoleConsoleUtil.info("default real delete");
+        logger.info("default real delete");
         return cellBaseServiceAb.deleteByIdListRe(idList);
     }
 
@@ -76,7 +78,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<?> update(T model) {
-        AsConsoleConsoleUtil.info("default update");
+        logger.info("default update");
         return cellBaseServiceAb.update(model);
     }
 
@@ -87,7 +89,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
-        AsConsoleConsoleUtil.info("default update");
+        logger.info("default update");
         return cellBaseServiceAb.updateByNotNull(model);
     }
 
@@ -99,7 +101,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<T> details(T model) {
-        AsConsoleConsoleUtil.info("default details");
+        logger.info("default details");
         return cellBaseServiceAb.details(model);
     }
 
@@ -110,7 +112,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        AsConsoleConsoleUtil.info("default list");
+        logger.info("default list");
         return cellBaseServiceAb.list(pageDTO);
     }
 
@@ -121,7 +123,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO) {
-        AsConsoleConsoleUtil.info("default list");
+        logger.info("default list");
         return cellBaseServiceAb.listByExact(modelDTO);
     }
 
@@ -132,7 +134,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      */
     @Override
     public MsgResultVO<?> isExist(T model) {
-        AsConsoleConsoleUtil.info("default isExist");
+        logger.info("default isExist");
         return cellBaseServiceAb.isExist(model);
     }
 }

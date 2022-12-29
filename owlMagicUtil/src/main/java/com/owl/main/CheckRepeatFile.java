@@ -1,7 +1,7 @@
 package com.owl.main;
 
-import com.owl.util.ConsolePrintUtil;
 import com.owl.util.FileUtil;
+import com.owl.util.LogUtil;
 
 /**
  * author engwen
@@ -13,7 +13,7 @@ public class CheckRepeatFile {
         if (args.length == 1) {
             FileUtil.getRepeatFileByPath(args[0]);
         } else {
-            ConsolePrintUtil.error("参数错误");
+            LogUtil.error("参数错误");
         }
     }
 }

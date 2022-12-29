@@ -25,50 +25,6 @@ En details ,please click <url>https://github.com/engwen/owlMagicComment/blob/mas
    
    6.[附录 3-- 如何使用](https://github.com/engwen/owlMagicComment/blob/master/readMe.md/#use)
 
-
-简介：本工具包提供以下服务
-
-   <div id="MVC"></div>     
-   1. 基础的 [CRUD](https://github.com/engwen/owlMagicComment/blob/master/readMe.md/#CRUD) 模板，并提供实现。除了基本的CRUD，本包还提供批量创建，批量删除，物理删除，逻辑删除（默认不提供，数据库需要有
-            tinyint类型的status字段，对象中为status的boolean），逻辑禁用（默认不提供，数据库需要有tinyint类型的has_ban字段，对象
-            中为hasBan的boolean），分页等功能。我舍弃了常规的service 接口-实现类模式，采用了更为激进的 service 实体类继承抽象类（
-            该抽象类实现默认接口的模式），理由如下
-                a. 绝大多数情况下——我想可能有99%，你绝对不会用两个service实现类去实现同一个接口，这个接口已经失去了意义，
-                这也是为什么Spring会支持实体类作为service
-                b. 现在的ide工具很容易就能看到一个类的全部方法，没必要为了一目了然而单独创建一个类（如果你用的idea，按住ctrl+alt+shift+u试试）。
-            <image src="https://raw.githubusercontent.com/engwen/owlMagicImages/master/owlMagicComment/interfaceUML.png"/>
-            默认的，本包中的update是依据id进行更新的，注解 @OwlCheckParams(notNull={"id})
-            已经帮你写好，你只需要引包就好啦
-            <image src="https://raw.githubusercontent.com/engwen/owlMagicImages/master/owlMagicComment/cellBaseDao.png"/>
-   2. 设置三级请求参数，分别是model，DTO和SO。在controller层，默认能使用model接收的地方全部使用model，不能使用一概使用DTO对
-            象接收。同理，dao层能使用model的地方，全部使用model，上层传输为DTO对象的，全部使用DTO对象。为了统一xml中的方法，方便后
-            期的修改操作，dao层另外提供SO对象，xml中使用该对象中的model、id、idList、modelList等。PS 该对象只是为了在xml中的代码重用，
-            因为我实在不想让你再改变一个条件时去xml中一个一个更改，我不建议你在service之外的任何地方使用SO对象
-            <image src="https://raw.githubusercontent.com/engwen/owlMagicImages/master/owlMagicComment/xmlModel.png"/>
-            
-   3. 统一返回参数，所有的请求参数全都为 MsgResultVO<T> 。除了dao之外，所有的service也都返回这个参数（还在返回int? 一个service居然需要
-            每个controller都自己去封装结果集，能忍？），它封装了几乎你能想到的
-            所有的返回参数应该有的方法。如果你之前使用的是另一个返回类，那么我还是推荐修改为 MsgResultVO，不然本包提供的大量注解方法
-            你都将不能使用 <font color=#7FFF00>(toJSON, toMap, 直接操作附加参数 items，msg，code，result，data，除此之外，如果你还需要什么可以给我留言，
-            我会在下一个版本加以考虑)</font>
-            <image src="https://raw.githubusercontent.com/engwen/owlMagicImages/master/owlMagicComment/MsgResultVO.png"/>
-   4. 提供注解方法：检查请求参数（come on，别和我说那个在model里设置notNull的jar——我总不可能就为了使用这个玩意，就新建一个一
-            模一样的model吧？比如create和update，一个model，但是id在update的时候不能为null的情况，所以我还是认为在方法直接使用注解
-            的方式会更好）、改变返回值类型（hei，快别找接口不使用MsgResultVO了，我都给你想好了，唯一麻烦的可能就是前端界面了）、打印
-            日志（算了吧，快别用这个了，它只是个System.out.print）、计算方法花费时长、设置请求参数或者返回参数为Null（过滤无用的请
-            求字段，比如期望的是like查询，但接收使用model，可前端偏偏传了个id。还有，别和我说你会重新写个方法，就为了不查一个字段或
-            者多查一个字段）等等
-   5. 还有一部分功能，那是属于[owlMagicUtil](https://github.com/engwen/owlMagicUtil)的
-   6. 配合我提供的基于mybatis-generator改写的自动生成工具[owlMybatisGenerator](https://github.com/engwen/owlMagicImages/tree/master/owlMybatisGenerator)，
-            从 model 到 dao，到 service，到 controller，到 xml，我都已经做好了完整的一套逻辑（感谢[mybatis-generator](https://github.com/mybatis/generator)开源项目，
-            看命名就知道了，我的项目就是基于他们的源码改动的），去除掉了那些无用的注释（<font color=#7FFF00>如果你的数据库表中有注释的话，默认model就会
-            加载数据库中的注释哦</font>）
-            你还在犹豫什么？
-   PS 没有类是完美的，也没有一个类是能适应一万种可能的，所以，请你们适应我吧。我的规则应该会比你之前用过的都更加好用。当然，这不是绝对。
-      如果你有更好的想法，欢迎在 issues 下留言
-
-
-
 #  至简原则
 
 <div id="annotations"></div>
@@ -621,21 +577,36 @@ Service层继承 [CellBaseServiceAb<M extends CellBaseDao<T, ID>, T, ID>](https:
               </dependency>
 ```
 
-
-#历史升级记录
-
+# 历史升级记录
 
 <div id="update"></div>
+-------
+
+##### 3.0.5
+
+-- 优化
+
+1. ConsolePrintUtil 工具清除。
+2. OwlLogInfo 独立，现在日志系统引入 slf4j
+3. 现在 OwlCheckParams 在检测源对象时，遇到父类中属性和对象属性名一致情况，会先判断取值是否为空。如果为空会再取一次，不为空则跳过。
+4. 修正 OwlCheckParams 中对 body 中的字段判断提示为空字段显示错误
+5. 现在 ModelBase 不会在创建时对 id 进行赋值
+6. PageVO 添加对不同数据库语法的支持，同时存储 起始位置、结束为止、查询条数，以备不同数据库的查询使用
+7. 修正错误的正则语法
+8. 树状结构添加直接获取根节点函数
+9. 添加 XML 解析记录
+10. 添加 HttpClientUtils 发送工具
+11. 其他大量更新以及优化。不再一一列举
 
 -------
- #####  3.0.4
 
- -- 优化
- 1. 命名修改
-    a. 控制台日志由 ConsolePrintUtil 变更为 ConsolePrintUtil ————请注意，为了防止和您之后的jar冲突，我没有引入新的日志处理系统。
-       ConsolePrintUtil 只是控制台的输出日志，并不会存储
-    b. 切片函数 OwlLogInfo 变更为 OwlConsolePrint，这个注解只是为了方便调试时加上快速定位接口，并没有实际意义（本来是想作为切面的日志管理的）
- 2. 部分方法修改
+##### 3.0.4
+
+-- 优化
+
+1. 命名修改 a. 控制台日志由 ConsolePrintUtil 变更为 ConsolePrintUtil ————请注意，为了防止和您之后的jar冲突，我没有引入新的日志处理系统。 ConsolePrintUtil
+   只是控制台的输出日志，并不会存储 b. 切片函数 OwlLogInfo 变更为 OwlConsolePrint，这个注解只是为了方便调试时加上快速定位接口，并没有实际意义（本来是想作为切面的日志管理的）
+2. 部分方法修改
 
 -------
  #####  3.0.0

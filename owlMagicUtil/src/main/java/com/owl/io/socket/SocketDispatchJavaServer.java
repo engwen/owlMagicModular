@@ -2,7 +2,7 @@ package com.owl.io.socket;
 
 import com.owl.io.socket.model.SocketMsg;
 import com.owl.io.socket.server.SocketDispatch;
-import com.owl.util.ConsolePrintUtil;
+import com.owl.util.LogUtil;
 import com.owl.util.ObjectUtil;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class SocketDispatchJavaServer implements SocketDispatch {
 
     public void dispatchEvent(AsynchronousSocketChannel socketChannel, SocketMsg msg) {
         addToSocketClientSet(socketChannel);
-        ConsolePrintUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(msg));
+        LogUtil.info("dispatch event success. msg is " + ObjectUtil.toJSON(msg));
     }
 
 
