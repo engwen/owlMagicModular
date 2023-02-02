@@ -213,6 +213,25 @@ public abstract class FileUtil {
     }
 
     /**
+     * 获取指定文件的文件夹
+     * @param file 文件
+     * @return 文件集合
+     */
+    public static List<File> getFileDirPath(File file) {
+        List<File> fileList = new ArrayList<>();
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File oneFile : files) {
+                    fileList.addAll(FileUtil.getFileDirPath(oneFile));
+                }
+            }
+            fileList.add(file);
+        }
+        return fileList;
+    }
+
+    /**
      * 拷贝源文件到指定目录，并
      * @param sourceDir         源文件位置初级路径
      * @param targetDir         目标位置初级路径
