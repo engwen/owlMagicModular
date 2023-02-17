@@ -9,9 +9,23 @@ import java.util.Map;
 public class ChangeFileUtil {
     public static void main(String[] args) {
 //        System.out.println(getName("【高清MP4电影www.boxmp4.com】加勒比海盗1：黑珍珠号的诅咒.Pirates of the Caribbean： The Curse of the Black Pearl.2003.BD720P.国英双语.中英双字.mp4"));
-        ChangeFileUtil.movie();
-        ChangeFileUtil.removeDir();
+//        ChangeFileUtil.movie();
+        ChangeFileUtil.music();
     }
+
+    public static void music() {
+        String dir = "/home/engwen/音乐/";
+        List<File> files = FileUtil.getFilePath(new File(dir));
+        List<String> temp = new ArrayList<>();
+        files.forEach(it -> {
+            if (temp.contains(it.getName())) {
+                System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
+            } else {
+                temp.add(it.getName());
+            }
+        });
+    }
+
 
     public static void movie() {
         List<String> dirList = new ArrayList<>();
@@ -47,6 +61,8 @@ public class ChangeFileUtil {
                 }
             }
         });
+
+        ChangeFileUtil.removeDir();
     }
 
 
