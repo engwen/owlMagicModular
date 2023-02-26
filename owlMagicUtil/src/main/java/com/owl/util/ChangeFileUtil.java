@@ -1,16 +1,93 @@
 package com.owl.util;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ChangeFileUtil {
     public static void main(String[] args) {
 //        System.out.println(getName("【高清MP4电影www.boxmp4.com】加勒比海盗1：黑珍珠号的诅咒.Pirates of the Caribbean： The Curse of the Black Pearl.2003.BD720P.国英双语.中英双字.mp4"));
 //        ChangeFileUtil.movie();
-        ChangeFileUtil.music();
+//        ChangeFileUtil.music();
+        ChangeFileUtil.Ebook();
+
+        String dirPath = "G:\\TXT";
+    }
+
+    public static void Ebook() {
+        String dirPath = "G:\\电子书\\畅销书";
+//        ChangeFileUtil.removeRepeatEbook(dirPath);
+        ChangeFileUtil.renameEbook(dirPath);
+    }
+
+    public static void renameEbook(String dirPath) {
+        List<File> files = FileUtil.getFilePath(new File(dirPath));
+        files.forEach(it -> {
+            String newName = getEbookName(it.getName());
+            if (!it.getName().equals(newName)) {
+                System.out.println(it.getName());
+                System.out.println(newName);
+                File file = new File(it.getParentFile() + File.separator + newName);
+                if (!file.exists()) {
+                    it.renameTo(file);
+                }
+                it.delete();
+            }
+        });
+    }
+
+    public static String getEbookName(String oldName) {
+        if (oldName.contains("刊") || oldName.contains("册")) {
+            return oldName;
+        }
+        return oldName
+                .replaceAll("【全本】", "")
+                .replaceAll("》.*?\\.txt$", "\\.txt")
+                .replaceAll("^.*《", "")
+                .replaceAll("》", "")
+                .replaceAll("【", "")
+                .replaceAll("】", "")
+                .replaceAll("^\\d\\d[._]", "")
+                ;
+    }
+
+    public static void removeRepeatEbook(String dirPath) {
+        Map<String, List<File>> repeatFile = new HashMap<>();
+        Map<String, List<File>> fileMap = new HashMap<>();
+        File dir = new File(dirPath);
+        ChangeFileUtil.getFilePathMd5(fileMap, dir);
+        fileMap.keySet().stream().filter(key -> fileMap.get(key).size() != 1).forEach(key -> {
+            repeatFile.put(key, fileMap.get(key));
+            List<File> collect = fileMap.get(key).stream().sorted(
+                    Comparator.comparing((File it) -> -it.getName().length())
+            ).limit(1).collect(Collectors.toList());
+            collect.forEach(it -> {
+                System.out.println(it.getName() + " " + it.getAbsolutePath());
+                it.delete();
+            });
+        });
+        if (repeatFile.keySet().size() == 0) {
+            System.out.println("该目录下文件不存在重复");
+        }
+    }
+
+    private static void getFilePathMd5(Map<String, List<File>> fileMap, File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File oneFile : files) {
+                    ChangeFileUtil.getFilePathMd5(fileMap, oneFile);
+                }
+            }
+        } else {
+            String key = MD5Util.getMD5(file);
+            Optional<String> first = fileMap.keySet().stream().filter(it -> it.equals(key)).findFirst();
+            if (!first.isPresent()) {
+                List<File> fileList = new ArrayList<>();
+                fileMap.put(key, fileList);
+            }
+            fileMap.get(key).add(file);
+        }
     }
 
     public static void music() {
