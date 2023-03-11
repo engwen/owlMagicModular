@@ -9,13 +9,13 @@ public class ChangeFileUtil {
 //        System.out.println(getName("【高清MP4电影www.boxmp4.com】加勒比海盗1：黑珍珠号的诅咒.Pirates of the Caribbean： The Curse of the Black Pearl.2003.BD720P.国英双语.中英双字.mp4"));
 //        ChangeFileUtil.movie();
 //        ChangeFileUtil.music();
-        ChangeFileUtil.Ebook();
-
-        String dirPath = "G:\\TXT";
+//        ChangeFileUtil.Ebook();
+        ChangeFileUtil.removeLittleNotMp4();
+//        String dirPath = "/mnt/sd2/Ebook/名著合集(TXT)/";
     }
 
     public static void Ebook() {
-        String dirPath = "G:\\电子书\\畅销书";
+        String dirPath = "/mnt/sd2/Ebook/名著合集(TXT)/";
 //        ChangeFileUtil.removeRepeatEbook(dirPath);
         ChangeFileUtil.renameEbook(dirPath);
     }
@@ -181,6 +181,38 @@ public class ChangeFileUtil {
                     } else {
                         System.out.println("包含文件，跳過刪除：" + it.getAbsolutePath());
                     }
+                }
+            });
+        });
+
+    }
+
+    public static void removeLittleNotMp4() {
+        List<String> dirList = new ArrayList<>();
+        dirList.add("/mnt/sd2/小电影/Movies/");
+        dirList.forEach(file -> {
+            List<File> filePath = FileUtil.getFilePath(new File(file));
+            filePath.forEach(it -> {
+                if (it.getName().toLowerCase().contains(".mp4") || it.getName().toLowerCase().contains(".avi")) {
+                    String newName = it.getName()
+                            .replaceAll("_-_.*\\.mp4", ".mp4")
+                            .replaceAll("_-_.*\\.mp4", ".mp4")
+                            .replaceAll(" - ", "")
+                            .replaceAll("TheAV", "")
+                            .replaceAll("www\\.loveuu\\.pw_\\.", "")
+                            .replaceAll("https___www\\.j24u8k2h7sr3\\.", "")
+                            .replaceAll("\\.html", "");
+                    File newFile = new File(it.getParentFile().getAbsolutePath() + File.separator + newName + ".mp4");
+                    if (newFile.exists()) {
+                        newName = newName + RandomUtil.UUID() + ".mp4";
+                    }
+                    newFile = new File(newName);
+                    System.out.println("rename " + it.getName());
+                    System.out.println("new name " + newName);
+                    it.renameTo(newFile);
+                } else {
+                    System.out.println("delete" + it.getName());
+                    it.delete();
                 }
             });
         });
