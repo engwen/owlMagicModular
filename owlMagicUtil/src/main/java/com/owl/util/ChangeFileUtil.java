@@ -193,29 +193,44 @@ public class ChangeFileUtil {
         dirList.forEach(file -> {
             List<File> filePath = FileUtil.getFilePath(new File(file));
             filePath.forEach(it -> {
-                if (it.getName().toLowerCase().contains(".mp4") || it.getName().toLowerCase().contains(".avi")) {
-                    String newName = it.getName()
-                            .replaceAll("_-_.*\\.mp4", ".mp4")
-                            .replaceAll("_-_.*\\.mp4", ".mp4")
-                            .replaceAll(" - ", "")
-                            .replaceAll("TheAV", "")
-                            .replaceAll("www\\.loveuu\\.pw_\\.", "")
-                            .replaceAll("https___www\\.j24u8k2h7sr3\\.", "")
-                            .replaceAll("\\.html", "");
-                    File newFile = new File(it.getParentFile().getAbsolutePath() + File.separator + newName + ".mp4");
-                    if (newFile.exists()) {
-                        newName = newName + RandomUtil.UUID() + ".mp4";
-                    }
-                    newFile = new File(newName);
-                    System.out.println("rename " + it.getName());
-                    System.out.println("new name " + newName);
-                    it.renameTo(newFile);
-                } else {
-                    System.out.println("delete" + it.getName());
-                    it.delete();
-                }
+//                 || it.getName().toLowerCase().contains(".avi")
+                String type = it.getName().substring(it.getName().lastIndexOf("."));
+                mpA(it, type);
             });
         });
+    }
 
+    private static void mpA(File it, String type) {
+        if (it.getName().toLowerCase().contains(type)) {
+            String newName = it.getName()
+                    .replaceAll(type, "")
+                    .replaceAll("_-_.*\\.mp4", type)
+                    .replaceAll("_-_.*\\.mp4", type)
+                    .replaceAll(" - ", "")
+                    .replaceAll("_-_TheAV", "")
+                    .replaceAll("TheAV", "")
+                    .replaceAll(" - TheAV", "")
+                    .replaceAll("_-_", " ")
+                    .replaceAll("www\\.loveuu\\.pw_\\.", "")
+                    .replaceAll("https___www\\.j24u8k2h7sr3\\.", "")
+                    .replaceAll("\\.html", "")
+                    .replaceAll("1-", "")
+                    .replaceAll("1-", "")
+                    .replaceAll("❤️", " ")
+                    .replaceAll("在线播放", "") + type;
+            File newFile = new File(it.getAbsolutePath().replace(it.getName(), newName));
+            if (!newFile.exists()) {
+                newFile = new File(newName);
+                System.out.println("rename " + it.getName());
+                System.out.println("new name " + newName);
+                System.out.println(it.renameTo(newFile));
+            } else {
+//                        System.out.println("rename " + it.getName());
+                System.out.println("new name " + newName);
+            }
+        } else {
+            System.out.println("delete" + it.getName());
+            it.delete();
+        }
     }
 }
