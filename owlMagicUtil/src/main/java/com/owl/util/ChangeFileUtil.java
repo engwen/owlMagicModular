@@ -213,20 +213,18 @@ public class ChangeFileUtil {
                     .replaceAll("_-_", " ")
                     .replaceAll("www\\.loveuu\\.pw_\\.", "")
                     .replaceAll("https___www\\.j24u8k2h7sr3\\.", "")
+                    .replaceAll("迅雷下载-磁力-乐悠悠-www.loveuu.pw_","")
                     .replaceAll("\\.html", "")
                     .replaceAll("1-", "")
                     .replaceAll("1-", "")
                     .replaceAll("❤️", " ")
+                    .replaceAll("私房最新流出售价120元新作❤","")
                     .replaceAll("在线播放", "") + type;
             File newFile = new File(it.getAbsolutePath().replace(it.getName(), newName));
             if (!newFile.exists()) {
-                newFile = new File(newName);
                 System.out.println("rename " + it.getName());
                 System.out.println("new name " + newName);
                 System.out.println(it.renameTo(newFile));
-            } else {
-//                        System.out.println("rename " + it.getName());
-                System.out.println("new name " + newName);
             }
         } else {
             System.out.println("delete" + it.getName());
