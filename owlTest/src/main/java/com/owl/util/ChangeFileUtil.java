@@ -1,6 +1,10 @@
 package com.owl.util;
 
+import com.spreada.utils.chinese.ZHConverter;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,9 +12,9 @@ public class ChangeFileUtil {
     public static void main(String[] args) {
 //        System.out.println(getName("【高清MP4电影www.boxmp4.com】加勒比海盗1：黑珍珠号的诅咒.Pirates of the Caribbean： The Curse of the Black Pearl.2003.BD720P.国英双语.中英双字.mp4"));
 //        ChangeFileUtil.movie();
-//        ChangeFileUtil.music();
+        ChangeFileUtil.music();
 //        ChangeFileUtil.Ebook();
-        ChangeFileUtil.removeLittleNotMp4();
+//        ChangeFileUtil.removeLittleNotMp4();
 //        String dirPath = "/mnt/sd2/Ebook/名著合集(TXT)/";
     }
 
@@ -18,6 +22,7 @@ public class ChangeFileUtil {
         String dirPath = "/mnt/sd2/Ebook/名著合集(TXT)/";
 //        ChangeFileUtil.removeRepeatEbook(dirPath);
         ChangeFileUtil.renameEbook(dirPath);
+        ChangeFileUtil.addEPUB(new HashMap<>(), new File(dirPath));
     }
 
     public static void renameEbook(String dirPath) {
@@ -90,17 +95,71 @@ public class ChangeFileUtil {
         }
     }
 
+
+    private static void addEPUB(Map<String, File> fileMap, File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File oneFile : files) {
+                    ChangeFileUtil.addEPUB(fileMap, oneFile);
+                }
+            }
+        } else {
+            String name = file.getName();
+            //不要PDF
+            if (name.toLowerCase().contains(".pdf")) {
+                file.delete();
+            }
+            String key = name.replaceAll("\\.txt", "")
+                    .replaceAll("\\.epub", "")
+                    .replaceAll("\\.mobi", "");
+            File oldFile = fileMap.get(key);
+            if (null != oldFile) {
+                if (name.contains("\\.epub")) {
+//                    try {
+//                        File newFile = new File("/media/engwen/备份磁盘/电子书/epub/" + name);
+//                        Files.copy(file.toPath(), newFile.toPath());
+                    oldFile.delete();
+//                        file.delete();
+                    fileMap.put(key, file);
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+                }
+            } else {
+                fileMap.put(name, file);
+            }
+        }
+    }
+
     public static void music() {
         String dir = "/home/engwen/音乐/";
         List<File> files = FileUtil.getFilePath(new File(dir));
         List<String> temp = new ArrayList<>();
+        String reg = "\\s-\\s";
         files.forEach(it -> {
             if (temp.contains(it.getName())) {
                 System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
             } else {
                 temp.add(it.getName());
             }
+            if (it.getName().contains("-") && !it.getName().contains(" - ")) {
+                ZHConverter converter = ZHConverter.getInstance(ZHConverter.SIMPLIFIED);
+
+                String newName = it.getName().replace("-", " - ")
+                        .replace("周杰倫", "周杰伦");
+                String filePath = it.getAbsolutePath().replace(it.getName(), newName);
+                File newFile = new File(filePath);
+                if (!newFile.exists()) {
+                    System.out.println("音乐重命名：" + it.getName() + "  " + newFile.getName());
+                    it.renameTo(newFile);
+                } else {
+                    System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
+                }
+            }
         });
+
+
     }
 
 
