@@ -144,22 +144,32 @@ public class ChangeFileUtil {
                 temp.add(it.getName());
             }
             if (it.getName().contains("-") && !it.getName().contains(" - ")) {
+                String newName = it.getName().replace("-", " - ");
+                ChangeFileUtil.renameMp3(it, newName);
+            } else {
                 ZHConverter converter = ZHConverter.getInstance(ZHConverter.SIMPLIFIED);
-
-                String newName = it.getName().replace("-", " - ")
-                        .replace("周杰倫", "周杰伦");
-                String filePath = it.getAbsolutePath().replace(it.getName(), newName);
-                File newFile = new File(filePath);
-                if (!newFile.exists()) {
-                    System.out.println("音乐重命名：" + it.getName() + "  " + newFile.getName());
-                    it.renameTo(newFile);
-                } else {
-                    System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
+                String newName = converter.convert(it.getName());
+                if (!newName.equals(it.getName())) {
+                    ChangeFileUtil.renameMp3(it, newName);
                 }
             }
         });
+    }
 
-
+    /**
+     * 重命名
+     * @param it 文件
+     * @param newName 新的名称
+     */
+    private static void renameMp3(File it, String newName) {
+        String filePath = it.getAbsolutePath().replace(it.getName(), newName);
+        File newFile = new File(filePath);
+        if (!newFile.exists()) {
+            System.out.println("音乐重命名：" + it.getName() + "  " + newFile.getName());
+            it.renameTo(newFile);
+        } else {
+            System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
+        }
     }
 
 
@@ -272,12 +282,12 @@ public class ChangeFileUtil {
                     .replaceAll("_-_", " ")
                     .replaceAll("www\\.loveuu\\.pw_\\.", "")
                     .replaceAll("https___www\\.j24u8k2h7sr3\\.", "")
-                    .replaceAll("迅雷下载-磁力-乐悠悠-www.loveuu.pw_","")
+                    .replaceAll("迅雷下载-磁力-乐悠悠-www.loveuu.pw_", "")
                     .replaceAll("\\.html", "")
                     .replaceAll("1-", "")
                     .replaceAll("1-", "")
                     .replaceAll("❤️", " ")
-                    .replaceAll("私房最新流出售价120元新作❤","")
+                    .replaceAll("私房最新流出售价120元新作❤", "")
                     .replaceAll("在线播放", "") + type;
             File newFile = new File(it.getAbsolutePath().replace(it.getName(), newName));
             if (!newFile.exists()) {
