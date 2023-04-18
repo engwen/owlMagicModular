@@ -123,7 +123,6 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
         return resultVO;
     }
 
-
     /**
      * 獲取詳情
      * @param id 汎型對象檢索條件
@@ -222,7 +221,6 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
         SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance((T) null);
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
     }
-
 
     /**
      * 檢查数据是否存在

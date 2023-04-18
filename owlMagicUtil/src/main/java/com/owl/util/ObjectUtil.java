@@ -72,6 +72,29 @@ public abstract class ObjectUtil {
         return fields;
     }
 
+    /**
+     * 对外提供获取类的指定名称的field
+     * @param clazz     class类对象
+     * @param fieldName field名称
+     * @return field对象
+     * @throws NoSuchFieldException 无改field抛出异常
+     */
+    public static Field getField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+        Field field = null;
+        for (Class<?> classTemp = clazz; classTemp != Object.class; classTemp = classTemp.getSuperclass()) {
+            try {
+                field = classTemp.getDeclaredField(fieldName);
+                break;
+            } catch (NoSuchFieldException noSuchFieldException) {
+                //只是這樣寫而已
+            }
+        }
+        if (null == field) {
+            throw new NoSuchFieldException();
+        }
+        return field;
+    }
+
     /*
      * 獲取一個對象的指定的屬性
      * @param proName

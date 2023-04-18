@@ -43,15 +43,19 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      */
     MsgResultVO<?> deleteRe(T model);
 
+    /**
+     * 物理刪除
+     * @param id 對象
+     * @return 汎型對象
+     */
     MsgResultVO<?> deleteByIdRe(ID id);
 
     /**
-     * 物理刪除
+     * 物理批量刪除
      * @param idList ID集合
      * @return 汎型對象
      */
     MsgResultVO<?> deleteByIdListRe(List<ID> idList);
-
 
     /**
      * 全部属性更新
@@ -75,6 +79,11 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      */
     MsgResultVO<T> detailsById(ID id);
 
+    /**
+     * 獲取詳情
+     * @param idSO id
+     * @return 汎型對象
+     */
     MsgResultVO<T> detailsById(IdSO<ID> idSO);
 
     /**
@@ -122,9 +131,9 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      */
     MsgResultVO<?> isExist(T model);
 
-    default <M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLamda<M> countList, ListByPageLamda<T, M> resultList) {
+    default PageVO<T> buildPageVO(PageDTO<T> pageDTO, CountListLamda<T> countList, ListByPageLamda<T> resultList) {
         PageVO<T> pageVO = new PageVO<>();
-        SelectLikeSO<M> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
+        SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
         pageVO.initPageVO(countList.countSumList(selectLikeSO), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getGetAll());
         selectLikeSO.setRows(pageVO.getRows());
         selectLikeSO.setUpLimit(pageVO.getUpLimit());

@@ -53,7 +53,7 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
      */
     public void initPageVO(Integer sum, PageDTO<T> model) {
         if (model.getGetAll()) {
-            initPageVO(sum);
+            this.initPageVO(sum);
         } else {
             this.initPageVO(sum, model.getRequestPage(), model.getRows());
         }
@@ -64,7 +64,7 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
      */
     public void initPageVO(Integer sum, Integer requestPage, Integer rows, Boolean isGetAll) {
         if (isGetAll) {
-            initPageVO(sum);
+            this.initPageVO(sum);
         } else {
             this.initPageVO(sum, requestPage, rows);
         }
@@ -146,7 +146,7 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
      * @param newPage 新的對象
      * @return pagevo
      */
-    public PageVO setThisPageToAnotherPage(PageVO newPage) {
+    public <R> PageVO<R> setThisPageToAnotherPage(PageVO<R> newPage) {
         if (!RegexUtil.isParamsHaveEmpty(newPage)) {
             newPage.setRequestPage(this.requestPage);
             newPage.setRows(this.rows);

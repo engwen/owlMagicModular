@@ -10,6 +10,6 @@ import java.util.List;
  * 2020/7/15.
  */
 @FunctionalInterface
-public interface ListByPageLamda<T, M> {
-    List<T> selectPageList(SelectLikeSO<M> selectLikeSO);
+public interface ListByPageLamda<T> {
+    List<T> selectPageList(SelectLikeSO<T> selectLikeSO);
 }
