@@ -76,7 +76,7 @@ public abstract class TreeUtil {
         List<TreeBase<T, ID>> root = new ArrayList<>();
         if (top == null) {
             treeBases.stream().filter(it -> null == it.getPid() || it.getPid().toString().replace(" ", "").equals("")
-                    || it.getPid().equals(it.getId())).forEach(it -> root.add(getTrees(it, treeBases)));
+                    || it.getPid().equals(it.getId())).forEach(it -> root.add(TreeUtil.getTrees(it, treeBases)));
 //            treeBases.forEach(it -> {
 //                if (null == it.getPid() || it.getPid().toString().replace(" ", "").equals("")
 //                        || it.getPid().equals(it.getId())) {
@@ -84,7 +84,7 @@ public abstract class TreeUtil {
 //                }
 //            });
         } else {
-            treeBases.stream().filter(it -> it.getId().equals(top)).forEach(it -> root.add(getTrees(it, treeBases)));
+            treeBases.stream().filter(it -> it.getId().equals(top)).forEach(it -> root.add(TreeUtil.getTrees(it, treeBases)));
 //            treeBases.forEach(it -> {
 //                if (it.getId().equals(top)) {
 //                    root.add(getTrees(it, treeBases));

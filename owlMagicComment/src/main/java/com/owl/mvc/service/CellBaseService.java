@@ -2,8 +2,8 @@ package com.owl.mvc.service;
 
 import com.owl.mvc.dto.ModelDTO;
 import com.owl.mvc.dto.PageDTO;
-import com.owl.mvc.function.page.CountListLamda;
-import com.owl.mvc.function.page.ListByPageLamda;
+import com.owl.mvc.function.page.CountListLambda;
+import com.owl.mvc.function.page.ListByPageLambda;
 import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.IdListSO;
@@ -131,9 +131,16 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      */
     MsgResultVO<?> isExist(T model);
 
-    default PageVO<T> buildPageVO(PageDTO<T> pageDTO, CountListLamda<T> countList, ListByPageLamda<T> resultList) {
+    /**
+     * 默认将查询结果生成分页对象，支持使用相关类获取，M 为请求参数泛型，T 为实际结果泛型
+     * @param pageDTO    界面接收的请求参数
+     * @param countList  计算总数
+     * @param resultList 查询sql
+     * @return 分页对象
+     */
+    default <M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLambda<M> countList, ListByPageLambda<T, M> resultList) {
         PageVO<T> pageVO = new PageVO<>();
-        SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
+        SelectLikeSO<M> selectLikeSO = SelectLikeSO.getInstance(pageDTO);
         pageVO.initPageVO(countList.countSumList(selectLikeSO), pageDTO.getRequestPage(), pageDTO.getRows(), pageDTO.getGetAll());
         selectLikeSO.setRows(pageVO.getRows());
         selectLikeSO.setUpLimit(pageVO.getUpLimit());

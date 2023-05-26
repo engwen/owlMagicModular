@@ -1,5 +1,11 @@
 package com.owl.pokemon;
 
+import com.owl.pokemon.model.Pokemon;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * author engwen
  * email xiachanzou@outlook.com
@@ -7,46 +13,27 @@ package com.owl.pokemon;
  */
 public class PokemonEnum {
 
-    public enum PokemonAttr {//宝可梦主要属性
-        INTELLECT, POWER, AGILE;
-
-        PokemonAttr() {
-
-        }
-    }
-
-    public enum Attribute {
-        白(6, 1, 2, 3, 4, 5), 金(0, 1),
-        木(1, 2, 4), 水(2, 3, 0),
-        火(3, 4, 0), 土(4, 0, 2);
-        private Integer attributeValue = null;//主属性
-        private Integer[] suppressValue = null;//克制属性
-
-        Attribute(Integer attributeValue, Integer... suppressValue) {
-            this.attributeValue = attributeValue;
-            this.suppressValue = suppressValue;
-        }
-
-        //是否克制
-        public static boolean isSuppress(Attribute attacker, Attribute beatener) {
-
-            if (attacker.equals(Attribute.白)) {
-            }
-            return attacker.attributeValue.equals(beatener.suppressValue);
-        }
-
-    }
-
-    public enum Type {
-        SUPPER("超能力", 0), SKY("飞行", 1), ground("地面", 2), rock("岩石", 3);
-
-        Type(String name, Integer value) {
-
-        }
-    }
-
     public static void main(String[] args) {
-        System.out.printf(Attribute.isSuppress(Attribute.土, Attribute.木) + "");
+//        for (int i = 0; i < 10000; i++) {
+//            int randomNum = RandomUtil.getRandomNum(0, 999);
+//            if( randomNum == 99){
+//                System.out.println(i);
+//                break;
+//            }
+//        }
+
+//        ScriptEngine se = new ScriptEngineManager().getEngineByName("JavaScript");
+//        String str = "2*3-45/5+9+9%4";
+//        try {
+//            Double d = Double.parseDouble(se.eval(str).toString());
+//            System.out.println(d);
+//        } catch (ScriptException e) {
+//            e.printStackTrace();
+//        }
+
+        List<Pokemon> a = new ArrayList<>();
+        a.sort(Comparator.comparing(Pokemon::getPower));
+        System.out.println(a);
     }
 
 }
