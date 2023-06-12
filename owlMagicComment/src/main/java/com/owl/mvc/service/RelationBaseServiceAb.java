@@ -9,12 +9,12 @@ import com.owl.mvc.so.IdSO;
 import com.owl.mvc.so.ModelListSO;
 import com.owl.mvc.so.ModelSO;
 import com.owl.mvc.vo.MsgResultVO;
+import com.owl.util.DateCountUtil;
 import com.owl.util.RandomUtil;
 import com.owl.util.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.beans.Transient;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
  * email xiachanzou@outlook.com
  * time 2018/04/22.
  */
-public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T extends ModelBase<ID>, ID>
-        implements RelationBaseService<T, ID> {
+public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T extends ModelBase<ID>, ID> implements RelationBaseService<T, ID> {
     @Autowired
     protected M relationBaseDao;
 
@@ -40,10 +39,10 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
             return MsgResultVO.getInstanceError(MsgConstant.REQUEST_IS_EXITS);
         } else {
             if (RegexUtil.isEmpty(model.getId())) {
-                model.setId(RandomUtil.ssid());
+                model.setId(RandomUtil.ssidStr());
             }
-            model.setCreateTime(new Date());
-            model.setUpdateTime(new Date());
+            model.setCreateTime(DateCountUtil.getYMDHMS());
+            model.setUpdateTime(DateCountUtil.getYMDHMS());
             relationBaseDao.insert(model);
             return MsgResultVO.getInstanceSuccess();
         }
@@ -66,8 +65,8 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
                     .stream()
                     .filter(it -> relationBaseDao.selectByExact(ModelSO.getInstance(it)).size() == 0)
                     .peek(it -> {
-                        it.setId(RandomUtil.ssid());
-                        it.setCreateTime(new Date());
+                        it.setId(RandomUtil.ssidStr());
+                        it.setCreateTime(DateCountUtil.getYMDHMS());
                     })
                     .collect(Collectors.toList());
             if (collect.size() > 0) {

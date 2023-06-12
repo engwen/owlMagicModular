@@ -5,8 +5,8 @@ import com.owl.mvc.utils.SpringServletContextUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
 import com.owl.util.ClassTypeUtil;
+import com.owl.util.FieldUtil;
 import com.owl.util.LogUtil;
-import com.owl.util.ObjectUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -102,7 +102,7 @@ public class OwlSetNullDataAS {
                         }
                     } else {
 //                  使用对象接收参数
-                        Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
+                        Field[] fields = FieldUtil.getSupperClassProperties(paramsVO);
                         for (Field field : fields) {
                             for (String param : setNullParams) {
                                 if (field.getName().equals(param)) {
@@ -122,7 +122,7 @@ public class OwlSetNullDataAS {
 
 
     private static void setBackNullByObject(String[] setNullDatas, Object resultDataObj) throws Exception {
-        Field[] fields = ObjectUtil.getSupperClassProperties(resultDataObj, new Field[0]);
+        Field[] fields = FieldUtil.getSupperClassProperties(resultDataObj);
         if (!RegexUtil.isEmpty(resultDataObj)) {
             if (ClassTypeUtil.isBaseClass(resultDataObj) || ClassTypeUtil.isPackClass(resultDataObj)) {
                 logger.warning("OwlSetNullDataAS 此注解不支持基本类型及其包装类");
@@ -159,7 +159,7 @@ public class OwlSetNullDataAS {
 
     private static void setNullByList(String[] setNullDatas, Object resultDataObj) throws Exception {
         List<?> temp = (List<?>) resultDataObj;
-        Field[] fields = ObjectUtil.getSupperClassProperties(temp.get(0), new Field[0]);
+        Field[] fields = FieldUtil.getSupperClassProperties(temp.get(0));
         for (Field field : fields) {
             for (String param : setNullDatas) {
                 if (param.equals(field.getName())) {

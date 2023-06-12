@@ -22,6 +22,7 @@ public class PageDTO<T> {
     private Integer requestPage;
     private Integer rows;
     private T model;
+    private boolean export = false;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -90,5 +91,17 @@ public class PageDTO<T> {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean isGetAll() {
+        return getAll;
+    }
+
+    public boolean isExport() {
+        return export;
+    }
+
+    public void setExport(boolean export) {
+        this.export = export;
     }
 }

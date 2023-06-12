@@ -7,7 +7,7 @@
 
     <groupId>com.github.engwen</groupId>
     <artifactId>owlMagicComment</artifactId>
-    <version>3.0.5</version>
+    <version>3.0.6</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,6 +56,11 @@
             <artifactId>spring-boot-starter-aop</artifactId>
             <version>${springboot-aop.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.21</version>
+        </dependency>
         <!--  <dependency>
               <groupId>javax</groupId>
               <artifactId>javaee-api</artifactId>
@@ -89,6 +94,12 @@
               <artifactId>jackson-databind</artifactId>
               <version>${jackson-databind.version}</version>
           </dependency>-->
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-poi</artifactId>
+            <version>5.8.19</version>
+        </dependency>
     </dependencies>
 
     <!-- 发布参数 -->

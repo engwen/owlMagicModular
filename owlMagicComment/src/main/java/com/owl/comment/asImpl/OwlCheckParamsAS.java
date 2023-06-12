@@ -6,7 +6,7 @@ import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.utils.SpringServletContextUtil;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.util.ClassTypeUtil;
-import com.owl.util.ObjectUtil;
+import com.owl.util.FieldUtil;
 import com.owl.util.RegexUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -155,7 +155,7 @@ public class OwlCheckParamsAS {
                         paramsBodyMap = (Map<String, Object>) paramsVO;
                     } else {
                         //使用对象接收参数,获取对象的全部属性
-                        Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
+                        Field[] fields = FieldUtil.getSupperClassProperties(paramsVO);
                         for (Field field : fields) {
                             field.setAccessible(true);
                             if (null != paramsBodyMap.get(field.getName())) {
@@ -215,7 +215,7 @@ public class OwlCheckParamsAS {
             paramsBodyMap = (Map<String, Object>) paramsVO;
         } else {
 //                  使用对象接收参数
-            Field[] fields = ObjectUtil.getSupperClassProperties(paramsVO, new Field[0]);
+            Field[] fields = FieldUtil.getSupperClassProperties(paramsVO);
             for (Field field : fields) {
                 field.setAccessible(true);
                 try {

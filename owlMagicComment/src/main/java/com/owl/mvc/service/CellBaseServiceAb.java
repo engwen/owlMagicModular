@@ -8,12 +8,12 @@ import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.so.*;
 import com.owl.mvc.vo.MsgResultVO;
 import com.owl.mvc.vo.PageVO;
+import com.owl.util.DateCountUtil;
 import com.owl.util.RandomUtil;
 import com.owl.util.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,10 +35,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     @Override
     public MsgResultVO<T> create(T model) {
         if (RegexUtil.isEmpty(model.getId())) {
-            model.setId(RandomUtil.ssid());
+            model.setId(RandomUtil.ssidStr());
         }
-        model.setCreateTime(new Date());
-        model.setUpdateTime(new Date());
+        model.setCreateTime(DateCountUtil.getYMDHMS());
+        model.setUpdateTime(DateCountUtil.getYMDHMS());
         cellBaseDao.insert(model);
         return MsgResultVO.getInstanceSuccess(model);
     }
@@ -52,10 +52,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     public MsgResultVO<?> createList(List<T> modelList) {
         modelList.forEach(it -> {
             if (RegexUtil.isEmpty(it.getId())) {
-                it.setId(RandomUtil.ssid());
+                it.setId(RandomUtil.ssidStr());
             }
-            it.setCreateTime(new Date());
-            it.setUpdateTime(new Date());
+            it.setCreateTime(DateCountUtil.getYMDHMS());
+            it.setUpdateTime(DateCountUtil.getYMDHMS());
         });
         if (modelList.size() > 0) {
             cellBaseDao.insertList(ModelListSO.getInstance(modelList));
@@ -81,6 +81,9 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<?> deleteByIdRe(ID id) {
+        if (null == id) {
+            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+        }
         cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
         return MsgResultVO.getInstanceSuccess();
     }
@@ -92,6 +95,9 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<?> deleteByIdListRe(List<ID> idList) {
+        if (null == idList || idList.size() == 0) {
+            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+        }
         IdListSO<ID> idListSO = new IdListSO<>(idList);
         cellBaseDao.deleteByPrimaryKeyListRe(idListSO);
         return MsgResultVO.getInstanceSuccess();
@@ -104,7 +110,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<?> update(T model) {
-        model.setUpdateTime(new Date());
+        if (null == model) {
+            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+        }
+        model.setUpdateTime(DateCountUtil.getYMDHMS());
         cellBaseDao.updateByPrimaryKey(model);
         return MsgResultVO.getInstanceSuccess();
     }
@@ -116,8 +125,11 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
+        if (null == model) {
+            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+        }
         MsgResultVO<T> resultVO = new MsgResultVO<>();
-        model.setUpdateTime(new Date());
+        model.setUpdateTime(DateCountUtil.getYMDHMS());
         cellBaseDao.updateByPrimaryKeySelective(model);
         resultVO.successResult();
         return resultVO;
@@ -130,6 +142,9 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<T> detailsById(ID id) {
+        if (null == id) {
+            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+        }
         return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(new IdSO<>(id)));
     }
 
@@ -165,11 +180,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public PageVO<T> list(PageDTO<T> pageDTO) {
-        return this.buildPageVO(pageDTO, (selectLikeSO) -> {
-            return this.cellBaseDao.countSumByCondition(selectLikeSO);
-        }, (selectLikeSO) -> {
-            return this.cellBaseDao.listByCondition(selectLikeSO);
-        });
+        return this.buildPageVO(pageDTO,
+                (selectLikeSO) -> this.cellBaseDao.countSumByCondition(selectLikeSO),
+                (selectLikeSO) -> this.cellBaseDao.listByCondition(selectLikeSO)
+        );
     }
 
     /**

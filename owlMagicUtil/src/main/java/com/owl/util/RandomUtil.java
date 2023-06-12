@@ -187,9 +187,11 @@ public abstract class RandomUtil {
     }
 
     private static final Object syncRoot = new Object();
+
     /**
      * 毫秒数id
-     * @return String
+     * @param <ID> 泛型
+     * @return long
      */
     @SuppressWarnings("unchecked")
     public static <ID> ID ssid() {
@@ -201,6 +203,16 @@ public abstract class RandomUtil {
             }
             return (ID) Long.valueOf(ssid(16));
         }
+    }
+
+    /**
+     * 毫秒数id
+     * @param <ID> 泛型
+     * @return long
+     */
+    @SuppressWarnings("unchecked")
+    public static <ID> ID ssidStr() {
+        return (ID) (ssid() + "");
     }
 
     public static String ssid(Integer max) {

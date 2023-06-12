@@ -12,7 +12,7 @@ public abstract class PokemonCountUtils {
      * @param power 力量点数
      * @return 血量
      */
-    public static Double countBlood(Double power) {
+    public static Float countBlood(Float power) {
         return power * 15;
     }
 
@@ -22,11 +22,11 @@ public abstract class PokemonCountUtils {
      * @param armor  敌人护甲
      * @return 伤害
      */
-    public static Double countPubAttack(Double attack, Double armor) {
-        if (armor >= 100D) {
-            return PokemonCountUtils.countAttack(attack, armor, 0.9D + armor / 10000D);
+    public static Float countPubAttack(Float attack, Float armor) {
+        if (armor >= 60F) {
+            return PokemonCountUtils.countAttack(attack, armor, 0.9F + armor / 10000F);
         }
-        return PokemonCountUtils.countAttack(attack, armor, 0.02D);
+        return PokemonCountUtils.countAttack(attack, armor, 0.04F);
     }
 
     /**
@@ -36,24 +36,50 @@ public abstract class PokemonCountUtils {
      * @param xs     系数
      * @return 伤害
      */
-    private static Double countAttack(Double attack, Double armor, Double xs) {
+    private static Float countAttack(Float attack, Float armor, Float xs) {
         return attack * (1 - xs * armor / (1 + xs * armor));
     }
 
-    public static Double countMagicAttack(Double attack, Double intellect, Double power, Double agile, Double resistance) {
+    public static Float countMagicAttack(Float attack, Float intellect, Float power, Float agile, Float resistance) {
         resistance = resistance + countResistance(intellect, power, agile);
-        return countAttack(attack, resistance, 0.001D);
+        return countAttack(attack, resistance, 0.001F);
+    }
+
+
+    /**
+     * 伤害计算
+     * @param intellect 智力
+     * @param power     力量
+     * @param agile     冥界
+     * @param mainValue 主属性
+     * @return 结果
+     */
+    public static Float countAttack(Float intellect, Float power, Float agile, int mainValue) {
+        Float result = 0F;
+        if (mainValue == 1) {
+            result = intellect + (power + agile) * 0.2F;
+        } else if (mainValue == 2) {
+            result = power + (intellect + agile) * 0.2F;
+        } else if (mainValue == 3) {
+            result = agile + (intellect + power) * 0.2F;
+        } else if (mainValue == 4) {
+            result = (agile + intellect + power) * 0.4F;
+        }
+        return result;
     }
 
     /**
      * 抗性
      */
-    public static Double countResistance(Double intellect, Double power, Double agile) {
-        return intellect * 0.9D + power * 0.3D + agile * 0.1D;
+    public static Float countResistance(Float intellect, Float power, Float agile) {
+        return intellect * 0.9F + power * 0.3F + agile * 0.1F;
     }
 
     public static void main(String[] args) {
-        for (int i = 1; i <= 1000; i++) {
+        System.out.println(countPubAttack(65F, 8F));
+        System.out.println(countAttack(60F, 35F, 35F, 1));
+        System.out.println(countAttack(40F, 40F, 40F, 4));
+//        for (int i = 1; i <= 1000; i++) {
 //            System.out.println(countResistance(i * 1D,1000D,1000D));
 //            Double aDouble = countMagicAttack(300D, i * 1D, i * 1D, i * 1D);
 //            if (aDouble < 150) {
@@ -61,6 +87,6 @@ public abstract class PokemonCountUtils {
 //                break;
 //            }
 //            System.out.println(countMagicAttack(300D, i * 1D, i * 1D, i * 1D));
-        }
+//        }
     }
 }

@@ -144,6 +144,7 @@ public final class PageVO<T> extends MsgResultVO<List<T>> {
     /**
      * 將本部的pageVO屬性賦值給薪傳進來的new PageVO 即屬性傳遞
      * @param newPage 新的對象
+     * @param <R>     泛型
      * @return pagevo
      */
     public <R> PageVO<R> setThisPageToAnotherPage(PageVO<R> newPage) {

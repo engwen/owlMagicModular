@@ -321,8 +321,9 @@ public abstract class DateCountUtil {
         return HHMM.format(date);
     }
 
+
     /**
-     * 将传入日期的月份
+     * 获取传入日期的月份
      * @param date 日期
      * @return str
      */
@@ -331,12 +332,55 @@ public abstract class DateCountUtil {
     }
 
     /**
-     * 将传入日期的年
+     * 获取传入日期的年
      * @param date 日期
      * @return str
      */
     public static String getYYYY(Date date) {
         return YYYY.format(date);
+    }
+
+
+    /**
+     * 获取 yyyy-mm-dd
+     * @return str
+     */
+    public static String getYYYYMMDD() {
+        return YMD.format(new Date());
+    }
+
+    /**
+     * @param date 日期
+     *             获取 yyyy-mm-dd
+     * @return str
+     */
+    public static String getYMD(Date date) {
+        return YMD4BAR.format(date);
+    }
+
+    /**
+     * 获取 yyyy-mm-dd
+     * @return str
+     */
+    public static String getYMD() {
+        return YMD4BAR.format(new Date());
+    }
+
+    /**
+     * 获取 yyyy-mm-dd
+     * @return str
+     */
+    public static String getYMDHMS() {
+        return YMDHMS4BAR.format(new Date());
+    }
+
+    /**
+     * 获取 yyyy-mm-dd
+     * @param date 日期
+     * @return str
+     */
+    public static String getYMDHMS(Date date) {
+        return YMDHMS4BAR.format(date);
     }
 
     /**
@@ -351,6 +395,7 @@ public abstract class DateCountUtil {
     /**
      * 获取日期所在周，礼拜一的日期
      * @param date 日期
+     * @param sdf  日期格式
      * @return 日期
      */
     public static String getWeekStartDay(Date date, SimpleDateFormat sdf) {
@@ -373,6 +418,7 @@ public abstract class DateCountUtil {
     /**
      * 获取日期所在周，礼拜天的日期
      * @param date 日期
+     * @param sdf  日期格式
      * @return 日期
      */
     public static String getWeekEndDay(Date date, SimpleDateFormat sdf) {
@@ -388,6 +434,7 @@ public abstract class DateCountUtil {
 
     /**
      * 指定周的第一天和最後一天
+     * @param date 日期
      * @return map
      */
     public static Map<String, String> getWeekDay(Date date) {
@@ -396,6 +443,8 @@ public abstract class DateCountUtil {
 
     /**
      * 指定周的第一天和最後一天
+     * @param oneDate 日期
+     * @param sdf     格式
      * @return map
      */
     public static Map<String, String> getWeekDay(Date oneDate, SimpleDateFormat sdf) {
@@ -424,6 +473,7 @@ public abstract class DateCountUtil {
     /**
      * 获取日期所在月第一天日期
      * @param date 日期
+     * @param sdf  格式
      * @return 日期
      */
     public static String getMonthStartDay(Date date, SimpleDateFormat sdf) {
@@ -446,6 +496,7 @@ public abstract class DateCountUtil {
     /**
      * 获取日期所在月最后一天的日期
      * @param date 日期
+     * @param sdf  格式
      * @return 日期
      */
     public static String getMonthEndDay(Date date, SimpleDateFormat sdf) {
@@ -459,6 +510,7 @@ public abstract class DateCountUtil {
 
     /**
      * 指定月的第一天和最後一天
+     * @param date 日期
      * @return map
      */
     public static Map<String, String> getMonthDate(Date date) {
@@ -467,6 +519,8 @@ public abstract class DateCountUtil {
 
     /**
      * 指定月的第一天和最後一天
+     * @param oneDate 日期
+     * @param sdf     格式
      * @return map
      */
     public static Map<String, String> getMonthDate(Date oneDate, SimpleDateFormat sdf) {
@@ -482,6 +536,7 @@ public abstract class DateCountUtil {
         map.put("end", sdf.format(calendar.getTime()));
         return map;
     }
+
 
     /**
      * 判断时间點是否包含在时间段1中

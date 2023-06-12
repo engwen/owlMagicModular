@@ -56,9 +56,21 @@ public class MsgResultVO<T> extends ModelPrototype {
 
     /*----------------------------  构造函数结束  --------------------------------*/
 
+    public static <T> MsgResultVO<T> failed(String msg) {
+        MsgResultVO<T> result = new MsgResultVO<>();
+        return result.errorResult(msg);
+    }
+
+
+    public static <T> MsgResultVO<T> success(T t) {
+        MsgResultVO<T> result = new MsgResultVO<>();
+        return result.successResult(t);
+    }
+
     /**
      * 請求失敗
      * @param msgConstant 枚举信息对象
+     * @param args        参数
      * @return 結果對象
      */
     public MsgResultVO<T> errorResult(MsgConstant msgConstant, String... args) {

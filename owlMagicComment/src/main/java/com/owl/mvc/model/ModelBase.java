@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owl.model.ModelPrototype;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-
 /**
  * 设置ID
  * author engwen
@@ -18,12 +16,12 @@ public abstract class ModelBase<ID> extends ModelPrototype {
     //数据创建时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    protected Date createTime;
+    protected String createTime;
 
     //最后更新时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    protected Date updateTime;
+    protected String updateTime;
 
     public ID getId() {
         return id;
@@ -33,19 +31,19 @@ public abstract class ModelBase<ID> extends ModelPrototype {
         this.id = id;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

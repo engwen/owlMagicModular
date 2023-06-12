@@ -198,7 +198,7 @@ public class LinkCutUtil {
 
     /**
      * 取消开机启动
-     * @param targetFile
+     * @param targetFile 目标文件
      */
     public static void cancelAppStartup(File targetFile) {
         File startupDir = new File(startup);

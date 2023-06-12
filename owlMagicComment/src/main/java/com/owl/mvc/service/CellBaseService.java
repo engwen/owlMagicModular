@@ -136,6 +136,7 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      * @param pageDTO    界面接收的请求参数
      * @param countList  计算总数
      * @param resultList 查询sql
+     * @param <M>        泛型
      * @return 分页对象
      */
     default <M> PageVO<T> buildPageVO(PageDTO<M> pageDTO, CountListLambda<M> countList, ListByPageLambda<T, M> resultList) {
