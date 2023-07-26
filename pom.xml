@@ -15,6 +15,7 @@
         <module>owlMagicRedis</module>
         <module>owlMagicEmail</module>
         <module>OwlPokemon</module>
+        <module>owlTest</module>
     </modules>
     <dependencies>
         <dependency>

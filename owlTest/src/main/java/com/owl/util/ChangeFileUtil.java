@@ -1,6 +1,10 @@
 package com.owl.util;
 
+import com.spreada.utils.chinese.ZHConverter;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,16 +12,17 @@ public class ChangeFileUtil {
     public static void main(String[] args) {
 //        System.out.println(getName("【高清MP4电影www.boxmp4.com】加勒比海盗1：黑珍珠号的诅咒.Pirates of the Caribbean： The Curse of the Black Pearl.2003.BD720P.国英双语.中英双字.mp4"));
 //        ChangeFileUtil.movie();
-//        ChangeFileUtil.music();
-        ChangeFileUtil.Ebook();
-
-        String dirPath = "G:\\TXT";
+        ChangeFileUtil.music();
+//        ChangeFileUtil.Ebook();
+//        ChangeFileUtil.removeLittleNotMp4();
+//        String dirPath = "/mnt/sd2/Ebook/名著合集(TXT)/";
     }
 
     public static void Ebook() {
-        String dirPath = "G:\\电子书\\畅销书";
+        String dirPath = "/mnt/sd2/Ebook/名著合集(TXT)/";
 //        ChangeFileUtil.removeRepeatEbook(dirPath);
         ChangeFileUtil.renameEbook(dirPath);
+        ChangeFileUtil.addEPUB(new HashMap<>(), new File(dirPath));
     }
 
     public static void renameEbook(String dirPath) {
@@ -90,17 +95,81 @@ public class ChangeFileUtil {
         }
     }
 
+
+    private static void addEPUB(Map<String, File> fileMap, File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File oneFile : files) {
+                    ChangeFileUtil.addEPUB(fileMap, oneFile);
+                }
+            }
+        } else {
+            String name = file.getName();
+            //不要PDF
+            if (name.toLowerCase().contains(".pdf")) {
+                file.delete();
+            }
+            String key = name.replaceAll("\\.txt", "")
+                    .replaceAll("\\.epub", "")
+                    .replaceAll("\\.mobi", "");
+            File oldFile = fileMap.get(key);
+            if (null != oldFile) {
+                if (name.contains("\\.epub")) {
+//                    try {
+//                        File newFile = new File("/media/engwen/备份磁盘/电子书/epub/" + name);
+//                        Files.copy(file.toPath(), newFile.toPath());
+                    oldFile.delete();
+//                        file.delete();
+                    fileMap.put(key, file);
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+                }
+            } else {
+                fileMap.put(name, file);
+            }
+        }
+    }
+
     public static void music() {
         String dir = "/home/engwen/音乐/";
         List<File> files = FileUtil.getFilePath(new File(dir));
         List<String> temp = new ArrayList<>();
+        String reg = "\\s-\\s";
         files.forEach(it -> {
             if (temp.contains(it.getName())) {
                 System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
             } else {
                 temp.add(it.getName());
             }
+            if (it.getName().contains("-") && !it.getName().contains(" - ")) {
+                String newName = it.getName().replace("-", " - ");
+                ChangeFileUtil.renameMp3(it, newName);
+            } else {
+                ZHConverter converter = ZHConverter.getInstance(ZHConverter.SIMPLIFIED);
+                String newName = converter.convert(it.getName());
+                if (!newName.equals(it.getName())) {
+                    ChangeFileUtil.renameMp3(it, newName);
+                }
+            }
         });
+    }
+
+    /**
+     * 重命名
+     * @param it 文件
+     * @param newName 新的名称
+     */
+    private static void renameMp3(File it, String newName) {
+        String filePath = it.getAbsolutePath().replace(it.getName(), newName);
+        File newFile = new File(filePath);
+        if (!newFile.exists()) {
+            System.out.println("音乐重命名：" + it.getName() + "  " + newFile.getName());
+            it.renameTo(newFile);
+        } else {
+            System.out.println("音乐重复：" + it.getName() + "  " + it.getAbsolutePath());
+        }
     }
 
 
@@ -185,5 +254,50 @@ public class ChangeFileUtil {
             });
         });
 
+    }
+
+    public static void removeLittleNotMp4() {
+        List<String> dirList = new ArrayList<>();
+        dirList.add("/mnt/sd2/小电影/Movies/");
+        dirList.forEach(file -> {
+            List<File> filePath = FileUtil.getFilePath(new File(file));
+            filePath.forEach(it -> {
+//                 || it.getName().toLowerCase().contains(".avi")
+                String type = it.getName().substring(it.getName().lastIndexOf("."));
+                mpA(it, type);
+            });
+        });
+    }
+
+    private static void mpA(File it, String type) {
+        if (it.getName().toLowerCase().contains(type)) {
+            String newName = it.getName()
+                    .replaceAll(type, "")
+                    .replaceAll("_-_.*\\.mp4", type)
+                    .replaceAll("_-_.*\\.mp4", type)
+                    .replaceAll(" - ", "")
+                    .replaceAll("_-_TheAV", "")
+                    .replaceAll("TheAV", "")
+                    .replaceAll(" - TheAV", "")
+                    .replaceAll("_-_", " ")
+                    .replaceAll("www\\.loveuu\\.pw_\\.", "")
+                    .replaceAll("https___www\\.j24u8k2h7sr3\\.", "")
+                    .replaceAll("迅雷下载-磁力-乐悠悠-www.loveuu.pw_", "")
+                    .replaceAll("\\.html", "")
+                    .replaceAll("1-", "")
+                    .replaceAll("1-", "")
+                    .replaceAll("❤️", " ")
+                    .replaceAll("私房最新流出售价120元新作❤", "")
+                    .replaceAll("在线播放", "") + type;
+            File newFile = new File(it.getAbsolutePath().replace(it.getName(), newName));
+            if (!newFile.exists()) {
+                System.out.println("rename " + it.getName());
+                System.out.println("new name " + newName);
+                System.out.println(it.renameTo(newFile));
+            }
+        } else {
+            System.out.println("delete" + it.getName());
+            it.delete();
+        }
     }
 }
