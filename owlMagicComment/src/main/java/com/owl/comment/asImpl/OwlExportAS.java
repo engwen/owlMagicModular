@@ -6,6 +6,7 @@ import com.owl.mvc.dto.PageDTO;
 import com.owl.mvc.model.ModelBase;
 import com.owl.mvc.model.MsgConstant;
 import com.owl.mvc.vo.MsgResultVO;
+import com.owl.mvc.vo.PageVO;
 import com.owl.util.FieldUtil;
 import io.swagger.annotations.ApiModelProperty;
 import org.aspectj.lang.JoinPoint;
@@ -50,40 +51,50 @@ public class OwlExportAS {
 
     @Around("exportClassCut()")
     public Object exportClass(ProceedingJoinPoint joinPoint) throws Throwable {
-
+        Object obj = null;
         Object[] args = joinPoint.getArgs();
         Object arg = args[0];
+        //判断参数是否符合条件
         if (arg instanceof PageDTO) {
+            //是否需要导出
             if (((PageDTO<?>) arg).isExport()) {
+                //拿到执行结果
+                obj = joinPoint.proceed();
+                //查看结果类型
+                if (obj instanceof PageVO) {
+                    PageVO<?> resultVO = (PageVO<?>) obj;
+                    Boolean result = ((PageVO<?>) obj).getResult();
+                    //结果正确,准备对结果进行处理
+                    if (result) {
+                        List<?> resultData = resultVO.getResultData();
+                        if (resultData != null) {
+                            Object outPrt = null;
+                            outPrt = resultData.get(0);
+                            if (outPrt instanceof ModelBase) {
+                                List<String> keys = new ArrayList<>();
+                                Field[] fields = FieldUtil.getSupperClassProperties(outPrt);
+                                //在内存操作，写到浏览器
+                                ExcelWriter writer = ExcelUtil.getWriter(true);
+                                for (int i = 0; i < fields.length; i++) {
+                                    Field field = fields[i];
+                                    ApiModelProperty api = field.getAnnotation(ApiModelProperty.class);
+                                    if (null != api && null != api.value()) {
+                                        keys.add(api.value());
+                                    } else {
+                                        keys.add("");
+                                    }
+                                    writer.setColumnWidth(i, 5 + 5 * keys.get(i).length());
+                                }
+                            } else {
+                                logger.error("只支持List集合导出，单属性不支持导出");
+                            }
+                        }
 
-            }
-        }
-
-        Object obj = joinPoint.proceed();
-        if (obj instanceof MsgResultVO) {
-            Boolean result = ((MsgResultVO<?>) obj).getResult();
-            if (result) {
-
-            }
-        }
-        Object outPrt = null;
-        if (obj instanceof List) {
-            outPrt = ((List<?>) obj).get(0);
-            if (outPrt instanceof ModelBase) {
-                List<String> keys = new ArrayList<>();
-                Field[] fields = FieldUtil.getSupperClassProperties(outPrt);
-                for (Field field : fields) {
-                    ApiModelProperty api = field.getAnnotation(ApiModelProperty.class);
-                    if (null != api && null != api.value()) {
-                        keys.add(api.value());
                     }
                 }
-                //在内存操作，写到浏览器
-                ExcelWriter writer = ExcelUtil.getWriter(true);
-
             }
         } else {
-            logger.error("只支持List集合导出，单属性不支持导出");
+            obj = joinPoint.proceed();
         }
         return obj;
     }
