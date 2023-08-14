@@ -281,18 +281,6 @@ public abstract class DateCountUtil {
         return calendar.getTime();
     }
 
-    /**
-     * 获取当前月份的最后一天
-     * @param oneDate 指定日期
-     * @return 当月最后一天
-     */
-    public static Date getMothLastDate(Date oneDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.setTime(oneDate);
-        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
-        return calendar.getTime();
-    }
 
     /**
      * 计算距离当前日期指定天数的日期，并取该日期的最小值(0时0分0秒)
@@ -357,7 +345,7 @@ public abstract class DateCountUtil {
         Date startDate = DateCountUtil.getDateFormSdf(startDateStr, sdf);
         Date endDate = DateCountUtil.getDateFormSdf(endDateStr, sdf);
         while (startDate.getTime() <= endDate.getTime()) {
-            String monthLastDate = DateCountUtil.getDateFormSdf(DateCountUtil.getMothLastDate(startDate), DateCountUtil.YM4BAR);
+            String monthLastDate = DateCountUtil.getDateFormSdf(DateCountUtil.getMonthEndDate(startDate), DateCountUtil.YM4BAR);
             list.add(monthLastDate);
             startDate = DateCountUtil.addMoth(startDate, 1);
         }
@@ -509,8 +497,8 @@ public abstract class DateCountUtil {
      * @param date 日期
      * @return 日期
      */
-    public static String getMonthStartDay(Date date) {
-        return DateCountUtil.getMonthStartDay(date, YMD4BAR);
+    public static String getMonthStartDateStr(Date date) {
+        return DateCountUtil.getMonthStartDateStr(date, YMD4BAR);
     }
 
     /**
@@ -519,21 +507,32 @@ public abstract class DateCountUtil {
      * @param sdf  格式
      * @return 日期
      */
-    public static String getMonthStartDay(Date date, SimpleDateFormat sdf) {
+    public static String getMonthStartDateStr(Date date, SimpleDateFormat sdf) {
+        return sdf.format(DateCountUtil.getMonthStartDate(date));
+    }
+
+
+    /**
+     * 获取日期所在月第一天日期
+     * @param date 日期
+     * @return 日期
+     */
+    public static Date getMonthStartDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTime(date);
         cal.set(Calendar.DATE, cal.getActualMinimum(Calendar.DATE)); // 获取本周一的日期
-        return sdf.format(cal.getTime());
+        return cal.getTime();
     }
+
 
     /**
      * 获取日期所在月最后一天的日期
      * @param date 日期
      * @return 日期
      */
-    public static String getMonthEndDay(Date date) {
-        return DateCountUtil.getMonthEndDay(date, YMD4BAR);
+    public static String getMonthEndDateStr(Date date) {
+        return DateCountUtil.getMonthEndDateStr(date, YMD4BAR);
     }
 
     /**
@@ -542,14 +541,22 @@ public abstract class DateCountUtil {
      * @param sdf  格式
      * @return 日期
      */
-    public static String getMonthEndDay(Date date, SimpleDateFormat sdf) {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.setTime(date);
-        cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE)); // 获取本周一的日期
-        return sdf.format(cal.getTime());
+    public static String getMonthEndDateStr(Date date, SimpleDateFormat sdf) {
+        return sdf.format(DateCountUtil.getMonthEndDate(date));
     }
 
+    /**
+     * 获取当前月份的最后一天
+     * @param oneDate 指定日期
+     * @return 当月最后一天
+     */
+    public static Date getMonthEndDate(Date oneDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.setTime(oneDate);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+        return calendar.getTime();
+    }
 
     /**
      * 指定月的第一天和最後一天
