@@ -21,6 +21,8 @@ public abstract class DateCountUtil {
     public static final SimpleDateFormat YMD4BAR = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat YMD4EN = new SimpleDateFormat("MMM.dd, yyyy", Locale.UK);
     public static final SimpleDateFormat YM4BAR = new SimpleDateFormat("yyyy-MM");
+    public static final SimpleDateFormat YMD4INT = new SimpleDateFormat("yyyyMMdd");
+    public static final SimpleDateFormat YM4INT = new SimpleDateFormat("yyyyMM");
 
     public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
     public static final SimpleDateFormat MM = new SimpleDateFormat("mm");
@@ -280,6 +282,19 @@ public abstract class DateCountUtil {
     }
 
     /**
+     * 获取当前月份的最后一天
+     * @param oneDate 指定日期
+     * @return 当月最后一天
+     */
+    public static Date getMothLastDate(Date oneDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.setTime(oneDate);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+        return calendar.getTime();
+    }
+
+    /**
      * 计算距离当前日期指定天数的日期，并取该日期的最小值(0时0分0秒)
      * @param day 距离当前日期的天数，正数表示当前日期之后几天的日期，负数表示当前日期之前几天的日期
      * @return date
@@ -319,6 +334,34 @@ public abstract class DateCountUtil {
      */
     public static String getHHmm(Date date) {
         return HHMM.format(date);
+    }
+
+    /**
+     * 获取两个日期之间的月份，然后用list返回
+     * @param startDateStr 开始时间
+     * @param endDateStr   结束时间
+     * @return 年月集合
+     */
+    public static List<String> getMothForTwoDate(String startDateStr, String endDateStr) {
+        List<String> list = new ArrayList<>();
+        SimpleDateFormat sdf = null;
+        if (startDateStr.length() == 6) {
+            startDateStr = startDateStr + "01";
+            endDateStr = endDateStr + "01";
+            sdf = DateCountUtil.YMD4INT;
+        } else {
+            startDateStr = startDateStr + "-01";
+            endDateStr = endDateStr + "-01";
+            sdf = DateCountUtil.YMD4BAR;
+        }
+        Date startDate = DateCountUtil.getDateFormSdf(startDateStr, sdf);
+        Date endDate = DateCountUtil.getDateFormSdf(endDateStr, sdf);
+        while (startDate.getTime() <= endDate.getTime()) {
+            String monthLastDate = DateCountUtil.getDateFormSdf(DateCountUtil.getMothLastDate(startDate), DateCountUtil.YM4BAR);
+            list.add(monthLastDate);
+            startDate = DateCountUtil.addMoth(startDate, 1);
+        }
+        return list;
     }
 
 
