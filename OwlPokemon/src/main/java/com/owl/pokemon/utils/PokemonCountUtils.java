@@ -79,6 +79,8 @@ public abstract class PokemonCountUtils {
         System.out.println(countPubAttack(65F, 8F));
         System.out.println(countAttack(60F, 35F, 35F, 1));
         System.out.println(countAttack(40F, 40F, 40F, 4));
+
+        System.out.println(0.02 + (0.005 * 1000 / (50 + 0.001 * 1000)));
 //        for (int i = 1; i <= 1000; i++) {
 //            System.out.println(countResistance(i * 1D,1000D,1000D));
 //            Double aDouble = countMagicAttack(300D, i * 1D, i * 1D, i * 1D);

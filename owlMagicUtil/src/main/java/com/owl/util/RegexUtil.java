@@ -228,4 +228,21 @@ public abstract class RegexUtil {
     public static boolean isCollectionHaveData(Collection collection) {
         return collection != null && collection.size() > 0;
     }
+
+    /**
+     * 改为驼峰写法
+     * @param domainObjectName 属性名称
+     * @return 驼峰结果
+     */
+    public static String buildUpDownStr(String domainObjectName) {
+        domainObjectName = domainObjectName.toLowerCase();
+        while (domainObjectName.contains("_")) {
+            int i = domainObjectName.lastIndexOf("_");
+            String start = domainObjectName.substring(0, i);
+            String end = domainObjectName.substring(i + 2);
+            String upperCase = domainObjectName.substring(i + 1, i + 2).toUpperCase();
+            domainObjectName = start + upperCase + end;
+        }
+        return domainObjectName;
+    }
 }

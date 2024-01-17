@@ -7,6 +7,8 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * author engwen
@@ -25,21 +27,20 @@ public class XMLUtils {
             NodeList tagList = doc.getElementsByTagName(tagName);
             // 获取节点个数
             System.out.println("一共有" + tagList.getLength() + "个节点");
-            // 遍历每个book节点
+            // 遍历每个节点
             for (int i = 0; i < tagList.getLength(); i++) {
-                // 索引从零开始
-                Node book = tagList.item(i);
-                // 获取book节点所有属性集合
-                NamedNodeMap attrs = book.getAttributes();
-                System.out.println("第" + (i + 1) + "本书共有" + attrs.getLength() + "属性");
-                // 遍历book属性，不知道节点属性和属性名情况
+                Node node = tagList.item(i);
+                // 获取指定节点所有属性集合
+                NamedNodeMap attrs = node.getAttributes();
+                System.out.println("第" + (i + 1) + "个节点，共有" + attrs.getLength() + "属性");
+                // 遍历属性，不知道节点属性和属性名情况
+                Map<String, Object> temp = new HashMap<>();
                 for (int j = 0; j < attrs.getLength(); j++) {
                     // 获取某一个属性
                     Node attr = attrs.item(j);
-                    System.out.print("属性名:" + attr.getNodeName());
-                    System.out.println(" --- 属性值:" + attr.getNodeValue());
+                    temp.put(attr.getNodeName(), attr.getNodeValue());
                 }
-                NodeList childNodes = book.getChildNodes();
+                NodeList childNodes = node.getChildNodes();
                 for (int k = 0; k < childNodes.getLength(); k++) {
                     // 区分,去掉空格和换行符
                     if (childNodes.item(k).getNodeType() == Node.ELEMENT_NODE) {
