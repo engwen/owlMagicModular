@@ -146,7 +146,7 @@ public class OwlCheckParamsAS {
                     logger.error("此注解只接收 Map 或 Object 对象");
                     return;
                 } else {
-                    if (paramsVO instanceof List<?> && ((List<?>) paramsVO).size() > 0) {
+                    if (paramsVO instanceof List<?> && !((List<?>) paramsVO).isEmpty()) {
                         logger.info("list集合不为空");
                         return;
                     }
