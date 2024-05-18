@@ -216,6 +216,34 @@ public abstract class FileUtil {
     }
 
     /**
+     * 获取指定文件的绝对路径，支持文件夹
+     * @param file 文件
+     * @return 文件集合
+     */
+    public static Map<String, List<File>> getMapFilePath(File file) {
+        Map<String, List<File>> map = new HashMap<>();
+        List<File> fileList = new ArrayList<>();
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File oneFile : files) {
+                    if (oneFile.isDirectory()) {
+                        map.put(oneFile.getPath(), FileUtil.getFilePath(oneFile));
+                    } else {
+                        fileList.add(file);
+                    }
+                }
+            }
+        } else {
+            fileList.add(file);
+        }
+        if (!fileList.isEmpty()) {
+            map.put(file.getPath(), fileList);
+        }
+        return map;
+    }
+
+    /**
      * 获取指定文件的文件夹
      * @param file 文件
      * @return 文件集合
