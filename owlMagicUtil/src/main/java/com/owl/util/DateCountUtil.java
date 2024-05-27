@@ -25,7 +25,7 @@ public abstract class DateCountUtil {
     public static final SimpleDateFormat YM4INT = new SimpleDateFormat("yyyyMM");
 
     public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
-    public static final SimpleDateFormat MM = new SimpleDateFormat("mm");
+    public static final SimpleDateFormat MM = new SimpleDateFormat("MM");
 
     public static final SimpleDateFormat HHMMSS = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm");
@@ -521,7 +521,7 @@ public abstract class DateCountUtil {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTime(date);
-        cal.set(Calendar.DATE, cal.getActualMinimum(Calendar.DATE)); // 获取本周一的日期
+        cal.set(Calendar.DATE, cal.getActualMinimum(Calendar.DATE));
         return cal.getTime();
     }
 
