@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.engwen</groupId>
@@ -10,91 +9,38 @@
         <version>3.0.6</version>
     </parent>
 
-    <artifactId>owlMagicComment</artifactId>
+    <artifactId>owlMagicFileUtil</artifactId>
     <version>${owl.version}</version>
 
     <properties>
-        <!-- 工具包版本 -->
-
-        <javax-javaee-api.version>8.0.1</javax-javaee-api.version>
-        <aspectj-aspectj.version>1.9.4</aspectj-aspectj.version>
-        <aspectj-aspectjweaver.version>1.9.4</aspectj-aspectjweaver.version>
-        <spring-web.version>5.2.0.RELEASE</spring-web.version>
-        <jackson-databind.version>2.9.5</jackson-databind.version>
     </properties>
-
-
     <dependencies>
         <dependency>
-            <groupId>com.github.engwen</groupId>
-            <artifactId>owlMagicUtil</artifactId>
-            <version>${owl.version}</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.3.0</version>
         </dependency>
-
-        <!-- 添加junit4依赖 -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <!-- 指定范围，在测试时才会加载 -->
-            <scope>test</scope>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.3.0</version>
         </dependency>
-
-
-        <!--aop 依赖-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>2.0.53</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${springboot-aop.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-            <version>${springboot-aop.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.21</version>
-        </dependency>
-        <!--  <dependency>
-              <groupId>javax</groupId>
-              <artifactId>javaee-api</artifactId>
-              <version>${javax-javaee-api.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-web</artifactId>
-              <version>${spring-web.version}</version>
-          </dependency>
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-context</artifactId>
-              <version>${spring-web.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.aspectj</groupId>
-              <artifactId>aspectjrt</artifactId>
-              <version>${aspectj-aspectj.version}</version>
-          </dependency>
-          &lt;!&ndash; https://mvnrepository.com/artifact/aspectj/aspectjweaver &ndash;&gt;
-          <dependency>
-              <groupId>org.aspectj</groupId>
-              <artifactId>aspectjweaver</artifactId>
-              <version>${aspectj-aspectjweaver.version}</version>
-          </dependency>
-          <dependency>
-              <groupId>com.fasterxml.jackson.core</groupId>
-              <artifactId>jackson-databind</artifactId>
-              <version>${jackson-databind.version}</version>
-          </dependency>-->
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-poi</artifactId>
-            <version>5.8.19</version>
+            <groupId>com.github.engwen</groupId>
+            <artifactId>owlMagicUtil</artifactId>
+            <version>${owl.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

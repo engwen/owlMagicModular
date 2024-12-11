@@ -42,15 +42,15 @@ public class MsgResultVO<T> extends ModelPrototype {
         setMsgConstant(MsgConstant.REQUEST_DEFAULT);
     }
 
-    public static <T> MsgResultVO<T> getInstanceSuccess() {
+    public static <T> MsgResultVO<T> success() {
         return new MsgResultVO<T>().successResult();
     }
 
-    public static <T> MsgResultVO<T> getInstanceSuccess(T t) {
+    public static <T> MsgResultVO<T> success(T t) {
         return new MsgResultVO<T>().successResult(t);
     }
 
-    public static <T> MsgResultVO<T> getInstanceError(MsgConstant msgConstant, String... args) {
+    public static <T> MsgResultVO<T> error(MsgConstant msgConstant, String... args) {
         return new MsgResultVO<T>().errorResult(msgConstant, args);
     }
 
@@ -59,12 +59,6 @@ public class MsgResultVO<T> extends ModelPrototype {
     public static <T> MsgResultVO<T> failed(String msg) {
         MsgResultVO<T> result = new MsgResultVO<>();
         return result.errorResult(msg);
-    }
-
-
-    public static <T> MsgResultVO<T> success(T t) {
-        MsgResultVO<T> result = new MsgResultVO<>();
-        return result.successResult(t);
     }
 
     /**

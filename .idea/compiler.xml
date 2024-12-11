@@ -7,18 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="owlMagicUtil" />
+        <module name="owlTest" />
         <module name="owlMagicEmail" />
+        <module name="owlMagicFileUtil" />
         <module name="owlMagicRedis" />
         <module name="owlMagicComment" />
-        <module name="OwlPokemon" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="owlMagicComment" target="1.8" />
-      <module name="owlMagicEmail" target="1.8" />
-      <module name="owlMagicModular" target="1.8" />
-      <module name="owlMagicRedis" target="1.8" />
-      <module name="owlMagicUtil" target="1.8" />
+      <module name="owlMagicFile" target="1.8" />
       <module name="OwlPokemon" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -7,10 +7,16 @@
     <file url="file://$PROJECT_DIR$/owlMagicComment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/owlMagicEmail/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/owlMagicEmail/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/owlMagicFile/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/owlMagicFile/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/owlMagicFileUtil/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/owlMagicFileUtil/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/owlMagicRedis/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/owlMagicRedis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/owlMagicUtil/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/owlMagicUtil/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/owlTest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/owlTest/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

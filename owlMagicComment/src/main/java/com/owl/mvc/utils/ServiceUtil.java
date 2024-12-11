@@ -31,6 +31,6 @@ public class ServiceUtil {
             method.invoke(modelBase, value);
         }
         System.out.println(modelBase);
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 }

@@ -36,7 +36,7 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
     public MsgResultVO<?> insert(T model) {
         List<T> list = relationBaseDao.selectByExact(ModelSO.getInstance(model));
         if (list.size() > 0) {
-            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_IS_EXITS);
+            return MsgResultVO.error(MsgConstant.REQUEST_IS_EXITS);
         } else {
             if (RegexUtil.isEmpty(model.getId())) {
                 model.setId(RandomUtil.ssidStr());
@@ -44,7 +44,7 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
             model.setCreateTime(DateCountUtil.getYMDHMS());
             model.setUpdateTime(DateCountUtil.getYMDHMS());
             relationBaseDao.insert(model);
-            return MsgResultVO.getInstanceSuccess();
+            return MsgResultVO.success();
         }
     }
 
@@ -73,7 +73,7 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
                 relationBaseDao.insertList(ModelListSO.getInstance(collect));
             }
         }
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
 
@@ -85,19 +85,19 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
     @Override
     public MsgResultVO<?> delete(T model) {
         relationBaseDao.deleteBySelectiveRe(ModelSO.getInstance(model));
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     @Override
     public MsgResultVO<?> deleteByPrimaryKeyRe(ID id) {
         relationBaseDao.deleteByPrimaryKeyRe(IdSO.getInstance(id));
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     @Override
     public MsgResultVO<?> deleteByPrimaryKeyListRe(List<ID> idList) {
         relationBaseDao.deleteByPrimaryKeyListRe(IdListSO.getInstance(idList));
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
 
@@ -108,7 +108,7 @@ public abstract class RelationBaseServiceAb<M extends RelationBaseDao<T, ID>, T 
      */
     @Override
     public MsgResultVO<List<T>> select(T model) {
-        return MsgResultVO.getInstanceSuccess(relationBaseDao.selectByExact(ModelSO.getInstance(model)));
+        return MsgResultVO.success(relationBaseDao.selectByExact(ModelSO.getInstance(model)));
     }
 
 

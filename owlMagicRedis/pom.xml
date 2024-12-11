@@ -2,19 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.engwen</groupId>
+    <parent>
+        <groupId>com.github.engwen</groupId>
+        <artifactId>owlMagicModular</artifactId>
+        <version>3.0.6</version>
+    </parent>
+
     <artifactId>owlMagicRedis</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>owlMagicRedis</name>
+    <version>${owl.version}</version>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.test.skip>true</maven.test.skip>
-        <junit.version>4.13.1</junit.version>
     </properties>
-
 
     <dependencies>
         <!-- 添加junit4依赖 -->
@@ -30,12 +29,12 @@
             <artifactId>jedis</artifactId>
             <version>4.2.3</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>com.github.engwen</groupId>
-            <artifactId>owlMagicUtil</artifactId>
-            <version>3.0.3</version>
-        </dependency>-->
+        <!--
+                <dependency>
+                    <groupId>com.github.engwen</groupId>
+                    <artifactId>owlMagicUtil</artifactId>
+                    <version>3.0.3</version>
+                </dependency>-->
     </dependencies>
 
 

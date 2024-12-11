@@ -89,7 +89,6 @@ public class OwlExportAS {
                                 logger.error("只支持List集合导出，单属性不支持导出");
                             }
                         }
-
                     }
                 }
             }

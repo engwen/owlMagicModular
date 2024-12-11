@@ -40,7 +40,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
         model.setCreateTime(DateCountUtil.getYMDHMS());
         model.setUpdateTime(DateCountUtil.getYMDHMS());
         cellBaseDao.insert(model);
-        return MsgResultVO.getInstanceSuccess(model);
+        return MsgResultVO.success(model);
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
         if (modelList.size() > 0) {
             cellBaseDao.insertList(ModelListSO.getInstance(modelList));
         }
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     /**
@@ -71,7 +71,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     @Override
     public MsgResultVO<?> deleteRe(T model) {
         cellBaseDao.deleteBySelectiveRe(ModelSO.getInstance(model));
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     /**
@@ -82,10 +82,10 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     @Override
     public MsgResultVO<?> deleteByIdRe(ID id) {
         if (null == id) {
-            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+            return MsgResultVO.error(MsgConstant.REQUEST_PARAMETER_ERROR);
         }
         cellBaseDao.deleteByPrimaryKeyRe(new IdSO<>(id));
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     /**
@@ -95,12 +95,12 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<?> deleteByIdListRe(List<ID> idList) {
-        if (null == idList || idList.size() == 0) {
-            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+        if (null == idList || idList.isEmpty()) {
+            return MsgResultVO.error(MsgConstant.REQUEST_PARAMETER_ERROR);
         }
         IdListSO<ID> idListSO = new IdListSO<>(idList);
         cellBaseDao.deleteByPrimaryKeyListRe(idListSO);
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     /**
@@ -111,11 +111,11 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     @Override
     public MsgResultVO<?> update(T model) {
         if (null == model) {
-            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+            return MsgResultVO.error(MsgConstant.REQUEST_PARAMETER_ERROR);
         }
         model.setUpdateTime(DateCountUtil.getYMDHMS());
         cellBaseDao.updateByPrimaryKey(model);
-        return MsgResultVO.getInstanceSuccess();
+        return MsgResultVO.success();
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     @Override
     public MsgResultVO<?> updateByNotNull(T model) {
         if (null == model) {
-            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+            return MsgResultVO.error(MsgConstant.REQUEST_PARAMETER_ERROR);
         }
         MsgResultVO<T> resultVO = new MsgResultVO<>();
         model.setUpdateTime(DateCountUtil.getYMDHMS());
@@ -143,14 +143,14 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     @Override
     public MsgResultVO<T> detailsById(ID id) {
         if (null == id) {
-            return MsgResultVO.getInstanceError(MsgConstant.REQUEST_PARAMETER_ERROR);
+            return MsgResultVO.error(MsgConstant.REQUEST_PARAMETER_ERROR);
         }
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(new IdSO<>(id)));
+        return MsgResultVO.success(cellBaseDao.selectByPrimaryKey(new IdSO<>(id)));
     }
 
     @Override
     public MsgResultVO<T> detailsById(IdSO<ID> idSO) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKey(idSO));
+        return MsgResultVO.success(cellBaseDao.selectByPrimaryKey(idSO));
     }
 
     /**
@@ -162,7 +162,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     public MsgResultVO<T> details(T model) {
         MsgResultVO<T> resultVO = new MsgResultVO<>();
         List<T> temp = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
-        if (null == temp || temp.size() == 0) {
+        if (null == temp || temp.isEmpty()) {
             resultVO.errorResult(MsgConstant.REQUEST_NOT_EXITS);
         } else if (temp.size() == 1) {
             resultVO.successResult(temp.get(0));
@@ -209,12 +209,12 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      */
     @Override
     public MsgResultVO<List<T>> listByIdList(IdListSO<ID> idListSO) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(idListSO));
+        return MsgResultVO.success(cellBaseDao.selectByPrimaryKeyList(idListSO));
     }
 
     @Override
     public MsgResultVO<List<T>> listByIdList(List<ID> idList) {
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByPrimaryKeyList(IdListSO.getInstance(idList)));
+        return MsgResultVO.success(cellBaseDao.selectByPrimaryKeyList(IdListSO.getInstance(idList)));
     }
 
     /**
@@ -227,13 +227,13 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
             return listByExact();
         }
         SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance(modelDTO);
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
+        return MsgResultVO.success(cellBaseDao.selectByExact(selectLikeSO));
     }
 
     @Override
     public MsgResultVO<List<T>> listByExact() {
         SelectLikeSO<T> selectLikeSO = SelectLikeSO.getInstance((T) null);
-        return MsgResultVO.getInstanceSuccess(cellBaseDao.selectByExact(selectLikeSO));
+        return MsgResultVO.success(cellBaseDao.selectByExact(selectLikeSO));
     }
 
     /**
