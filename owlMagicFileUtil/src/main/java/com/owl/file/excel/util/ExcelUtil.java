@@ -224,6 +224,13 @@ public class ExcelUtil {
                             continue;
                         }
                     }
+                    if (null != valid.getCheckParams()) {
+                        MsgResultVO<String> test = valid.getCheckParams().test(data);
+                        if (!test.getResult()) {
+                            str = str + errorTopStr + test.getResultMsg();
+                            continue;
+                        }
+                    }
                     if (valid.isMapper()) {
                         if (valid.getFiledMap().containsKey(data)) {
                             beanJson.put(valid.getField(), valid.getFiledMap().get(data));
@@ -233,13 +240,6 @@ public class ExcelUtil {
                         }
                     } else {
                         beanJson.put(valid.getField(), data);
-                    }
-                    if (null != valid.getCheckParams()) {
-                        MsgResultVO<String> test = valid.getCheckParams().test(data);
-                        if (!test.getResult()) {
-                            str = str + errorTopStr + test.getResultMsg();
-                            continue;
-                        }
                     }
                 } else {
                     if (valid.isMust()) {
