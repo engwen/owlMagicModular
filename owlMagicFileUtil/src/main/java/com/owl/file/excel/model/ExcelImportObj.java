@@ -41,11 +41,11 @@ public class ExcelImportObj {
      * @param isMust     是否必填
      * @param title      对应excel中的属性中文名称
      * @param field      对应的对象中的属性
-     * @param checkParam 校验函数
+     * @param excelCheckParam 校验函数
      */
-    public void addToList(Integer x, Integer validType, boolean isMust, String title, String field, CheckParam checkParam) {
+    public void addToList(Integer x, Integer validType, boolean isMust, String title, String field, ExcelCheckParam excelCheckParam) {
         ExcelColumnValid valid = new ExcelColumnValid(x, validType, isMust, title, field);
-        valid.setCheckParams(checkParam);
+        valid.setCheckParams(excelCheckParam);
         this.addToList(valid);
     }
 

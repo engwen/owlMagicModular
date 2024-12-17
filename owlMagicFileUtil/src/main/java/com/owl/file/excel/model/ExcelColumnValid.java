@@ -38,7 +38,7 @@ public class ExcelColumnValid {
     //当归属于指定值时，此字段必填
     private List<String> innerList;
     //指定测试方式，结果
-    private CheckParam checkParam;
+    private ExcelCheckParam excelCheckParam;
 
     public ExcelColumnValid(Integer x, Integer validType, boolean isMust, String title, String field) {
         this.x = x;
@@ -218,11 +218,11 @@ public class ExcelColumnValid {
         this.innerList = innerList;
     }
 
-    public CheckParam getCheckParams() {
-        return checkParam;
+    public ExcelCheckParam getCheckParams() {
+        return excelCheckParam;
     }
 
-    public void setCheckParams(CheckParam checkParam) {
-        this.checkParam = checkParam;
+    public void setCheckParams(ExcelCheckParam excelCheckParam) {
+        this.excelCheckParam = excelCheckParam;
     }
 }
