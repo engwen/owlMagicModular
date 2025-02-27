@@ -218,11 +218,11 @@ public class ExcelColumnValid {
         this.innerList = innerList;
     }
 
-    public ExcelCheckParam getCheckParams() {
+    public ExcelCheckParam getExcelCheckParam() {
         return excelCheckParam;
     }
 
-    public void setCheckParams(ExcelCheckParam excelCheckParam) {
+    public void setExcelCheckParams(ExcelCheckParam excelCheckParam) {
         this.excelCheckParam = excelCheckParam;
     }
 }

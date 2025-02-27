@@ -8,7 +8,7 @@ import com.owl.mvc.vo.MsgResultVO;
  * 2024/12/11.
  */
 @FunctionalInterface
-public interface CheckParam {
+public interface ExcelCheckParam {
     /**
      * 校验的值
      * @param param 待校验参数

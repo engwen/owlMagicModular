@@ -45,7 +45,7 @@ public class ExcelImportObj {
      */
     public void addToList(Integer x, Integer validType, boolean isMust, String title, String field, ExcelCheckParam excelCheckParam) {
         ExcelColumnValid valid = new ExcelColumnValid(x, validType, isMust, title, field);
-        valid.setCheckParams(excelCheckParam);
+        valid.setExcelCheckParams(excelCheckParam);
         this.addToList(valid);
     }
 

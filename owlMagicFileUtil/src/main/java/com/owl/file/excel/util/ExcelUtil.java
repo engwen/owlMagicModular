@@ -12,7 +12,9 @@ import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,6 +76,32 @@ public class ExcelUtil {
                 workbook = new XSSFWorkbook(multipartFile.getInputStream());
             } else {
                 workbook = new HSSFWorkbook(multipartFile.getInputStream());
+            }
+        } catch (IOException e) {
+            return MsgResultVO.failed("获取文件失败:" + e);
+        }
+        return MsgResultVO.success(workbook);
+    }
+
+    /**
+     * 导入文件读流是否正确
+     * @param file 文件
+     * @return workbook
+     */
+    public static MsgResultVO<Workbook> getWorkBookResult(File file, InputStream inputStream) {
+        if (file == null) {
+            return MsgResultVO.failed("请选择文件");
+        }
+        String fileSuffix = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        if (StringUtils.isEmpty(fileSuffix) || (!"xls".equals(fileSuffix) && !"xlsx".equals(fileSuffix))) {
+            return MsgResultVO.failed("导入文件格式不正确，请重新下载模板。");
+        }
+        Workbook workbook = null;
+        try {
+            if ("xlsx".equals(fileSuffix)) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else {
+                workbook = new HSSFWorkbook(inputStream);
             }
         } catch (IOException e) {
             return MsgResultVO.failed("获取文件失败:" + e);
@@ -224,8 +252,8 @@ public class ExcelUtil {
                             continue;
                         }
                     }
-                    if (null != valid.getCheckParams()) {
-                        MsgResultVO<String> test = valid.getCheckParams().test(data);
+                    if (null != valid.getExcelCheckParam()) {
+                        MsgResultVO<String> test = valid.getExcelCheckParam().test(data);
                         if (!test.getResult()) {
                             str = str + errorTopStr + test.getResultMsg();
                             continue;
