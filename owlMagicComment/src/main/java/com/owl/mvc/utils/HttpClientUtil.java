@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * 2022/9/14.
  */
 public class HttpClientUtil {
-    private static final String charsetName = "UTF-8";
+    public static String charsetName = "UTF-8";
 
     public static String sendPost(String url, String param, String headerMap) {
         Map<String, Object> stringObjectMap = ObjectUtil.StringToMap(headerMap);
