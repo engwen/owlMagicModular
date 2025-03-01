@@ -19,13 +19,13 @@ import java.util.concurrent.atomic.AtomicReference;
 public class HttpClientUtil {
     public static String charsetName = "UTF-8";
 
-    public static String sendPost(String url, String param, String headerMap) {
-        Map<String, Object> stringObjectMap = ObjectUtil.StringToMap(headerMap);
-        Map<String, String> reulst = new HashMap<>();
+    public static String sendPost(String url, String param, String headerMapStr) {
+        Map<String, Object> stringObjectMap = ObjectUtil.StringToMap(headerMapStr);
+        Map<String, String> headerMap = new HashMap<>();
         if (null != stringObjectMap) {
-            stringObjectMap.forEach((key, value) -> reulst.put(key, value.toString()));
+            stringObjectMap.forEach((key, value) -> headerMap.put(key, value.toString()));
         }
-        return HttpClientUtil.sendPost(url, param, reulst);
+        return HttpClientUtil.sendPost(url, param, headerMap);
     }
 
     /**
@@ -141,15 +141,15 @@ public class HttpClientUtil {
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // 建立实际的连接
             connection.connect();
-            // 获取所有响应头字段
-            Map<String, List<String>> map = connection.getHeaderFields();
-            // 遍历所有的响应头字段
-            for (String key : map.keySet()) {
-                System.out.println(key + "--->" + map.get(key));
-            }
+//            // 获取所有响应头字段
+//            Map<String, List<String>> map = connection.getHeaderFields();
+//            // 遍历所有的响应头字段
+//            for (String key : map.keySet()) {
+//                System.out.println(key + "--->" + map.get(key));
+//            }
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
+                    connection.getInputStream(), charsetName));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
@@ -203,7 +203,7 @@ public class HttpClientUtil {
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应
             in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+                    new InputStreamReader(conn.getInputStream(), charsetName));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
