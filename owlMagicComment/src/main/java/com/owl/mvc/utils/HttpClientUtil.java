@@ -2,12 +2,15 @@ package com.owl.mvc.utils;
 
 import com.owl.util.ObjectUtil;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -125,20 +128,44 @@ public class HttpClientUtil {
         return sendGet(url, params.get());
     }
 
+    public static HttpsURLConnection connection;
 
     public static String sendGet(String url, String param) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
             String urlNameString = url + "?" + param;
             URL realUrl = new URL(urlNameString);
             // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) realUrl.openConnection();
+            // 创建信任所有服务器的TrustManager
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return null;
+                        }
+
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+
+            // 初始化SSLContext并设置TrustManager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            // 从SSLContext获取SSLSocketFactory并设置到HttpsURLConnection中
+            connection.setSSLSocketFactory(sc.getSocketFactory());
+
             // 设置通用的请求属性
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            connection.setRequestProperty("User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
+
+
             // 建立实际的连接
             connection.connect();
 //            // 获取所有响应头字段
@@ -152,7 +179,7 @@ public class HttpClientUtil {
                     connection.getInputStream(), charsetName));
             String line;
             while ((line = in.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
         } catch (Exception e) {
             System.out.println("发送GET请求出现异常！" + e);
@@ -168,7 +195,7 @@ public class HttpClientUtil {
                 e2.printStackTrace();
             }
         }
-        return result;
+        return result.toString();
     }
 
     public static String sendPost(String url, Map<String, String> param) {
@@ -191,7 +218,7 @@ public class HttpClientUtil {
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
