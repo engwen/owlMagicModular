@@ -71,6 +71,7 @@ public class HttpClientUtil {
                 result.append(line);
             }
         } catch (Exception e) {
+            System.out.println("地址:" + url);
             System.out.println("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
@@ -182,8 +183,10 @@ public class HttpClientUtil {
                 result.append(line);
             }
         } catch (Exception e) {
+            System.out.println("地址:" + url);
             System.out.println("发送GET请求出现异常！" + e);
             e.printStackTrace();
+
         }
         // 使用finally块来关闭输入流
         finally {
@@ -236,6 +239,7 @@ public class HttpClientUtil {
                 result += line;
             }
         } catch (Exception e) {
+            System.out.println("地址:" + url);
             System.out.println("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
