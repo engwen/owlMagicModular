@@ -95,6 +95,13 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
 
 
     /**
+     * 获取所有对象
+     * @param model 检索条件
+     * @return 结果集合
+     */
+    MsgResultVO<List<T>> list(T model);
+
+    /**
      * 獲取分頁列表，添加 model 提供檢索功能
      * @param getAll      是否獲取所有
      * @param requestPage 請求頁數
@@ -102,9 +109,9 @@ public interface CellBaseService<T extends ModelBase<ID>, ID> {
      * @param model       檢索條件
      * @return 分頁對象
      */
-    PageVO<T> list(Boolean getAll, Integer requestPage, Integer rows, T model);
+    PageVO<T> listByPage(Boolean getAll, Integer requestPage, Integer rows, T model);
 
-    PageVO<T> list(PageDTO<T> pageDTO);
+    PageVO<T> listByPage(PageDTO<T> pageDTO);
 
     /**
      * 獲取所有的對象，添加 model 提供檢索功能,精确查询

@@ -174,12 +174,25 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
     }
 
     /**
+     * 獲取詳情
+     * @param model 汎型對象檢索條件
+     * @return 汎型對象
+     */
+    @Override
+    public MsgResultVO<List<T>> list(T model) {
+        MsgResultVO<List<T>> resultVO = new MsgResultVO<>();
+        List<T> temp = cellBaseDao.selectByExact(SelectLikeSO.getInstance(model));
+        resultVO.successResult(temp);
+        return resultVO;
+    }
+
+    /**
      * 獲取分頁列表，添加 model 提供檢索功能
      * @param pageDTO 请求对象
      * @return 分頁對象
      */
     @Override
-    public PageVO<T> list(PageDTO<T> pageDTO) {
+    public PageVO<T> listByPage(PageDTO<T> pageDTO) {
         return this.buildPageVO(pageDTO,
                 (selectLikeSO) -> this.cellBaseDao.countSumByCondition(selectLikeSO),
                 (selectLikeSO) -> this.cellBaseDao.listByCondition(selectLikeSO)
@@ -195,7 +208,7 @@ public abstract class CellBaseServiceAb<M extends CellBaseDao<T, ID>, T extends 
      * @return 分頁對象
      */
     @Override
-    public PageVO<T> list(Boolean getAll, Integer requestPage, Integer rows, T model) {
+    public PageVO<T> listByPage(Boolean getAll, Integer requestPage, Integer rows, T model) {
         PageVO<T> pageVO = new PageVO<>();
         pageVO.initPageVO(cellBaseDao.countSumByCondition(SelectLikeSO.getInstance(model)), requestPage, rows, getAll);
         pageVO.setResultData(cellBaseDao.listByCondition(SelectLikeSO.getInstance(model, pageVO.getUpLimit(), pageVO.getDownLimit(), pageVO.getRows())));

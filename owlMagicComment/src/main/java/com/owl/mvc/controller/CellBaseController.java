@@ -13,7 +13,7 @@ import java.util.List;
  * email xiachanzou@outlook.com
  * time 2018/07/16.
  */
-interface CellBaseController<T,ID> {
+interface CellBaseController<T, ID> {
 
     /**
      * 创建
@@ -61,18 +61,26 @@ interface CellBaseController<T,ID> {
 
 
     /**
+     * 获取所有对象
+     * @param model 检索条件
+     * @return 结果集合
+     */
+
+    MsgResultVO<List<T>> list(T model);
+
+    /**
      * 获取分页集合
      * @param pageDTO 请求分页对象
      * @return 分页集合
      */
-    PageVO<T> list(PageDTO<T> pageDTO);
+    PageVO<T> listByPage(PageDTO<T> pageDTO);
 
     /**
      * 获取所有对象
      * @param modelDTO 检索条件
      * @return 结果集合
      */
-    MsgResultVO<List<T>> list(ModelDTO<T> modelDTO);
+    MsgResultVO<List<T>> listByPage(ModelDTO<T> modelDTO);
 
     /**
      * 檢查数据是否存在

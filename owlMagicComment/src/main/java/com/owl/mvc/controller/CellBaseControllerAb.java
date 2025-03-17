@@ -106,14 +106,26 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
     }
 
     /**
+     * 获取所有对象
+     * @param model 检索条件
+     * @return 结果集合
+     */
+    @Override
+    public MsgResultVO<List<T>> list(T model) {
+        logger.info("default list");
+        return cellBaseServiceAb.list(model);
+    }
+
+
+    /**
      * 获取分页集合
      * @param pageDTO 请求分页对象
      * @return 分页集合
      */
     @Override
-    public PageVO<T> list(PageDTO<T> pageDTO) {
+    public PageVO<T> listByPage(PageDTO<T> pageDTO) {
         logger.info("default list");
-        return cellBaseServiceAb.list(pageDTO);
+        return cellBaseServiceAb.listByPage(pageDTO);
     }
 
     /**
@@ -122,7 +134,7 @@ public abstract class CellBaseControllerAb<M extends CellBaseServiceAb<?, T, ID>
      * @return 结果集合
      */
     @Override
-    public MsgResultVO<List<T>> list(ModelDTO<T> modelDTO) {
+    public MsgResultVO<List<T>> listByPage(ModelDTO<T> modelDTO) {
         logger.info("default list");
         return cellBaseServiceAb.listByExact(modelDTO);
     }
