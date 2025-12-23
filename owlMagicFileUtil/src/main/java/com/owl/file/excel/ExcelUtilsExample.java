@@ -45,7 +45,7 @@ public class ExcelUtilsExample {
         obj.addToList(8, 0, true, "银企直连权限名称", "authName");
 
         //验证头部文字是否正确
-        MsgResultVO<String> stringMsgResultVO = ExcelUtil.checkTitel(sheet, obj);
+        MsgResultVO<String> stringMsgResultVO = ExcelUtil.checkTitle(sheet, obj);
         if (!stringMsgResultVO.getResult()) {
             System.out.println(stringMsgResultVO);
             return;

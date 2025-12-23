@@ -13,7 +13,6 @@ import java.util.function.Function;
  * 2023/6/8.
  */
 public abstract class FieldUtil {
-
     /*
      * 獲取一個對象的全部屬性
      * @param obj
@@ -149,5 +148,40 @@ public abstract class FieldUtil {
         return field;
     }
 
+
+    public static void setFieldValue(Object object, String fieldName, Object value) {
+        // 获取对象的Class对象
+        Class<?> clazz = object.getClass();
+        // 获取字段对象
+        Field field = null;
+        try {
+            field = clazz.getDeclaredField(fieldName);
+            // 确保字段是可访问的
+            field.setAccessible(true);
+            // 为字段赋值
+            field.set(object, value);
+        } catch (Exception e) {
+            LogUtil.error(e.getMessage());
+//            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object getFieldValue(Object object, String fieldName) {
+        // 获取对象的Class对象
+        Class<?> clazz = object.getClass();
+        // 获取字段对象
+        Field field = null;
+        try {
+            field = clazz.getDeclaredField(fieldName);
+            // 确保字段是可访问的
+            field.setAccessible(true);
+            // 为字段赋值
+            return field.get(object);
+        } catch (Exception e) {
+            LogUtil.error(e.getMessage());
+//            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
 }

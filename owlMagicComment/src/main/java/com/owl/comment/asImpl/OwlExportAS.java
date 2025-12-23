@@ -23,7 +23,9 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author engwen
@@ -57,7 +59,8 @@ public class OwlExportAS {
         //判断参数是否符合条件
         if (arg instanceof PageDTO) {
             //是否需要导出
-            if (((PageDTO<?>) arg).isExport()) {
+            PageDTO<?> dto = (PageDTO<?>) arg;
+            if (dto.isExport()) {
                 //拿到执行结果
                 obj = joinPoint.proceed();
                 //查看结果类型
@@ -72,19 +75,24 @@ public class OwlExportAS {
                             outPrt = resultData.get(0);
                             if (outPrt instanceof ModelBase) {
                                 List<String> keys = new ArrayList<>();
-                                Field[] fields = FieldUtil.getSupperClassProperties(outPrt);
                                 //在内存操作，写到浏览器
                                 ExcelWriter writer = ExcelUtil.getWriter(true);
-                                for (int i = 0; i < fields.length; i++) {
-                                    Field field = fields[i];
-                                    ApiModelProperty api = field.getAnnotation(ApiModelProperty.class);
-                                    if (null != api && null != api.value()) {
-                                        keys.add(api.value());
-                                    } else {
-                                        keys.add("");
-                                    }
-                                    writer.setColumnWidth(i, 5 + 5 * keys.get(i).length());
+                                if (null != dto.getKeyValues()) {
+                                    Collection<String> values = dto.getKeyValues().values();
+                                    keys.addAll(values);
+                                } else {
+                                    return MsgResultVO.failed("需要导出的列名不能为空！");
                                 }
+                                for (int i = 0; i < keys.size(); i++) {
+                                    writer.writeCellValue(0, i, keys.get(i));
+                                }
+                                for (int j = 0; j < resultData.size(); j++) {
+                                    Object o = resultData.get(j);
+                                    for (int i = 0; i < keys.size(); i++) {
+                                        writer.writeCellValue(j + 1, i, FieldUtil.getFieldValue(o, keys.get(i)));
+                                    }
+                                }
+                                writer.close();
                             } else {
                                 logger.error("只支持List集合导出，单属性不支持导出");
                             }

@@ -169,7 +169,7 @@ public class ExcelUtil {
      * @param obj   导入对象
      * @return 结果
      */
-    public static MsgResultVO<String> checkTitel(Sheet sheet, ExcelImportObj obj) {
+    public static MsgResultVO<String> checkTitle(Sheet sheet, ExcelImportObj obj) {
         for (ExcelColumnValid valid : obj.getExcelColumnValidList()) {
             String callValue = ExcelUtil.getCellValue(sheet.getRow(obj.getYTitle()).getCell(valid.getX()));
             if (!valid.getTitle().equals(callValue)) {

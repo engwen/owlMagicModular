@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 界面接收类
@@ -23,6 +24,7 @@ public class PageDTO<T> {
     private Integer rows;
     private T model;
     private boolean export = false;
+    private Map<String,String> keyValues;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -103,5 +105,13 @@ public class PageDTO<T> {
 
     public void setExport(boolean export) {
         this.export = export;
+    }
+
+    public Map<String, String> getKeyValues() {
+        return keyValues;
+    }
+
+    public void setKeyValues(Map<String, String> keyValues) {
+        this.keyValues = keyValues;
     }
 }
