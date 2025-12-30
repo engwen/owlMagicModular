@@ -299,7 +299,7 @@ public abstract class FileUtil {
             File temp = new File(targetDir + File.separatorChar + fileName);
             File source = new File(sourceDir + fileName);
             if (source.exists()) {
-                InputStream resourceAsStream = new FileInputStream(source);
+                InputStream resourceAsStream = Files.newInputStream(source.toPath());
                 Files.copy(resourceAsStream, temp.toPath());
             } else {
                 logger.error("未找到源文件：" + source.getAbsolutePath());
@@ -318,7 +318,7 @@ public abstract class FileUtil {
         File dir = new File(sourceDir);
         List<File> filePath = getFilePath(dir);
         List<File> collect;
-        if (null != filter && !filter.equals("")) {
+        if (null != filter && !filter.isEmpty()) {
             collect = filePath.stream().filter(it -> it.getName().contains(filter)).collect(Collectors.toList());
         } else {
             collect = filePath;
@@ -355,7 +355,7 @@ public abstract class FileUtil {
     public static boolean createFileToZip(String zipFilename, List<String> path) throws Exception {
         //压缩文件名
         File objFile = new File(zipFilename);
-        ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(objFile), 1024));
+        ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(objFile.toPath()), 1024));
         InputStream is;//每写完一个文件关闭一下
         ZipEntry ze = null;
         for (String s : path) {
@@ -373,7 +373,7 @@ public abstract class FileUtil {
             ze.setTime(sourceFile.lastModified());
             //将ZipEntry加到zos中
             zos.putNextEntry(ze);
-            is = new BufferedInputStream(new FileInputStream(sourceFile));
+            is = new BufferedInputStream(Files.newInputStream(sourceFile.toPath()));
             int readLen = -1;
             while ((readLen = is.read(buf, 0, 1024)) != -1) {
                 zos.write(buf, 0, readLen);

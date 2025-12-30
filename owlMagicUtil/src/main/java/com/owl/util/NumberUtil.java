@@ -1,6 +1,7 @@
 package com.owl.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * author engwen
@@ -17,7 +18,7 @@ public abstract class NumberUtil {
      * @return 字符串
      */
     public static String numberToStr(Double value, int scale) {
-        return new BigDecimal(value).setScale(scale, BigDecimal.ROUND_HALF_UP).toEngineeringString();
+        return new BigDecimal(value).setScale(scale, RoundingMode.HALF_UP).toEngineeringString();
     }
 
     /**
@@ -28,7 +29,7 @@ public abstract class NumberUtil {
      * @return 字符串
      */
     public static String numberToThousandStr(Double value, int scale) {
-        String s = new BigDecimal(value).setScale(scale, BigDecimal.ROUND_HALF_UP).toEngineeringString();
+        String s = new BigDecimal(value).setScale(scale, RoundingMode.HALF_UP).toEngineeringString();
         if (value > 0.0) {
             String[] split = s.split("\\.");
             StringBuilder result = new StringBuilder();

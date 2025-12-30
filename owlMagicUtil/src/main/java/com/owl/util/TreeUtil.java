@@ -77,19 +77,8 @@ public abstract class TreeUtil {
         if (top == null) {
             treeBases.stream().filter(it -> null == it.getPid() || it.getPid().toString().replace(" ", "").isEmpty()
                     || it.getPid().equals(it.getId())).forEach(it -> root.add(TreeUtil.getTrees(it, treeBases)));
-//            treeBases.forEach(it -> {
-//                if (null == it.getPid() || it.getPid().toString().replace(" ", "").equals("")
-//                        || it.getPid().equals(it.getId())) {
-//                    root.add(getTrees(it, treeBases));
-//                }
-//            });
         } else {
             treeBases.stream().filter(it -> it.getId().equals(top)).forEach(it -> root.add(TreeUtil.getTrees(it, treeBases)));
-//            treeBases.forEach(it -> {
-//                if (it.getId().equals(top)) {
-//                    root.add(getTrees(it, treeBases));
-//                }
-//            });
         }
         return root;
     }
@@ -103,11 +92,6 @@ public abstract class TreeUtil {
      * @return TreeBase
      */
     private static <T, ID> TreeBase<T, ID> getTrees(TreeBase<T, ID> root, List<TreeBase<T, ID>> treeBases) {
-//        treeBases.forEach(treeVO -> {
-//            if (null != treeVO.getPid() && treeVO.getPid().equals(root.getId())) {
-//                root.getTreeList().add(getTrees(treeVO, treeBases));
-//            }
-//        });
         treeBases.stream().filter(treeVO -> null != treeVO.getPid() && treeVO.getPid().equals(root.getId()))
                 .forEach(treeVO -> root.getTreeList().add(getTrees(treeVO, treeBases)));
         return root;
@@ -139,11 +123,6 @@ public abstract class TreeUtil {
         List<TreeBase<T, ID>> result = new ArrayList<>();
         if (null != aimID) {
             treeBases.stream().filter(it -> aimID.equals(it.getPid())).forEach(it -> result.addAll(getListTrees(it, treeBases)));
-//            treeBases.forEach(treeVO -> {
-//                if (aimID.equals(treeVO.getPid())) {
-//                    result.addAll(getListTrees(treeVO, treeBases));
-//                }
-//            });
         }
         //获取根
         return result;
@@ -159,11 +138,6 @@ public abstract class TreeUtil {
      */
     private static <T, ID> List<TreeBase<T, ID>> getListTrees(TreeBase<T, ID> root, List<TreeBase<T, ID>> treeVOList) {
         List<TreeBase<T, ID>> result = new ArrayList<>();
-//        treeVOList.forEach(treeVO -> {
-//            if (root.getId().equals(treeVO.getPid())) {
-//                result.addAll(getListTrees(treeVO, treeVOList));
-//            }
-//        });
         treeVOList.stream().filter(treeVO -> root.getId().equals(treeVO.getPid()))
                 .forEach(treeVO -> result.addAll(getListTrees(treeVO, treeVOList)));
         result.add(root);
