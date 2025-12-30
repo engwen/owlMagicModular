@@ -75,7 +75,7 @@ public abstract class TreeUtil {
     public static <T, ID> List<TreeBase<T, ID>> getTree(ID top, List<TreeBase<T, ID>> treeBases) {
         List<TreeBase<T, ID>> root = new ArrayList<>();
         if (top == null) {
-            treeBases.stream().filter(it -> null == it.getPid() || it.getPid().toString().replace(" ", "").equals("")
+            treeBases.stream().filter(it -> null == it.getPid() || it.getPid().toString().replace(" ", "").isEmpty()
                     || it.getPid().equals(it.getId())).forEach(it -> root.add(TreeUtil.getTrees(it, treeBases)));
 //            treeBases.forEach(it -> {
 //                if (null == it.getPid() || it.getPid().toString().replace(" ", "").equals("")
@@ -179,8 +179,8 @@ public abstract class TreeUtil {
      */
     public static <T, ID> void printTree(List<TreeBase<T, ID>> trees, ID top) {
         String bank = "";
-        if (trees.size() > 0) {
-            Optional<TreeBase<T, ID>> any = trees.stream().filter(it -> it.getTreeList().size() > 0).findAny();
+        if (!trees.isEmpty()) {
+            Optional<TreeBase<T, ID>> any = trees.stream().filter(it -> ListUtil.isNotEmpty(it.getTreeList())).findAny();
             if (!any.isPresent()) {
                 List<TreeBase<T, ID>> treeList = getTree(top, trees);
                 printTree(bank + "\u0020\u0020", treeList);
@@ -194,7 +194,7 @@ public abstract class TreeUtil {
         for (TreeBase<T, ID> it : trees) {
             System.out.print(bank);
             System.out.println(it.getName());
-            if (it.getTreeList().size() > 0) {
+            if (ListUtil.isNotEmpty(it.getTreeList())) {
                 printTree(bank + "\u0020\u0020", it.getTreeList());
             }
         }
