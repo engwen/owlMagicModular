@@ -184,4 +184,77 @@ public abstract class FieldUtil {
         return null;
     }
 
+    /**
+     * 驼峰命名转下划线命名
+     * @param camelCase 驼峰命名字符串
+     * @return 下划线命名字符串
+     */
+    public static String camelCaseToUnderline(String camelCase) {
+        if (camelCase == null || camelCase.isEmpty()) {
+            return camelCase;
+        }
+        StringBuilder result = new StringBuilder();
+        result.append(Character.toLowerCase(camelCase.charAt(0)));
+
+        for (int i = 1; i < camelCase.length(); i++) {
+            char ch = camelCase.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                result.append('_').append(Character.toLowerCase(ch));
+            } else {
+                result.append(ch);
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 将下划线命名的字符串转换为驼峰命名
+     * 示例：
+     * - "user_name" → "userName"
+     * - "user__name"（连续下划线）→ "userName"
+     * - "_user_name"（首部下划线）→ "userName"
+     * - "user_name_"（尾部下划线）→ "userName"
+     * - null/空字符串 → 原样返回
+     *
+     * @param underlineStr 下划线命名的字符串
+     * @return 驼峰命名的字符串
+     */
+    public static String underlineToCamelCase(String underlineStr) {
+        // 处理空值或空字符串
+        if (StringUtils.isBlank(underlineStr)) {
+            return underlineStr;
+        }
+
+        // 替换所有连续的下划线为单个下划线（避免多个下划线导致的问题）
+        String processed = underlineStr.replaceAll("_+", "_");
+
+        // 去除首尾的下划线
+        processed = processed.replaceAll("^_", "").replaceAll("_$", "");
+
+        // 若处理后为空，直接返回
+        if (StringUtils.isBlank(processed)) {
+            return processed;
+        }
+
+        // 拆分字符串为下划线分隔的数组
+        String[] parts = processed.split("_");
+        // 若只有一个部分（无下划线），直接返回
+        if (parts.length == 1) {
+            return parts[0];
+        }
+
+        // 拼接驼峰字符串：第一个部分小写，后续部分首字母大写后拼接
+        StringBuilder camelBuilder = new StringBuilder(parts[0].toLowerCase());
+        for (int i = 1; i < parts.length; i++) {
+            String part = parts[i];
+            if (part.isEmpty()) {
+                continue; // 跳过空字符串（理论上经前面处理后不会出现）
+            }
+            // 首字母大写，其余部分保持原样（若需要全小写可改为 part.toLowerCase()）
+            camelBuilder.append(Character.toUpperCase(part.charAt(0)))
+                    .append(part.substring(1).toLowerCase());
+        }
+
+        return camelBuilder.toString();
+    }
 }
